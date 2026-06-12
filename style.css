@@ -1,0 +1,168 @@
+:root {
+    --bg: #0a0a0e;
+    --text: #f0f0f0;
+    --subtle: #888;
+    --nightwing: #00d2ff;
+    --flash: #ff3e3e;
+    --card-bg: rgba(255, 255, 255, 0.03);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+#intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    background-color: var(--bg);
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#main-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease 0.5s;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body.revealed #intro-screen {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body.revealed #main-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.intro-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.img-container {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 30px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.intro-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#intro-screen h1 {
+    font-weight: 300;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.pulse {
+    font-size: 0.9rem;
+    color: var(--subtle);
+    letter-spacing: 1px;
+    animation: fadingPulse 2s infinite;
+}
+
+@keyframes fadingPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+.clean-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.clean-header h2 {
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #cccccc;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: inline-block;
+}
+
+.songs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.clean-card {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 12px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.clean-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.05);
+}
+
+.personal-message {
+    color: #999999;
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 25px auto 0 auto;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.clean-footer {
+    margin-top: 60px;
+    text-align: center;
+    font-weight: 300;
+    color: #777777;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    padding-bottom: 40px;
+}
+
+.clean-footer p {
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .songs-grid { grid-template-columns: 1fr; gap: 30px; }
+    .clean-header h2 { font-size: 1.2rem; }
+}
