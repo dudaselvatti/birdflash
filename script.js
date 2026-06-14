@@ -20,6 +20,24 @@ async function fetchWeather() {
 // Executa o clima imediatamente
 fetchWeather();
 
+function updateSunMoon() {
+    const hour = new Date().getHours();
+    const caption = document.getElementById('weather-caption');
+    const icon = document.getElementById('weather-icon');
+
+    // Se for depois das 19h ou antes das 5h da manhã (madrugada)
+    if (hour >= 19 || hour < 5) {
+        if (caption) caption.textContent = "ainda estamos sob a mesma lua.";
+        if (icon) icon.textContent = "🌙";
+    } else {
+        if (caption) caption.textContent = "ainda estamos sob o mesmo sol.";
+        if (icon) icon.textContent = "☀️";
+    }
+}
+
+// Executa a função na hora que carregar
+updateSunMoon();
+
 // ---------------------------------------------------------
 // TODO O RESTO DO CÓDIGO (Interface e interações)
 document.addEventListener('DOMContentLoaded', () => {
