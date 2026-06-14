@@ -20,6 +20,23 @@
 
     <main id="main-content">
         
+        <div class="weather-container">
+            <div class="weather-header">
+                <div class="weather-location">
+                    <span class="city">gru</span>
+                    <span class="temp" id="temp-gru">--°C</span>
+                </div>
+                <div class="weather-divider">
+                    <span>☀️</span>
+                </div>
+                <div class="weather-location">
+                    <span class="temp" id="temp-rn">--°C</span>
+                    <span class="city">mos</span>
+                </div>
+            </div>
+            <p class="weather-caption">ainda estamos sob o mesmo sol.</p>
+        </div>
+
         <div class="diary-container">
             
             <div class="diary-entry">
@@ -46,22 +63,37 @@
 
             <div class="diary-entry">
                 <button class="accordion-header">
-                    <span>14 . 06 - domingo</span>
+                    <span>14 . 06 — domingo</span>
                     <span class="icon">+</span>
                 </button>
                 <div class="accordion-content">
                     <header class="clean-header">
                         <h2>tornando um hábito</h2>
-                        <p class="personal-message">bom dia, meu amor! hoje acordei bem cedo e passei a manhã pensando em você e no wall-e de lego que tu montou de madrugada.. pensar que tu juntou ele pecinha por pecinha me fez lembrar do filme, e de como ele guarda pequenos tesouros. com o risco de estar sendo (ainda mais) xixa louca, digo que, pra mim, esses tesouros são todos os teus pedacinhos e cada parte tua que eu já conheci e ainda vou conhecer. assim como ele cruzou a galáxia pela eva, cruzei o spotify pra te mostrar essa música, que é uma das minhas favoritas, já que ela é sobre isso: a vontade que eu tenho de conhecer todas as suas partes enquanto a gente constrói o nosso próprio mundinho.. (vou te bloquear meu deus eu fico muito gay falando essas coisas e isso nao combina com a minha cara de bandida má veirrrrr</p>
+                        <p class="personal-message">bom dia, meu amor! hoje acordei bem cedo e passei a manhã pensando em você e no wall-e de lego que tu montou de madrugada.. pensar que tu juntou ele pecinha por pecinha me fez lembrar do filme, e de como ele guarda pequenos tesouros. com o risco de estar sendo (ainda mais) xixa louca, digo que, pra mim, esses tesouros são todos os teus pedacinhos e cada parte tua que eu já conheci e ainda vou conhecer. assim como ele cruzou a galáxia pela eva, cruzei o spotify pra te mostrar essa música, que é uma das minhas favoritas, já que ela é sobre isso: a vontade que eu tenho de conhecer todas as suas partes enquanto a gente constrói o nosso próprio mundinho.. (vou te bloquear meu deus)</p>
                     </header>
 
-                    <div class="songs-grid single-song">
+                    <div class="crafting-area" id="crafting-area">
+                        <p class="crafting-instruction">clique ou arraste para juntar as nossas pecinhas:</p>
+                        
+                        <div class="pieces-container">
+                            <div class="draggable-piece piece-blue" draggable="true" id="piece1"></div>
+                            <div class="draggable-piece piece-red" draggable="true" id="piece2"></div>
+                        </div>
+                        
+                        <div class="drop-zone" id="drop-zone">
+                            <p class="drop-text">encaixe aqui</p>
+                        </div>
+                    </div>
+
+                    <div class="songs-grid single-song hidden-crafted-song" id="crafted-song">
                         <div class="card clean-card">
                             <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/2qu0mEZGymmE2LyJuz7Jrn?utm_source=generator&si=e009d15da4a9420f" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                         </div>
                     </div>
                 </div>
             </div>
+
+            
 
         </div>
 
