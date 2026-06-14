@@ -1,9 +1,7 @@
 :root {
     --bg: #0a0a0e;
     --text: #f0f0f0;
-    --subtle: #888;
-    --nightwing: #00d2ff;
-    --flash: #ff3e3e;
+    --subtle: #666;
     --card-bg: rgba(255, 255, 255, 0.03);
 }
 
@@ -21,6 +19,7 @@ body {
     min-height: 100vh;
 }
 
+/* --- TELA INICIAL --- */
 #intro-screen {
     position: fixed;
     top: 0;
@@ -41,8 +40,9 @@ body {
     visibility: hidden;
     transition: opacity 1s ease 0.5s;
     max-width: 1000px;
+    width: 100%;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 80px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,7 +91,7 @@ body.revealed #main-content {
 
 .pulse {
     font-size: 0.9rem;
-    color: var(--subtle);
+    color: #888;
     letter-spacing: 1px;
     animation: fadingPulse 2s infinite;
 }
@@ -101,19 +101,90 @@ body.revealed #main-content {
     50% { opacity: 1; }
 }
 
+/* --- DIÁRIO EM TÓPICOS (ACCORDION) --- */
+.diary-container {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 40px;
+}
+
+.diary-entry {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 15px;
+}
+
+/* Estilo do Botão do Dia */
+.accordion-header {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--subtle);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.accordion-header:hover {
+    color: #fff;
+}
+
+.accordion-header .icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+/* Conteúdo Escondido por Padrão */
+.accordion-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    padding: 0 10px;
+}
+
+/* Quando o Tópico estiver Aberto (.active) */
+.diary-entry.active .accordion-content {
+    max-height: 1200px; /* Altura suficiente para os players */
+    opacity: 1;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.diary-entry.active .accordion-header {
+    color: #fff;
+}
+
+.diary-entry.active .accordion-header .icon {
+    transform: rotate(45deg); /* Transforma o + em um x */
+}
+
+/* --- ESTILIZAÇÃO INTERNA --- */
 .clean-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 45px;
 }
 
 .clean-header h2 {
     font-weight: 300;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     letter-spacing: 2px;
-    color: #cccccc;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: inline-block;
+    color: #dddddd;
+}
+
+.personal-message {
+    color: #999999;
+    font-size: 1.02rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 20px auto 0 auto;
+    line-height: 1.6;
+    font-style: italic;
 }
 
 .songs-grid {
@@ -121,47 +192,37 @@ body.revealed #main-content {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     width: 100%;
-    margin-bottom: 40px;
+}
+
+.single-song {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 .clean-card {
     background-color: transparent;
     padding: 0;
     border-radius: 12px;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-.clean-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.05);
-}
-
-.personal-message {
-    color: #999999;
-    font-size: 1.05rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 25px auto 0 auto;
-    line-height: 1.6;
-    font-style: italic;
-}
-
+/* --- RODAPÉ --- */
 .clean-footer {
-    margin-top: 60px;
+    margin-top: 40px;
     text-align: center;
     font-weight: 300;
-    color: #777777;
-    font-size: 0.95rem;
+    color: #555555;
+    font-size: 0.9rem;
     line-height: 1.8;
     letter-spacing: 1px;
-    padding-bottom: 40px;
 }
 
 .clean-footer p {
     font-style: italic;
 }
 
+/* Celular */
 @media (max-width: 768px) {
     .songs-grid { grid-template-columns: 1fr; gap: 30px; }
     .clean-header h2 { font-size: 1.2rem; }
