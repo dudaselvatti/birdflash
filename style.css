@@ -19,7 +19,6 @@ body {
     min-height: 100vh;
 }
 
-/* --- TELA INICIAL --- */
 #intro-screen {
     position: fixed;
     top: 0;
@@ -101,7 +100,6 @@ body.revealed #main-content {
     50% { opacity: 1; }
 }
 
-/* --- CABEÇALHO DE CLIMA --- */
 .weather-container {
     width: 100%;
     max-width: 900px;
@@ -151,7 +149,6 @@ body.revealed #main-content {
     letter-spacing: 1px;
 }
 
-/* Ajuste no padding do main para acomodar o cabeçalho no celular */
 @media (max-width: 768px) {
     #main-content { padding-top: 40px; }
     .weather-container { margin-bottom: 40px; padding-bottom: 15px; }
@@ -159,7 +156,6 @@ body.revealed #main-content {
     .weather-location .temp { font-size: 1rem; }
 }
 
-/* --- DIÁRIO EM TÓPICOS (ACCORDION) --- */
 .diary-container {
     width: 100%;
     max-width: 900px;
@@ -171,7 +167,6 @@ body.revealed #main-content {
     margin-bottom: 15px;
 }
 
-/* Estilo do Botão do Dia */
 .accordion-header {
     width: 100%;
     background: transparent;
@@ -197,7 +192,6 @@ body.revealed #main-content {
     transition: transform 0.3s ease;
 }
 
-/* Conteúdo Escondido por Padrão */
 .accordion-content {
     max-height: 0;
     opacity: 0;
@@ -206,9 +200,8 @@ body.revealed #main-content {
     padding: 0 10px;
 }
 
-/* Quando o Tópico estiver Aberto (.active) */
 .diary-entry.active .accordion-content {
-    max-height: 1200px; /* Altura suficiente para os players */
+    max-height: 1200px;
     opacity: 1;
     padding-top: 30px;
     padding-bottom: 50px;
@@ -219,10 +212,9 @@ body.revealed #main-content {
 }
 
 .diary-entry.active .accordion-header .icon {
-    transform: rotate(45deg); /* Transforma o + em um x */
+    transform: rotate(45deg);
 }
 
-/* --- ESTILIZAÇÃO INTERNA --- */
 .clean-header {
     text-align: center;
     margin-bottom: 45px;
@@ -265,7 +257,6 @@ body.revealed #main-content {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* --- RODAPÉ --- */
 .clean-footer {
     margin-top: 40px;
     text-align: center;
@@ -280,13 +271,11 @@ body.revealed #main-content {
     font-style: italic;
 }
 
-/* Celular */
 @media (max-width: 768px) {
     .songs-grid { grid-template-columns: 1fr; gap: 30px; }
     .clean-header h2 { font-size: 1.2rem; }
 }
 
-/* --- LÓGICA DE MONTAGEM (PEÇAS LEGO) --- */
 .crafting-area {
     display: flex;
     flex-direction: column;
@@ -308,18 +297,16 @@ body.revealed #main-content {
     margin-bottom: 30px;
 }
 
-/* O formato do bloquinho de LEGO */
 .draggable-piece {
     width: 50px;
     height: 40px;
     border-radius: 4px;
-    cursor: pointer; /* Modificado para pointer para incentivar o clique no celular */
+    cursor: pointer;
     transition: transform 0.2s ease;
     position: relative;
-    margin-top: 10px; /* Espaço para o pino do lego */
+    margin-top: 10px;
 }
 
-/* O "pino" em cima da peça de LEGO */
 .draggable-piece::before {
     content: '';
     position: absolute;
@@ -329,7 +316,7 @@ body.revealed #main-content {
     width: 24px;
     height: 8px;
     border-radius: 2px 2px 0 0;
-    background: inherit; /* Herda a cor exata do bloco */
+    background: inherit;
 }
 
 .draggable-piece:active {
@@ -386,12 +373,11 @@ body.revealed #main-content {
 }
 
 
-/* --- LÓGICA DO BAT-SINAL SÓ NA MÚSICA (DIA 18) --- */
 .relative-content {
     position: relative;
-    min-height: 352px; /* Altura exata do player */
-    border-radius: 12px; /* Mesma borda do spotify */
-    overflow: hidden; /* Isso garante que a escuridão não vaze pras laterais */
+    min-height: 352px; 
+    border-radius: 12px;
+    overflow: hidden; 
 }
 
 .gotham-night {
@@ -442,7 +428,6 @@ body.revealed #main-content {
     transition: opacity 2s ease, filter 2s ease;
 }
 
-/* Estados de ativação */
 .gotham-night.revealed {
     opacity: 0;
     visibility: hidden;
@@ -454,12 +439,11 @@ body.revealed #main-content {
     filter: blur(0);
 }
 
-/* --- ANIMAÇÃO DOS MORCEGOS VOANDO --- */
 .flying-bat {
-    position: fixed; /* Fixado na tela para voar por cima de tudo */
+    position: fixed;
     font-size: 1.5rem;
-    pointer-events: none; /* Para ela não clicar neles sem querer */
-    z-index: 9999; /* Fica acima de tudo no site */
+    pointer-events: none;
+    z-index: 9999;
     animation: batFlyOut 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -470,7 +454,6 @@ body.revealed #main-content {
     }
     100% {
         opacity: 0;
-        /* As variáveis --tx e --ty serão definidas pelo JavaScript para cada morcego ir para um lado */
         transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot));
     }
 }
