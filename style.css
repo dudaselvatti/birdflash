@@ -384,3 +384,93 @@ body.revealed #main-content {
     visibility: visible;
     height: auto;
 }
+
+
+/* --- LÓGICA DO BAT-SINAL SÓ NA MÚSICA (DIA 18) --- */
+.relative-content {
+    position: relative;
+    min-height: 352px; /* Altura exata do player */
+    border-radius: 12px; /* Mesma borda do spotify */
+    overflow: hidden; /* Isso garante que a escuridão não vaze pras laterais */
+}
+
+.gotham-night {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 1.5s ease 0.3s, visibility 1.5s;
+}
+
+.bat-signal-btn {
+    background: #fceb3b;
+    color: #000;
+    border: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(252, 235, 59, 0.2);
+    transition: all 0.3s ease;
+    padding-bottom: 4px;
+}
+
+.bat-signal-btn:active {
+    transform: scale(0.9);
+    box-shadow: 0 0 50px rgba(252, 235, 59, 0.6);
+}
+
+.bat-caption {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.gotham-content {
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 2s ease, filter 2s ease;
+}
+
+/* Estados de ativação */
+.gotham-night.revealed {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.gotham-content.illuminated {
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* --- ANIMAÇÃO DOS MORCEGOS VOANDO --- */
+.flying-bat {
+    position: fixed; /* Fixado na tela para voar por cima de tudo */
+    font-size: 1.5rem;
+    pointer-events: none; /* Para ela não clicar neles sem querer */
+    z-index: 9999; /* Fica acima de tudo no site */
+    animation: batFlyOut 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes batFlyOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 0;
+        /* As variáveis --tx e --ty serão definidas pelo JavaScript para cada morcego ir para um lado */
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot));
+    }
+}
