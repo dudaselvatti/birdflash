@@ -1,13 +1,12 @@
-// 1. CLIMA EM TEMPO REAL (Isolado no topo para rodar instantaneamente)
 async function fetchWeather() {
     try {
-        // Fetch de Guarulhos
+        // fetch de Guarulhos
         const resGRU = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.4628&longitude=-46.5333&current_weather=true');
         const dataGRU = await resGRU.json();
         const tempGru = document.getElementById('temp-gru');
         if (tempGru) tempGru.textContent = `${Math.round(dataGRU.current_weather.temperature)}°C`;
 
-        // Fetch do RN (Mossoró)
+        // fetch do RN (Mossoró)
         const resRN = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-5.188&longitude=-37.344&current_weather=true');
         const dataRN = await resRN.json();
         const tempRn = document.getElementById('temp-rn');
@@ -17,7 +16,6 @@ async function fetchWeather() {
     }
 }
 
-// Executa o clima imediatamente
 fetchWeather();
 
 function updateSunMoon() {
@@ -25,7 +23,6 @@ function updateSunMoon() {
     const caption = document.getElementById('weather-caption');
     const icon = document.getElementById('weather-icon');
 
-    // Se for depois das 19h ou antes das 5h da manhã (madrugada)
     if (hour >= 19 || hour < 5) {
         if (caption) caption.textContent = "ainda estamos sob a mesma lua.";
         if (icon) icon.textContent = "🌙";
@@ -35,14 +32,10 @@ function updateSunMoon() {
     }
 }
 
-// Executa a função na hora que carregar
 updateSunMoon();
 
-// ---------------------------------------------------------
-// TODO O RESTO DO CÓDIGO (Interface e interações)
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 2. LÓGICA DA TELA INICIAL (Abertura)
+
     const intro = document.getElementById('intro-screen');
     if (intro) {
         intro.addEventListener('click', () => {
@@ -50,25 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. LÓGICA DOS TÓPICOS EXPANSÍVEIS (Accordion)
     const headers = document.querySelectorAll('.accordion-header');
     
     headers.forEach(header => {
         header.addEventListener('click', () => {
             const entry = header.parentElement;
-            // Alterna a classe 'active' no dia que foi clicado
             entry.classList.toggle('active');
         });
     });
 
-    // 4. LÓGICA DA MONTAGEM DAS PEÇAS (Com suporte Mobile Corrigido)
     const pieces = document.querySelectorAll('.draggable-piece');
     const dropZone = document.getElementById('drop-zone');
     const craftingArea = document.getElementById('crafting-area');
     const craftedSong = document.getElementById('crafted-song');
     let piecesInZone = 0;
 
-    // Função central para processar quando uma peça entra na zona
     function handlePieceAssembled(element) {
         if (dropZone && !dropZone.contains(element)) {
             dropZone.appendChild(element);
@@ -88,18 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     pieces.forEach(piece => {
-        // SUPORTE MOBILE (Toque na tela)
         piece.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Bloqueia o conflito do navegador mobile
-            handlePieceAssembled(piece); // Usa 'piece' direto, ignorando o pino do lego
+            e.preventDefault();
+            handlePieceAssembled(piece);
         }, { passive: false });
 
-        // SUPORTE PC (Clique simples do mouse)
         piece.addEventListener('click', () => {
             handlePieceAssembled(piece);
         });
 
-        // SUPORTE PC (Arrastar e soltar clássico)
         piece.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', piece.id);
             setTimeout(() => piece.style.opacity = '0.5', 0);
@@ -133,30 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. LÓGICA DO BAT-SINAL (DIA 18)
     const batBtn = document.getElementById('bat-signal-btn');
     const gothamNight = document.getElementById('gotham-night');
     const gothamContent = document.getElementById('gotham-content');
 
-    // Função que cria a revoada de morcegos
     function releaseBats(startX, startY) {
-        const batCount = 20; // Quantidade de morcegos que vão sair voando
+        const batCount = 20;
 
         for (let i = 0; i < batCount; i++) {
             const bat = document.createElement('div');
             bat.textContent = '🦇';
             bat.classList.add('flying-bat');
-            
-            // Posição inicial (centro do botão)
+
             bat.style.left = `${startX}px`;
             bat.style.top = `${startY}px`;
 
-            // Matemática pra fazer voar espalhado (aleatório)
-            const angle = Math.random() * Math.PI * 2; // Ângulo de 0 a 360 graus
-            const distance = 100 + Math.random() * 150; // Distância do voo
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 100 + Math.random() * 150;
             const tx = Math.cos(angle) * distance;
             const ty = Math.sin(angle) * distance;
-            const rot = (Math.random() - 0.5) * 90; // Rotação aleatória para parecer que batem asas
+            const rot = (Math.random() - 0.5) * 90;
 
             bat.style.setProperty('--tx', `${tx}px`);
             bat.style.setProperty('--ty', `${ty}px`);
@@ -164,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.body.appendChild(bat);
 
-            // Remove o emoji da memória do celular depois que a animação acaba
             setTimeout(() => {
                 bat.remove();
             }, 1500);
@@ -173,19 +154,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (batBtn && gothamNight && gothamContent) {
         batBtn.addEventListener('click', () => {
-            // Pega as coordenadas exatas do centro do botão na tela dela
             const rect = batBtn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
 
-            // Solta os morcegos
             releaseBats(centerX, centerY);
 
-            // Anima o botão brilhando
             batBtn.style.transform = 'scale(1.2)';
             batBtn.style.boxShadow = '0 0 100px rgba(252, 235, 59, 1)';
-            
-            // Revela a música logo em seguida
+
             setTimeout(() => {
                 gothamNight.classList.add('revealed');
                 gothamContent.classList.add('illuminated');
