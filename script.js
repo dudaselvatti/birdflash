@@ -132,4 +132,64 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 5. LÓGICA DO BAT-SINAL (DIA 18)
+    const batBtn = document.getElementById('bat-signal-btn');
+    const gothamNight = document.getElementById('gotham-night');
+    const gothamContent = document.getElementById('gotham-content');
+
+    // Função que cria a revoada de morcegos
+    function releaseBats(startX, startY) {
+        const batCount = 20; // Quantidade de morcegos que vão sair voando
+
+        for (let i = 0; i < batCount; i++) {
+            const bat = document.createElement('div');
+            bat.textContent = '🦇';
+            bat.classList.add('flying-bat');
+            
+            // Posição inicial (centro do botão)
+            bat.style.left = `${startX}px`;
+            bat.style.top = `${startY}px`;
+
+            // Matemática pra fazer voar espalhado (aleatório)
+            const angle = Math.random() * Math.PI * 2; // Ângulo de 0 a 360 graus
+            const distance = 100 + Math.random() * 150; // Distância do voo
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            const rot = (Math.random() - 0.5) * 90; // Rotação aleatória para parecer que batem asas
+
+            bat.style.setProperty('--tx', `${tx}px`);
+            bat.style.setProperty('--ty', `${ty}px`);
+            bat.style.setProperty('--rot', `${rot}deg`);
+
+            document.body.appendChild(bat);
+
+            // Remove o emoji da memória do celular depois que a animação acaba
+            setTimeout(() => {
+                bat.remove();
+            }, 1500);
+        }
+    }
+
+    if (batBtn && gothamNight && gothamContent) {
+        batBtn.addEventListener('click', () => {
+            // Pega as coordenadas exatas do centro do botão na tela dela
+            const rect = batBtn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Solta os morcegos
+            releaseBats(centerX, centerY);
+
+            // Anima o botão brilhando
+            batBtn.style.transform = 'scale(1.2)';
+            batBtn.style.boxShadow = '0 0 100px rgba(252, 235, 59, 1)';
+            
+            // Revela a música logo em seguida
+            setTimeout(() => {
+                gothamNight.classList.add('revealed');
+                gothamContent.classList.add('illuminated');
+            }, 300);
+        });
+    }
 });
