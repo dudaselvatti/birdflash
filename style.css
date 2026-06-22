@@ -457,3 +457,186 @@ body.revealed #main-content {
         transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot));
     }
 }
+/* --- LÓGICA DO PAPEL E CANETA (DIA 22) --- */
+.compact-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.thoughts-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.draggable-thought {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 8px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+}
+
+.draggable-thought span {
+    font-size: 0.85rem;
+    color: #fff;
+    pointer-events: none;
+}
+
+.draggable-thought:active {
+    transform: scale(0.95);
+}
+
+.paper-zone {
+    box-sizing: border-box; /* OBRIGA o papel a não vazar da tela */
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background-color: #fff9eb;
+    background-image: repeating-linear-gradient(transparent, transparent 29px, #e8dfc4 30px);
+    border-radius: 4px;
+    padding: 35px 15px 15px 15px; /* Reduzi um pouco as bordas laterais */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+    border: 1px solid #e1d8c1;
+    transition: transform 0.3s ease;
+}
+
+/* Regra específica para consertar o texto em telas pequenas de celular */
+@media (max-width: 380px) {
+    .paper-text {
+        font-size: 0.95rem; /* Fonte um pouco menor pra caber nas linhas */
+        line-height: 28px;
+    }
+    .draggable-thought {
+        font-size: 0.95rem; /* Botões menores */
+        padding: 6px 10px;
+    }
+}
+
+/* Detalhe fofo do emoji de anotação no topo do papel */
+.paper-zone::before {
+    content: '📝';
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.2rem;
+    opacity: 0.3;
+}
+
+.paper-text {
+    color: #9b9382;
+    font-family: 'Georgia', serif;
+    font-size: 1.05rem;
+    line-height: 30px;
+    text-align: center;
+    font-style: italic;
+    transition: color 1s ease;
+}
+
+.blank-word {
+    color: #aaa;
+    font-weight: normal;
+    transition: color 0.5s;
+}
+
+.blank-word.filled {
+    color: #4a4a4a;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: underline;
+}
+
+.final-phrase {
+    color: #c44d29;
+    font-family: 'Georgia', serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Quando tudo for preenchido */
+.paper-zone.completed .paper-text {
+    color: #7a7363; 
+}
+
+.paper-zone.completed .final-phrase {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Container da música corrigido para forçar a renderização do iframe sem cortes */
+.revealed-song-container {
+    display: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    padding-bottom: 40px; /* Dá um respiro no fundo pro iframe não ser cortado */
+}
+
+.revealed-song-container.show {
+    display: block;
+    opacity: 1;
+}
+
+/* --- TRANSIÇÃO PARA ENVELOPE (DIA 22) --- */
+.paper-zone.envelope-mode {
+    max-width: 260px;
+    padding: 20px 15px;
+    background-image: none; /* Some com as linhas do caderno */
+    background-color: #f4ebd8; /* Cor um pouquinho mais escura de envelope */
+    border-radius: 8px; /* Bordas mais redondinhas de carta */
+    transform: scale(0.95) translateY(0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    border: 2px solid #e1d8c1;
+}
+
+/* Esconde o clipe de papel do caderno */
+.paper-zone.envelope-mode::before {
+    opacity: 0;
+}
+
+/* Adiciona o selo de carta fofo */
+.paper-zone.envelope-mode::after {
+    content: '💌';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Esconde as frases antigas suavemente */
+.paper-zone.envelope-mode .paper-text {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: all 0.5s ease;
+}
+
+/* Mantém e centraliza a frase final como a mensagem da carta */
+.paper-zone.envelope-mode .final-phrase {
+    margin-top: 0;
+    font-size: 1.15rem;
+    color: #c44d29;
+}
+
+@keyframes popIn {
+    0% { transform: translateX(-50%) scale(0); }
+    100% { transform: translateX(-50%) scale(1); }
+}

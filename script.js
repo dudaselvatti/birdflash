@@ -169,4 +169,90 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         });
     }
+
+    // 6. LÓGICA DE ORGANIZAR A MENTE NO PAPEL E REVELAR MÚSICA (DIA 22)
+    const thoughts = document.querySelectorAll('.draggable-thought');
+    const paperZone = document.getElementById('paper-zone');
+    const thoughtsContainer = document.getElementById('thoughts-container');
+    const songContainer = document.getElementById('organized-thoughts'); 
+    let wordsFilled = 0;
+
+    const ordemCerta = ['confusão', 'palavras', 'clareza'];
+
+    function fillNextBlank(element) {
+        if (wordsFilled >= 3) return; 
+
+        const wordText = element.id; 
+
+        if (wordText !== ordemCerta[wordsFilled]) {
+            element.style.transform = 'translateX(-5px)';
+            setTimeout(() => element.style.transform = 'translateX(5px)', 100);
+            setTimeout(() => element.style.transform = 'translateX(0)', 200);
+            return; 
+        }
+
+        wordsFilled++;
+        
+        const blank = document.getElementById(`blank-${wordsFilled}`);
+        if (blank) {
+            blank.textContent = wordText;
+            blank.classList.add('filled');
+        }
+
+        element.style.opacity = '0';
+        element.style.transform = 'scale(0.5)';
+        element.style.pointerEvents = 'none';
+        setTimeout(() => element.style.display = 'none', 400);
+
+        if (wordsFilled === 3) {
+            // Passo 1: Revela a frase final no papel
+            setTimeout(() => {
+                if (thoughtsContainer) thoughtsContainer.style.display = 'none';
+                if (paperZone) paperZone.classList.add('completed');
+                
+                // Passo 2: Espera 2.5s pra ela ler, depois vira o envelope
+                setTimeout(() => {
+                    if (paperZone) paperZone.classList.add('envelope-mode');
+                    
+                    // Passo 3: Espera mais 0.8s e desce a música suavemente
+                    setTimeout(() => {
+                        if (songContainer) {
+                            songContainer.classList.add('show');
+                            const accordionContent = songContainer.closest('.accordion-content');
+                            if (accordionContent) {
+                                accordionContent.style.maxHeight = '3000px'; 
+                            }
+                        }
+                    }, 800);
+                }, 2500); 
+            }, 600);
+        }
+    }
+
+    thoughts.forEach(thought => {
+        thought.addEventListener('click', (e) => {
+            e.preventDefault();
+            fillNextBlank(thought);
+        });
+        thought.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            fillNextBlank(thought);
+        }, { passive: false });
+
+        thought.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', thought.id);
+        });
+    });
+
+    if (paperZone) {
+        paperZone.addEventListener('dragover', (e) => e.preventDefault());
+        paperZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const draggableElement = document.getElementById(id);
+            if (draggableElement && draggableElement.style.display !== 'none') {
+                fillNextBlank(draggableElement);
+            }
+        });
+    }
 });
