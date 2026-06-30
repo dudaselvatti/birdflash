@@ -255,4 +255,125 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 7. LÓGICA DO CONEXO (DIA 29)
+    const conexoCategories = [
+        { id: 0, name: "como eu te chamo", words: ["linda", "princesa", "amor", "vida"], colorClass: "cat-0" },
+        { id: 1, name: "coisas que me lembram você", words: ["megan", "buffy", "batman", "bellingham"], colorClass: "cat-1" },
+        { id: 2, name: "músicas que já te mandei", words: ["peach eyes", "delicate", "softly", "maggots for brains"], colorClass: "cat-2" },
+        { id: 3, name: "coisas que eu mais amo em você", words: ["olhinhos", "humor", "forma de pensar", "cuidado"], colorClass: "cat-3" }
+    ];
+
+    const conexoGrid = document.getElementById('conexo-grid');
+    const conexoSolved = document.getElementById('conexo-solved');
+    const conexoReward = document.getElementById('conexo-reward');
+    const conexoIntro = document.getElementById('conexo-intro');
+    
+    let conexoSelected = [];
+    let conexoCount = 0;
+
+    if (conexoGrid) {
+        // Passo 1: Juntar todas as 16 palavras e embaralhar
+        let conexoWords = [];
+        conexoCategories.forEach(cat => {
+            cat.words.forEach(word => {
+                conexoWords.push({ word: word, catId: cat.id });
+            });
+        });
+        
+        // Embaralha o array aleatoriamente
+        conexoWords.sort(() => Math.random() - 0.5);
+
+        // Passo 2: Criar os quadradinhos na tela
+        conexoWords.forEach(item => {
+            const btn = document.createElement('button');
+            btn.className = 'conexo-btn';
+            btn.textContent = item.word;
+            btn.dataset.catId = item.catId;
+            
+            btn.addEventListener('click', () => {
+                // Se já estiver selecionado, desmarca
+                if (btn.classList.contains('selected')) {
+                    btn.classList.remove('selected');
+                    conexoSelected = conexoSelected.filter(b => b !== btn);
+                } else {
+                    // Se não, seleciona (máximo de 4)
+                    if (conexoSelected.length < 4) {
+                        btn.classList.add('selected');
+                        conexoSelected.push(btn);
+                    }
+                }
+
+                // Quando escolher 4, verifica se estão certos
+                if (conexoSelected.length === 4) {
+                    checkConexoMatch();
+                }
+            });
+            
+            conexoGrid.appendChild(btn);
+        });
+    }
+
+    function checkConexoMatch() {
+        const firstCatId = conexoSelected[0].dataset.catId;
+        
+        // Verifica se todas as 4 pecinhas têm o mesmo ID de categoria
+        const isMatch = conexoSelected.every(btn => btn.dataset.catId === firstCatId);
+
+        if (isMatch) {
+            // Acertou!
+            const catInfo = conexoCategories.find(c => c.id == firstCatId);
+            
+            // Remove os botões da grade
+            conexoSelected.forEach(btn => btn.remove());
+            
+            // Cria a barra colorida na área resolvida
+            const solvedDiv = document.createElement('div');
+            solvedDiv.className = `conexo-category ${catInfo.colorClass}`;
+            solvedDiv.innerHTML = `<h3>${catInfo.name}</h3><p>${catInfo.words.join(', ')}</p>`;
+            conexoSolved.appendChild(solvedDiv);
+            
+            conexoCount++;
+            conexoSelected = [];
+
+            // Se resolveu as 4 categorias (Ganhou o jogo)
+            // Se resolveu as 4 categorias (Ganhou o jogo)
+            if (conexoCount === 4) {
+                setTimeout(() => {
+                    // 1. Esconde o grid vazio e a introdução do jogo
+                    if(conexoGrid) conexoGrid.style.display = 'none';
+                    if(conexoIntro) conexoIntro.style.display = 'none';
+                    
+                    // 2. Modifica o estilo inline diretamente via JS para garantir a revelação
+                    if (conexoReward) {
+                        conexoReward.style.display = 'block'; // Substitui o 'none' inline
+                        
+                        // Um micro-atraso para o navegador processar a mudança de display antes de rodar a opacidade
+                        setTimeout(() => {
+                            conexoReward.style.opacity = '1';
+                        }, 50);
+                        
+                        // 3. Expande o accordion pai para caber o bloco novo
+                        const accordionContent = conexoReward.closest('.accordion-content');
+                        if (accordionContent) {
+                            accordionContent.style.maxHeight = '3000px'; 
+                        }
+                    }
+                }, 800);
+            }
+        } else {
+            // Errou! Faz as pecinhas tremerem e desmarca
+            conexoSelected.forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.add('error');
+                
+                // Tira a classe de erro depois da animação
+                setTimeout(() => {
+                    btn.classList.remove('error');
+                }, 400);
+            });
+            conexoSelected = [];
+        }
+    }
+
 });

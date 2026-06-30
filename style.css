@@ -640,3 +640,109 @@ body.revealed #main-content {
     0% { transform: translateX(-50%) scale(0); }
     100% { transform: translateX(-50%) scale(1); }
 }
+/* --- LÓGICA DO CONEXO (DIA 29) --- */
+.conexo-container {
+    width: 100%;
+    margin: 15px auto;
+    box-sizing: border-box;
+}
+
+.conexo-grid {
+    display: grid;
+    /* O truque mágico pra não ficar torto: */
+    grid-template-columns: repeat(4, minmax(0, 1fr)); 
+    gap: 6px;
+    width: 100%;
+}
+
+.conexo-btn {
+    aspect-ratio: 1; /* Força quadrados perfeitos */
+    background-color: #efefef;
+    border: none;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 0.65rem; /* Menor pra caber as palavras longas */
+    line-height: 1.1;
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2px;
+    word-wrap: break-word;
+    word-break: break-word; /* Força a quebra de linha em palavras muito grandes */
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.conexo-btn.selected {
+    background-color: #5a594e;
+    color: #fff;
+}
+
+/* Animação de Erro (Tremidinha fofa) */
+.conexo-btn.error {
+    animation: shakeError 0.4s;
+    background-color: #ffcccc;
+    color: #a00;
+}
+
+@keyframes shakeError {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+}
+
+.conexo-solved-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px; /* Dá um respiro pro grid de baixo */
+}
+
+/* Nova animação exclusiva pro Conexo (sem empurrar pra esquerda!) */
+@keyframes popInConexo {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Design da categoria resolvida (a barra colorida) */
+.conexo-category {
+    width: 100%;
+    box-sizing: border-box; /* Impede de vazar a tela */
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: popInConexo 0.4s ease forwards; /* Usa a animação nova */
+}
+        
+.conexo-category h3 {
+    margin: 0 0 4px 0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #111;
+}
+
+.conexo-category p {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #222;
+    text-transform: uppercase;
+}
+
+/* As cores originais do Connections do NYT */
+.cat-0 { background-color: #f9df6d; } /* Amarelo (Fácil) */
+.cat-1 { background-color: #a0c35a; } /* Verde (Média) */
+.cat-2 { background-color: #b0c4ef; } /* Azul (Difícil) */
+.cat-3 { background-color: #ba81c5; } /* Roxo (A Pegadinha/Especial) */
