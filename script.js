@@ -376,4 +376,141 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 8. LÓGICA DO COFRE DA DEDICATÓRIA (DIA 04.07)
+    const safeGame0407 = document.getElementById('safe-game-0407');
+    const safeDisplay0407 = document.getElementById('safe-display-0407');
+    const safeSlots0407 = safeDisplay0407 ? safeDisplay0407.querySelectorAll('.safe-slot') : [];
+    const safeKeys0407 = document.querySelectorAll('#safe-keypad-0407 .safe-key');
+    const safeClear0407 = document.getElementById('safe-clear-0407');
+    const safeFeedback0407 = document.getElementById('safe-feedback-0407');
+    const safeReward0407 = document.getElementById('safe-reward-0407');
+
+    const safeCode0407 = ['potiguar', 'sábado', 'júlia', 'música'];
+    let safeInput0407 = [];
+    let safeUnlocked0407 = false;
+
+    function renderSafeSlots0407() {
+        safeSlots0407.forEach((slot, index) => {
+            slot.textContent = safeInput0407[index] || '';
+
+            if (safeInput0407[index]) {
+                slot.classList.add('filled');
+            } else {
+                slot.classList.remove('filled');
+            }
+        });
+    }
+
+    function resetSafe0407() {
+        safeInput0407 = [];
+        renderSafeSlots0407();
+
+        safeKeys0407.forEach(key => {
+            key.classList.remove('used');
+            key.disabled = false;
+        });
+    }
+
+    function unlockSafe0407() {
+        safeUnlocked0407 = true;
+
+        if (safeFeedback0407) {
+            safeFeedback0407.textContent = 'cofre aberto: uma música pra minha potiguar.';
+        }
+
+        if (safeGame0407) {
+            safeGame0407.classList.add('success');
+
+            setTimeout(() => {
+                safeGame0407.classList.add('unlocked');
+            }, 500);
+        }
+
+        safeKeys0407.forEach(key => {
+            key.disabled = true;
+        });
+
+        if (safeClear0407) {
+            safeClear0407.disabled = true;
+            safeClear0407.style.opacity = '0.5';
+            safeClear0407.style.cursor = 'default';
+        }
+
+        if (safeReward0407) {
+            safeReward0407.style.display = 'block';
+
+            setTimeout(() => {
+                safeReward0407.classList.add('show');
+
+                const accordionContent = safeReward0407.closest('.accordion-content');
+                if (accordionContent) {
+                    accordionContent.style.maxHeight = '3000px';
+                }
+            }, 900);
+        }
+    }
+
+    function checkSafe0407() {
+        const isCorrect = safeCode0407.every((word, index) => word === safeInput0407[index]);
+
+        if (isCorrect) {
+            unlockSafe0407();
+        } else {
+            if (safeFeedback0407) {
+                safeFeedback0407.textContent = 'senha incorreta... tenta de novo, meu amor.';
+            }
+
+            if (safeGame0407) {
+                safeGame0407.classList.add('error');
+            }
+
+            setTimeout(() => {
+                if (safeGame0407) {
+                    safeGame0407.classList.remove('error');
+                }
+
+                if (safeFeedback0407) {
+                    safeFeedback0407.textContent = 'dica: toque nas palavras na ordem das pistas.';
+                }
+
+                resetSafe0407();
+            }, 850);
+        }
+    }
+
+    if (safeKeys0407.length) {
+        safeKeys0407.forEach(key => {
+            key.addEventListener('click', () => {
+                if (safeUnlocked0407) return;
+                if (safeInput0407.length >= 4) return;
+
+                const selectedWord = key.dataset.word;
+
+                safeInput0407.push(selectedWord);
+                key.classList.add('used');
+                key.disabled = true;
+
+                renderSafeSlots0407();
+
+                if (safeInput0407.length === 4) {
+                    setTimeout(() => {
+                        checkSafe0407();
+                    }, 250);
+                }
+            });
+        });
+    }
+
+    if (safeClear0407) {
+        safeClear0407.addEventListener('click', () => {
+            if (safeUnlocked0407) return;
+
+            resetSafe0407();
+
+            if (safeFeedback0407) {
+                safeFeedback0407.textContent = 'dica: toque nas palavras na ordem das pistas.';
+            }
+        });
+    }
+
 });
