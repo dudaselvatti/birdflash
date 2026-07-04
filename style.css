@@ -201,7 +201,7 @@ body.revealed #main-content {
 }
 
 .diary-entry.active .accordion-content {
-    max-height: 1200px;
+    max-height: 5000px;
     opacity: 1;
     padding-top: 30px;
     padding-bottom: 50px;
