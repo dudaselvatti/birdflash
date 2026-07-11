@@ -513,4 +513,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 9. LÓGICA DO JARDIM DAS REAFIRMAÇÕES (DIA 10.07)
+    const honeybeeGame1007 = document.getElementById('honeybee-game-1007');
+    const honeybeeFlowers1007 = document.querySelectorAll('#honeybee-flowers-1007 .honeybee-flower');
+    const honeybeeProgress1007 = document.querySelectorAll('#honeybee-progress-1007 span');
+    const honeybeeHive1007 = document.getElementById('honeybee-hive-1007');
+    const honeybeeFinal1007 = document.getElementById('honeybee-final-1007');
+    const honeybeeReward1007 = document.getElementById('honeybee-reward-1007');
+    const honeybeeInstruction1007 = document.getElementById('honeybee-instruction-1007');
+    let honeybeeOpened1007 = 0;
+    let honeybeeUnlocked1007 = false;
+
+    function expandHoneybeeAccordion1007(extraHeight = 0) {
+        const accordionContent = honeybeeGame1007 ? honeybeeGame1007.closest('.accordion-content') : null;
+
+        if (accordionContent) {
+            accordionContent.style.maxHeight = `${accordionContent.scrollHeight + extraHeight}px`;
+        }
+    }
+
+    function bounceHoneybee1007() {
+        if (!honeybeeGame1007) return;
+
+        honeybeeGame1007.classList.remove('bee-bounce');
+        void honeybeeGame1007.offsetWidth;
+        honeybeeGame1007.classList.add('bee-bounce');
+
+        setTimeout(() => {
+            honeybeeGame1007.classList.remove('bee-bounce');
+        }, 450);
+    }
+
+    function revealHoneybeeReward1007() {
+        if (honeybeeUnlocked1007) return;
+        honeybeeUnlocked1007 = true;
+
+        if (honeybeeHive1007) {
+            honeybeeHive1007.classList.add('full');
+        }
+
+        if (honeybeeInstruction1007) {
+            honeybeeInstruction1007.textContent = 'prontinho. colmeia cheia do mel do amor :D.';
+        }
+
+        setTimeout(() => {
+            if (honeybeeFinal1007) {
+                honeybeeFinal1007.style.display = 'block';
+
+                requestAnimationFrame(() => {
+                    honeybeeFinal1007.classList.add('show');
+                    expandHoneybeeAccordion1007(600);
+                });
+            }
+        }, 500);
+
+        setTimeout(() => {
+            if (honeybeeReward1007) {
+                honeybeeReward1007.style.display = 'block';
+
+                requestAnimationFrame(() => {
+                    honeybeeReward1007.classList.add('show');
+                    expandHoneybeeAccordion1007(1200);
+                });
+            }
+        }, 1700);
+    }
+
+    if (honeybeeFlowers1007.length) {
+        honeybeeFlowers1007.forEach(flower => {
+            flower.addEventListener('click', () => {
+                if (flower.classList.contains('bloomed')) return;
+
+                flower.classList.add('bloomed');
+                flower.setAttribute('aria-pressed', 'true');
+                honeybeeOpened1007++;
+
+                const currentDot = honeybeeProgress1007[honeybeeOpened1007 - 1];
+                if (currentDot) currentDot.classList.add('filled');
+
+                bounceHoneybee1007();
+                expandHoneybeeAccordion1007(350);
+
+                if (honeybeeInstruction1007 && honeybeeOpened1007 < honeybeeFlowers1007.length) {
+                    const remaining = honeybeeFlowers1007.length - honeybeeOpened1007;
+                    honeybeeInstruction1007.textContent = remaining === 1
+                        ? 'falta só uma florzinha pra completar a colmeia.'
+                        : `mais ${remaining} florzinhas e a promessa aparece.`;
+                }
+
+                if (honeybeeOpened1007 === honeybeeFlowers1007.length) {
+                    revealHoneybeeReward1007();
+                }
+            });
+        });
+    }
+
 });
