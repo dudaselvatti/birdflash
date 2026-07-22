@@ -656,11 +656,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const contextHints2207 = document.getElementById('context-hints-2207');
     const contextGuesses2207 = document.getElementById('context-guesses-2207');
     const contextWin2207 = document.getElementById('context-win-2207');
+    const contextReward2207 = document.getElementById('context-reward-2207');
     const contextReview2207 = document.getElementById('context-review-2207');
     const contextReviewToggle2207 = document.getElementById('context-review-toggle-2207');
     const contextReviewLabel2207 = document.getElementById('context-review-label-2207');
-    const contextReviewIcon2207 = document.getElementById('context-review-icon-2207');
-    const contextReward2207 = document.getElementById('context-reward-2207');
 
     const contextWords2207 = [
         { word: 'minha', rank: 1 },
@@ -819,8 +818,10 @@ document.addEventListener('DOMContentLoaded', () => {
             contextGuesses2207.appendChild(row);
         });
 
-        const best = guesses[0];
-        if (contextBest2207 && best) contextBest2207.textContent = `${best.word} · #${best.rank}`;
+        const best = guesses.find(guess => !guess.seed) || null;
+        if (contextBest2207) {
+            contextBest2207.textContent = best ? `${best.word} · #${best.rank}` : '—';
+        }
         refreshAccordion(contextGame2207);
     }
 
@@ -853,33 +854,19 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshAccordion(contextGame2207);
     }
 
-    function setContextReviewOpen2207(open, shouldScroll = false) {
+    function setContextReviewOpen2207(open) {
         if (!contextGame2207 || !contextReviewToggle2207) return;
 
         contextGame2207.hidden = !open;
         contextReviewToggle2207.setAttribute('aria-expanded', open ? 'true' : 'false');
-
         if (contextReviewLabel2207) {
             contextReviewLabel2207.textContent = open
                 ? 'ocultar palavras e palpites'
                 : 'ver palavras e palpites';
         }
 
-        if (contextReviewIcon2207) {
-            contextReviewIcon2207.textContent = open ? '−' : '+';
-        }
-
         requestAnimationFrame(() => {
-            refreshAccordion(open ? contextGame2207 : contextReward2207, 40);
-
-            if (shouldScroll) {
-                const target = open ? contextGame2207 : contextReward2207;
-                if (target) {
-                    setTimeout(() => {
-                        target.scrollIntoView({ behavior: 'smooth', block: open ? 'start' : 'center' });
-                    }, 120);
-                }
-            }
+            refreshAccordion(contextReview2207 || contextReward2207, 40);
         });
     }
 
@@ -906,23 +893,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 contextWin2207.classList.add('show');
                 refreshAccordion(contextWin2207);
             });
-        }, 350);
+        }, 450);
+
+        setTimeout(() => {
+            if (!contextReward2207) return;
+            contextReward2207.hidden = false;
+            requestAnimationFrame(() => {
+                contextReward2207.classList.add('show');
+                refreshAccordion(contextReward2207, 40);
+            });
+        }, 1500);
 
         setTimeout(() => {
             if (contextReview2207) contextReview2207.hidden = false;
-            if (contextReward2207) {
-                contextReward2207.hidden = false;
-                requestAnimationFrame(() => {
-                    contextReward2207.classList.add('show');
-                    setContextReviewOpen2207(false);
-                    refreshAccordion(contextReward2207, 40);
+            setContextReviewOpen2207(false);
 
-                    setTimeout(() => {
-                        contextReward2207.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 160);
-                });
-            }
-        }, 1250);
+            requestAnimationFrame(() => {
+                refreshAccordion(contextReward2207 || contextReview2207, 40);
+                if (contextReward2207) {
+                    contextReward2207.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }, 2500);
     }
 
     function submitContextGuess2207(rawValue) {
@@ -983,8 +975,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (contextReviewToggle2207) {
         contextReviewToggle2207.addEventListener('click', () => {
-            const isOpen = contextReviewToggle2207.getAttribute('aria-expanded') === 'true';
-            setContextReviewOpen2207(!isOpen, true);
+            const open = contextReviewToggle2207.getAttribute('aria-expanded') !== 'true';
+            setContextReviewOpen2207(open);
         });
     }
 
