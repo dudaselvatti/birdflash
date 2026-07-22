@@ -44,11 +44,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const headers = document.querySelectorAll('.accordion-header');
-    
+
+    function getAccordionContent(element) {
+        if (!element) return null;
+        return element.classList.contains('accordion-content')
+            ? element
+            : element.closest('.accordion-content');
+    }
+
+    function refreshAccordion(element, extraHeight = 0) {
+        const content = getAccordionContent(element);
+        if (!content) return;
+
+        const entry = content.closest('.diary-entry');
+        if (!entry || !entry.classList.contains('active')) {
+            content.style.maxHeight = '0px';
+            return;
+        }
+
+        requestAnimationFrame(() => {
+            content.style.maxHeight = `${content.scrollHeight + extraHeight}px`;
+        });
+    }
+
     headers.forEach(header => {
+        const entry = header.closest('.diary-entry');
+        const content = header.nextElementSibling;
+        header.setAttribute('aria-expanded', entry && entry.classList.contains('active') ? 'true' : 'false');
+
         header.addEventListener('click', () => {
-            const entry = header.parentElement;
-            entry.classList.toggle('active');
+            if (!entry || !content) return;
+
+            const opening = !entry.classList.contains('active');
+            if (opening) {
+                entry.classList.add('active');
+                header.setAttribute('aria-expanded', 'true');
+                content.style.maxHeight = '0px';
+                refreshAccordion(content);
+            } else {
+                content.style.maxHeight = `${content.scrollHeight}px`;
+                requestAnimationFrame(() => {
+                    entry.classList.remove('active');
+                    header.setAttribute('aria-expanded', 'false');
+                    content.style.maxHeight = '0px';
+                });
+            }
+        });
+    });
+
+    window.addEventListener('resize', () => {
+        document.querySelectorAll('.diary-entry.active .accordion-content').forEach(content => {
+            refreshAccordion(content);
         });
     });
 
@@ -70,7 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 craftingArea.style.opacity = '0';
                 setTimeout(() => {
                     craftingArea.style.display = 'none';
-                    if (craftedSong) craftedSong.classList.add('revealed-song');
+                    if (craftedSong) {
+                        craftedSong.classList.add('revealed-song');
+                        refreshAccordion(craftedSong);
+                    }
                 }, 500);
             }
         }
@@ -218,10 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         if (songContainer) {
                             songContainer.classList.add('show');
-                            const accordionContent = songContainer.closest('.accordion-content');
-                            if (accordionContent) {
-                                accordionContent.style.maxHeight = '3000px'; 
-                            }
+                            refreshAccordion(songContainer);
                         }
                     }, 800);
                 }, 2500); 
@@ -354,10 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 50);
                         
                         // 3. Expande o accordion pai para caber o bloco novo
-                        const accordionContent = conexoReward.closest('.accordion-content');
-                        if (accordionContent) {
-                            accordionContent.style.maxHeight = '3000px'; 
-                        }
+                        refreshAccordion(conexoReward);
                     }
                 }, 800);
             }
@@ -442,10 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 safeReward0407.classList.add('show');
 
-                const accordionContent = safeReward0407.closest('.accordion-content');
-                if (accordionContent) {
-                    accordionContent.style.maxHeight = '3000px';
-                }
+                refreshAccordion(safeReward0407);
             }, 900);
         }
     }
@@ -525,11 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let honeybeeUnlocked1007 = false;
 
     function expandHoneybeeAccordion1007(extraHeight = 0) {
-        const accordionContent = honeybeeGame1007 ? honeybeeGame1007.closest('.accordion-content') : null;
-
-        if (accordionContent) {
-            accordionContent.style.maxHeight = `${accordionContent.scrollHeight + extraHeight}px`;
-        }
+        refreshAccordion(honeybeeGame1007, extraHeight);
     }
 
     function bounceHoneybee1007() {
@@ -605,6 +641,350 @@ document.addEventListener('DOMContentLoaded', () => {
                     revealHoneybeeReward1007();
                 }
             });
+        });
+    }
+
+    // 10. CONTEXTO PERSONALIZADO (DIA 22.07)
+    const contextGame2207 = document.getElementById('context-game-2207');
+    const contextForm2207 = document.getElementById('context-form-2207');
+    const contextInput2207 = document.getElementById('context-input-2207');
+    const contextSubmit2207 = document.getElementById('context-submit-2207');
+    const contextFeedback2207 = document.getElementById('context-feedback-2207');
+    const contextAttempts2207 = document.getElementById('context-attempts-2207');
+    const contextBest2207 = document.getElementById('context-best-2207');
+    const contextHint2207 = document.getElementById('context-hint-2207');
+    const contextHints2207 = document.getElementById('context-hints-2207');
+    const contextGuesses2207 = document.getElementById('context-guesses-2207');
+    const contextWin2207 = document.getElementById('context-win-2207');
+    const contextReview2207 = document.getElementById('context-review-2207');
+    const contextReviewToggle2207 = document.getElementById('context-review-toggle-2207');
+    const contextReviewLabel2207 = document.getElementById('context-review-label-2207');
+    const contextReviewIcon2207 = document.getElementById('context-review-icon-2207');
+    const contextReward2207 = document.getElementById('context-reward-2207');
+
+    const contextWords2207 = [
+        { word: 'minha', rank: 1 },
+        { word: 'júlia', rank: 2, aliases: ['julia'] },
+        { word: 'princesa', rank: 3 },
+        { word: 'vida', rank: 4 },
+        { word: 'amor', rank: 5 },
+        { word: 'linda', rank: 6 },
+        { word: 'você', rank: 7, aliases: ['voce', 'vc'] },
+        { word: 'gatinha', rank: 8 },
+        { word: 'mulher', rank: 9 },
+        { word: 'namorada', rank: 10 },
+        { word: 'beijo', rank: 11, aliases: ['beijos'] },
+        { word: 'abraço', rank: 12, aliases: ['abraco', 'abraços', 'abracos'] },
+        { word: 'aliança', rank: 13, aliases: ['alianca'] },
+        { word: 'namoro', rank: 14 },
+        { word: 'saudade', rank: 15 },
+        { word: 'carinho', rank: 16 },
+        { word: 'cuidado', rank: 17 },
+        { word: 'paixão', rank: 18, aliases: ['paixao'] },
+        { word: 'apaixonada', rank: 19 },
+        { word: 'ciúme', rank: 20, aliases: ['ciume'] },
+        { word: 'ciúmes', rank: 21, aliases: ['ciumes'] },
+        { word: 'potiguar', rank: 22 },
+        { word: 'mossoró', rank: 23, aliases: ['mossoro'] },
+        { word: 'guarulhos', rank: 24 },
+        { word: 'distância', rank: 25, aliases: ['distancia'] },
+        { word: 'encontro', rank: 26 },
+        { word: 'sentimento', rank: 27, aliases: ['sentimentos'] },
+        { word: 'coração', rank: 28, aliases: ['coracao'] },
+        { word: 'coragem', rank: 29 },
+        { word: 'medo', rank: 30 },
+        { word: 'demais', rank: 31 },
+        { word: 'grudenta', rank: 32 },
+        { word: 'emocionada', rank: 33 },
+        { word: 'irmã', rank: 34, aliases: ['irma'] },
+        { word: 'betinhas', rank: 35, aliases: ['betinha'] },
+        { word: 'cunhado', rank: 36 },
+        { word: 'amiga', rank: 37 },
+        { word: 'amizade', rank: 38 },
+        { word: 'mensagem', rank: 39, aliases: ['mensagens'] },
+        { word: 'dm', rank: 40, aliases: ['direct', 'direct message'] },
+        { word: 'flerte', rank: 41, aliases: ['flertar', 'flertes'] },
+        { word: 'tweet', rank: 42, aliases: ['tuíte', 'tuite'] },
+        { word: 'outubro', rank: 43 },
+        { word: 'aniversário', rank: 44, aliases: ['aniversario'] },
+        { word: 'vinte', rank: 45, aliases: ['20'] },
+        { word: 'vinte e um', rank: 46, aliases: ['21'] },
+        { word: 'abril', rank: 47 },
+        { word: 'birdflash', rank: 48 },
+        { word: 'robin', rank: 49 },
+        { word: 'batman', rank: 50 },
+        { word: 'megan', rank: 51 },
+        { word: 'katseye', rank: 52 },
+        { word: 'bellingham', rank: 53 },
+        { word: 'real madrid', rank: 54, aliases: ['real'] },
+        { word: 'vasco', rank: 55 },
+        { word: 'flamengo', rank: 56 },
+        { word: 'futebol', rank: 57 },
+        { word: 'twitter', rank: 58, aliases: ['x'] },
+        { word: 'plato', rank: 59 },
+        { word: 'ludo', rank: 60 },
+        { word: 'vela', rank: 61 },
+        { word: 'cama', rank: 62 },
+        { word: 'presente', rank: 63, aliases: ['presentes'] },
+        { word: 'música', rank: 64, aliases: ['musica', 'músicas', 'musicas'] },
+        { word: 'spotify', rank: 65 },
+        { word: 'texto', rank: 66, aliases: ['textinho', 'textos'] },
+        { word: 'palavra', rank: 67, aliases: ['palavras'] },
+        { word: 'afirmação', rank: 68, aliases: ['afirmacao', 'afirmações', 'afirmacoes'] },
+        { word: 'paraíso', rank: 69, aliases: ['paraiso', 'paradise'] },
+        { word: 'verão', rank: 70, aliases: ['verao', 'summer'] },
+        { word: 'lover', rank: 71, aliases: ['amante'] },
+        { word: 'memória', rank: 72, aliases: ['memoria', 'memórias', 'memorias'] },
+        { word: 'dias', rank: 73, aliases: ['dia'] },
+        { word: 'sorte', rank: 74 },
+        { word: 'destino', rank: 75 },
+        { word: 'coincidência', rank: 76, aliases: ['coincidencia', 'coincidências', 'coincidencias'] },
+        { word: 'rainha', rank: 77 },
+        { word: 'garota', rank: 78 },
+        { word: 'menina', rank: 79 },
+        { word: 'casal', rank: 80 },
+        { word: 'relacionamento', rank: 81 },
+        { word: 'rio grande do norte', rank: 82, aliases: ['rn'] },
+        { word: 'são paulo', rank: 83, aliases: ['sao paulo', 'sp'] },
+        { word: 'nordeste', rank: 84 },
+        { word: 'sudeste', rank: 85 }
+    ];
+
+    const contextHintsData2207 = [
+        'ela aparece várias vezes no jeito como eu te chamo.',
+        'costuma vir antes de “vida”, “princesa” e “linda”.',
+        'não é o seu nome: é a palavra que faz todas essas coisas parecerem só suas.'
+    ];
+
+    function normalizeContextWord2207(value) {
+        return value
+            .trim()
+            .toLocaleLowerCase('pt-BR')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[’']/g, '')
+            .replace(/\s+/g, ' ');
+    }
+
+    const contextLookup2207 = new Map();
+    contextWords2207.forEach(item => {
+        [item.word, ...(item.aliases || [])].forEach(term => {
+            contextLookup2207.set(normalizeContextWord2207(term), item);
+        });
+    });
+
+    let contextAttemptsCount2207 = 0;
+    let contextHintsShown2207 = 0;
+    let contextWon2207 = false;
+    const contextGuessMap2207 = new Map();
+    const contextSeed2207 = contextLookup2207.get('twitter');
+
+    if (contextSeed2207) {
+        contextGuessMap2207.set('twitter', { ...contextSeed2207, seed: true });
+    }
+
+    function contextTemperature2207(rank) {
+        if (rank <= 3) return 'context-burning';
+        if (rank <= 10) return 'context-hot';
+        if (rank <= 25) return 'context-warm';
+        if (rank <= 50) return 'context-mild';
+        return 'context-cold';
+    }
+
+    function contextProgress2207(rank) {
+        return Math.max(7, Math.min(100, Math.round(102 - rank * 1.12)));
+    }
+
+    function renderContextGuesses2207() {
+        if (!contextGuesses2207) return;
+
+        const guesses = [...contextGuessMap2207.values()].sort((a, b) => a.rank - b.rank);
+        contextGuesses2207.innerHTML = '';
+
+        guesses.forEach((guess, index) => {
+            const row = document.createElement('div');
+            row.className = `context-guess ${contextTemperature2207(guess.rank)}`;
+            if (guess.seed) row.classList.add('context-guess-seed');
+            if (guess.rank === 1) row.classList.add('context-guess-correct');
+            if (index === 0 && !guess.seed) row.classList.add('context-guess-best');
+
+            row.innerHTML = `
+                <div class="context-guess-main">
+                    <span class="context-guess-word">${guess.word}</span>
+                    ${guess.seed ? '<span class="context-seed-tag">inicial</span>' : ''}
+                </div>
+                <strong class="context-guess-rank">#${guess.rank}</strong>
+                <span class="context-guess-bar" aria-hidden="true"><span style="width:${contextProgress2207(guess.rank)}%"></span></span>
+            `;
+            contextGuesses2207.appendChild(row);
+        });
+
+        const best = guesses[0];
+        if (contextBest2207 && best) contextBest2207.textContent = `${best.word} · #${best.rank}`;
+        refreshAccordion(contextGame2207);
+    }
+
+    function updateContextHintButton2207() {
+        if (!contextHint2207 || contextWon2207) return;
+        if (contextHintsShown2207 >= contextHintsData2207.length) {
+            contextHint2207.disabled = true;
+            contextHint2207.textContent = 'todas as dicas foram reveladas';
+            return;
+        }
+
+        const neededAttempts = (contextHintsShown2207 + 1) * 3;
+        const remaining = neededAttempts - contextAttemptsCount2207;
+        contextHint2207.disabled = remaining > 0;
+        contextHint2207.textContent = remaining <= 0
+            ? `revelar dica ${contextHintsShown2207 + 1}`
+            : remaining === 1
+                ? 'dica liberada em 1 palpite'
+                : `dica liberada em ${remaining} palpites`;
+    }
+
+    function revealContextHint2207() {
+        if (!contextHints2207 || contextHintsShown2207 >= contextHintsData2207.length) return;
+        const hint = document.createElement('p');
+        hint.className = 'context-hint-card';
+        hint.innerHTML = `<span>dica ${contextHintsShown2207 + 1}</span>${contextHintsData2207[contextHintsShown2207]}`;
+        contextHints2207.appendChild(hint);
+        contextHintsShown2207++;
+        updateContextHintButton2207();
+        refreshAccordion(contextGame2207);
+    }
+
+    function setContextReviewOpen2207(open, shouldScroll = false) {
+        if (!contextGame2207 || !contextReviewToggle2207) return;
+
+        contextGame2207.hidden = !open;
+        contextReviewToggle2207.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+        if (contextReviewLabel2207) {
+            contextReviewLabel2207.textContent = open
+                ? 'ocultar palavras e palpites'
+                : 'ver palavras e palpites';
+        }
+
+        if (contextReviewIcon2207) {
+            contextReviewIcon2207.textContent = open ? '−' : '+';
+        }
+
+        requestAnimationFrame(() => {
+            refreshAccordion(open ? contextGame2207 : contextReward2207, 40);
+
+            if (shouldScroll) {
+                const target = open ? contextGame2207 : contextReward2207;
+                if (target) {
+                    setTimeout(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: open ? 'start' : 'center' });
+                    }, 120);
+                }
+            }
+        });
+    }
+
+    function winContext2207() {
+        contextWon2207 = true;
+        if (contextInput2207) {
+            contextInput2207.disabled = true;
+            contextInput2207.blur();
+        }
+        if (contextSubmit2207) contextSubmit2207.disabled = true;
+        if (contextHint2207) {
+            contextHint2207.disabled = true;
+            contextHint2207.textContent = 'contexto encontrado <3';
+        }
+        if (contextFeedback2207) {
+            contextFeedback2207.textContent = `você encontrou em ${contextAttemptsCount2207} ${contextAttemptsCount2207 === 1 ? 'palpite' : 'palpites'}!`;
+            contextFeedback2207.classList.add('success');
+        }
+
+        setTimeout(() => {
+            if (!contextWin2207) return;
+            contextWin2207.hidden = false;
+            requestAnimationFrame(() => {
+                contextWin2207.classList.add('show');
+                refreshAccordion(contextWin2207);
+            });
+        }, 350);
+
+        setTimeout(() => {
+            if (contextReview2207) contextReview2207.hidden = false;
+            if (contextReward2207) {
+                contextReward2207.hidden = false;
+                requestAnimationFrame(() => {
+                    contextReward2207.classList.add('show');
+                    setContextReviewOpen2207(false);
+                    refreshAccordion(contextReward2207, 40);
+
+                    setTimeout(() => {
+                        contextReward2207.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 160);
+                });
+            }
+        }, 1250);
+    }
+
+    function submitContextGuess2207(rawValue) {
+        if (contextWon2207) return;
+        const normalized = normalizeContextWord2207(rawValue);
+
+        if (!normalized) {
+            if (contextFeedback2207) contextFeedback2207.textContent = 'digite alguma palavra primeiro, linda.';
+            return;
+        }
+
+        const result = contextLookup2207.get(normalized);
+        if (!result) {
+            if (contextFeedback2207) contextFeedback2207.textContent = 'essa palavra ainda não entrou no nosso pequeno dicionário… tenta outra.';
+            return;
+        }
+
+        const canonicalKey = normalizeContextWord2207(result.word);
+        if (contextGuessMap2207.has(canonicalKey)) {
+            if (contextFeedback2207) contextFeedback2207.textContent = `“${result.word}” já apareceu por aqui.`;
+            return;
+        }
+
+        contextGuessMap2207.set(canonicalKey, result);
+        contextAttemptsCount2207++;
+        if (contextAttempts2207) contextAttempts2207.textContent = String(contextAttemptsCount2207);
+        if (contextInput2207) contextInput2207.value = '';
+
+        if (contextFeedback2207) {
+            contextFeedback2207.classList.remove('success');
+            contextFeedback2207.textContent = result.rank <= 10
+                ? 'tá queimando… você chegou muito perto.'
+                : result.rank <= 25
+                    ? 'quentinha. continua seguindo esse caminho.'
+                    : result.rank <= 50
+                        ? 'essa palavra faz parte do contexto, mas ainda dá pra chegar mais perto.'
+                        : 'ainda estamos longe da palavra secreta.';
+        }
+
+        renderContextGuesses2207();
+        updateContextHintButton2207();
+        if (result.rank === 1) winContext2207();
+    }
+
+    if (contextGame2207) {
+        renderContextGuesses2207();
+        updateContextHintButton2207();
+    }
+
+    if (contextForm2207) {
+        contextForm2207.addEventListener('submit', event => {
+            event.preventDefault();
+            submitContextGuess2207(contextInput2207 ? contextInput2207.value : '');
+        });
+    }
+
+    if (contextHint2207) contextHint2207.addEventListener('click', revealContextHint2207);
+
+    if (contextReviewToggle2207) {
+        contextReviewToggle2207.addEventListener('click', () => {
+            const isOpen = contextReviewToggle2207.getAttribute('aria-expanded') === 'true';
+            setContextReviewOpen2207(!isOpen, true);
         });
     }
 
