@@ -162,56 +162,234 @@ body.revealed #main-content {
     margin-bottom: 40px;
 }
 
+.diary-heading {
+    margin: 0 4px 24px;
+    text-align: left;
+}
+
+.diary-heading > span {
+    display: block;
+    color: #d8d8d8;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.diary-heading p {
+    color: #656565;
+    font-family: Georgia, serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.month-section {
+    width: 100%;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.035), transparent 38%),
+        rgba(255, 255, 255, 0.018);
+    overflow: hidden;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.month-section.active {
+    border-color: rgba(255, 255, 255, 0.12);
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.055), transparent 42%),
+        rgba(255, 255, 255, 0.028);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.month-header {
+    width: 100%;
+    min-height: 82px;
+    padding: 18px 22px;
+    border: none;
+    background: transparent;
+    color: #ededed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    text-align: left;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.month-header-copy strong,
+.month-header-copy small {
+    display: block;
+}
+
+.month-header-copy strong {
+    font-family: Georgia, serif;
+    font-size: 1.32rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: lowercase;
+    margin-bottom: 4px;
+}
+
+.month-header-copy small {
+    color: #737373;
+    font-size: 0.72rem;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.month-icon {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.035);
+    color: #a2a2a2;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    transition: transform 0.35s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.month-section.active > .month-header .month-icon {
+    transform: rotate(45deg);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.065);
+}
+
+.month-content,
+.accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.35s ease;
+}
+
+.month-section.active > .month-content,
+.diary-entry.active > .accordion-content {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.month-inner,
+.accordion-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.month-entries {
+    padding: 0 18px 15px;
+}
+
 .diary-entry {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.diary-entry:first-child {
+    border-top: none;
 }
 
 .accordion-header {
     width: 100%;
+    min-height: 66px;
     background: transparent;
     border: none;
-    color: var(--subtle);
-    font-size: 0.85rem;
+    color: #777777;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 4px;
-    padding: 20px 10px;
+    letter-spacing: 3px;
+    padding: 18px 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 14px;
+    text-align: left;
     cursor: pointer;
     transition: color 0.3s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.accordion-header:hover {
-    color: #fff;
+.accordion-header:hover,
+.accordion-header:focus-visible {
+    color: #ffffff;
 }
 
 .accordion-header .icon {
-    font-size: 1.2rem;
+    flex: 0 0 auto;
+    font-size: 1.15rem;
     transition: transform 0.3s ease;
 }
 
-.accordion-content {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+.accordion-inner {
     padding: 0 10px;
+    transition: padding 0.45s ease;
 }
 
-.diary-entry.active .accordion-content {
-    opacity: 1;
-    padding-top: 30px;
-    padding-bottom: 50px;
+.diary-entry.active > .accordion-content > .accordion-inner {
+    padding-top: 24px;
+    padding-bottom: 46px;
 }
 
-.diary-entry.active .accordion-header {
-    color: #fff;
+.diary-entry.active > .accordion-header {
+    color: #ffffff;
 }
 
-.diary-entry.active .accordion-header .icon {
+.diary-entry.active > .accordion-header .icon {
     transform: rotate(45deg);
+}
+
+@media (max-width: 600px) {
+    .diary-heading {
+        margin-bottom: 18px;
+    }
+
+    .month-section {
+        border-radius: 18px;
+        margin-bottom: 14px;
+    }
+
+    .month-header {
+        min-height: 74px;
+        padding: 16px 16px;
+    }
+
+    .month-header-copy strong {
+        font-size: 1.18rem;
+    }
+
+    .month-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .month-entries {
+        padding: 0 12px 10px;
+    }
+
+    .accordion-header {
+        min-height: 62px;
+        padding: 17px 4px;
+        font-size: 0.72rem;
+        letter-spacing: 2.2px;
+    }
+
+    .accordion-inner {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .diary-entry.active > .accordion-content > .accordion-inner {
+        padding-top: 20px;
+        padding-bottom: 38px;
+    }
 }
 
 .clean-header {

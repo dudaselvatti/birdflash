@@ -43,57 +43,60 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const headers = document.querySelectorAll('.accordion-header');
 
-    function getAccordionContent(element) {
-        if (!element) return null;
-        return element.classList.contains('accordion-content')
+    const dayHeaders = document.querySelectorAll('.accordion-header');
+    const monthSections = document.querySelectorAll('.month-section');
+
+    // The accordions now animate with CSS Grid, so dynamic content no longer needs
+    // fixed max-height values. Keeping this helper preserves the existing game calls.
+    function refreshAccordion(element) {
+        if (!element) return;
+
+        const dayContent = element.classList && element.classList.contains('accordion-content')
             ? element
-            : element.closest('.accordion-content');
+            : element.closest && element.closest('.accordion-content');
+        const monthContent = element.classList && element.classList.contains('month-content')
+            ? element
+            : element.closest && element.closest('.month-content');
+
+        if (dayContent) dayContent.style.removeProperty('max-height');
+        if (monthContent) monthContent.style.removeProperty('max-height');
     }
 
-    function refreshAccordion(element, extraHeight = 0) {
-        const content = getAccordionContent(element);
-        if (!content) return;
+    monthSections.forEach(section => {
+        const header = section.firstElementChild;
+        if (!header || !header.classList.contains('month-header')) return;
 
-        const entry = content.closest('.diary-entry');
-        if (!entry || !entry.classList.contains('active')) {
-            content.style.maxHeight = '0px';
-            return;
-        }
-
-        requestAnimationFrame(() => {
-            content.style.maxHeight = `${content.scrollHeight + extraHeight}px`;
-        });
-    }
-
-    headers.forEach(header => {
-        const entry = header.closest('.diary-entry');
-        const content = header.nextElementSibling;
-        header.setAttribute('aria-expanded', entry && entry.classList.contains('active') ? 'true' : 'false');
+        header.setAttribute('aria-expanded', section.classList.contains('active') ? 'true' : 'false');
 
         header.addEventListener('click', () => {
-            if (!entry || !content) return;
+            const opening = !section.classList.contains('active');
 
-            const opening = !entry.classList.contains('active');
-            if (opening) {
-                entry.classList.add('active');
-                header.setAttribute('aria-expanded', 'true');
-                content.style.maxHeight = '0px';
-                refreshAccordion(content);
-            } else {
-                content.style.maxHeight = `${content.scrollHeight}px`;
-                requestAnimationFrame(() => {
-                    entry.classList.remove('active');
-                    header.setAttribute('aria-expanded', 'false');
-                    content.style.maxHeight = '0px';
-                });
-            }
+            monthSections.forEach(otherSection => {
+                if (otherSection === section) return;
+                otherSection.classList.remove('active');
+                const otherHeader = otherSection.firstElementChild;
+                if (otherHeader && otherHeader.classList.contains('month-header')) {
+                    otherHeader.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            section.classList.toggle('active', opening);
+            header.setAttribute('aria-expanded', opening ? 'true' : 'false');
         });
     });
 
-    window.addEventListener('resize', () => {
-        document.querySelectorAll('.diary-entry.active .accordion-content').forEach(content => {
+    dayHeaders.forEach(header => {
+        const entry = header.closest('.diary-entry');
+        const content = header.nextElementSibling;
+        if (!entry || !content || !content.classList.contains('accordion-content')) return;
+
+        header.setAttribute('aria-expanded', entry.classList.contains('active') ? 'true' : 'false');
+
+        header.addEventListener('click', () => {
+            const opening = !entry.classList.contains('active');
+            entry.classList.toggle('active', opening);
+            header.setAttribute('aria-expanded', opening ? 'true' : 'false');
             refreshAccordion(content);
         });
     });
