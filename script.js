@@ -1220,4 +1220,270 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+
+    // 11. JOGO DA MEMÓRIA DO EU TE AMO (DIA 30.07)
+    const loveMemoryGame3007 = document.getElementById('love-memory-game-3007');
+    const memoryPlayView3007 = document.getElementById('memory-play-view-3007');
+    const memoryCompletionView3007 = document.getElementById('memory-completion-view-3007');
+    const memoryGrid3007 = document.getElementById('memory-grid-3007');
+    const memoryMatches3007 = document.getElementById('memory-matches-3007');
+    const memoryAttempts3007 = document.getElementById('memory-attempts-3007');
+    const memoryInstruction3007 = document.getElementById('memory-instruction-3007');
+    const memoryPreview3007 = document.getElementById('memory-preview-3007');
+    const memoryReplay3007 = document.getElementById('memory-replay-3007');
+    const memoryLanguagesToggle3007 = document.getElementById('memory-languages-toggle-3007');
+    const memoryLanguageList3007 = document.getElementById('memory-language-list-3007');
+
+    const memoryPairs3007 = [
+        { id: 'pt', language: 'português', phrase: 'eu te amo' },
+        { id: 'it', language: 'italiano', phrase: 'io ti amo' },
+        { id: 'en', language: 'inglês', phrase: 'I love you' },
+        { id: 'es', language: 'espanhol', phrase: 'yo te amo' },
+        { id: 'tl', language: 'filipino', phrase: 'mahal kita' },
+        { id: 'ko', language: 'coreano', phrase: '사랑해' },
+        { id: 'zh', language: 'mandarim', phrase: '我爱你' },
+        { id: 'hi', language: 'hindi', phrase: 'मैं तुमसे प्यार करती हूँ', longPhrase: true }
+    ];
+
+    let memoryOpenedCards3007 = [];
+    let memoryLocked3007 = false;
+    let memoryPreviewing3007 = false;
+    let memoryMatchesCount3007 = 0;
+    let memoryAttemptsCount3007 = 0;
+    let memoryFinishTimer3007 = null;
+
+    function shuffleMemory3007(array) {
+        const clone = [...array];
+        for (let i = clone.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [clone[i], clone[j]] = [clone[j], clone[i]];
+        }
+        return clone;
+    }
+
+    function updateMemoryScore3007() {
+        if (memoryMatches3007) memoryMatches3007.textContent = `${memoryMatchesCount3007}/${memoryPairs3007.length}`;
+        if (memoryAttempts3007) memoryAttempts3007.textContent = String(memoryAttemptsCount3007);
+    }
+
+    function memoryCardMarkup3007(cardData) {
+        const compactClass = cardData.longContent ? ' memory-card-front-small' : '';
+        return `
+            <span class="memory-card-back" aria-hidden="true">♡</span>
+            <span class="memory-card-front${compactClass}">${cardData.content}</span>
+        `;
+    }
+
+    function renderMemoryDeck3007() {
+        if (!memoryGrid3007) return;
+        memoryGrid3007.innerHTML = '';
+
+        const deck = shuffleMemory3007(
+            memoryPairs3007.flatMap(pair => [
+                {
+                    pairId: pair.id,
+                    type: 'language',
+                    content: pair.language,
+                    label: `idioma ${pair.language}`,
+                    longContent: pair.language.length > 12
+                },
+                {
+                    pairId: pair.id,
+                    type: 'phrase',
+                    content: pair.phrase,
+                    label: `frase ${pair.phrase}`,
+                    longContent: Boolean(pair.longPhrase)
+                }
+            ])
+        );
+
+        deck.forEach(cardData => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'memory-card';
+            button.dataset.pairId = cardData.pairId;
+            button.dataset.cardType = cardData.type;
+            button.dataset.cardLabel = cardData.label;
+            button.setAttribute('aria-label', 'carta virada para baixo');
+            button.innerHTML = memoryCardMarkup3007(cardData);
+            button.addEventListener('click', () => handleMemoryCardClick3007(button));
+            memoryGrid3007.appendChild(button);
+        });
+    }
+
+    function closeMemoryCards3007() {
+        memoryOpenedCards3007.forEach(card => {
+            if (!card.classList.contains('is-matched')) {
+                card.classList.remove('is-revealed');
+                card.setAttribute('aria-label', 'carta virada para baixo');
+            }
+        });
+        memoryOpenedCards3007 = [];
+        memoryLocked3007 = false;
+    }
+
+    function showMemoryCompletion3007() {
+        if (!memoryPlayView3007 || !memoryCompletionView3007) return;
+        memoryLocked3007 = true;
+        memoryPlayView3007.classList.add('is-leaving');
+
+        setTimeout(() => {
+            memoryPlayView3007.hidden = true;
+            memoryPlayView3007.classList.remove('is-leaving');
+            memoryCompletionView3007.hidden = false;
+
+            requestAnimationFrame(() => {
+                memoryCompletionView3007.classList.add('show');
+                refreshAccordion(memoryCompletionView3007);
+                setTimeout(() => {
+                    memoryCompletionView3007.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 180);
+            });
+        }, 420);
+    }
+
+    function matchMemoryCards3007() {
+        memoryOpenedCards3007.forEach(card => {
+            card.classList.remove('is-revealed');
+            card.classList.add('is-matched');
+            card.disabled = true;
+            card.setAttribute('aria-label', `${card.dataset.cardLabel} encontrado`);
+        });
+
+        memoryOpenedCards3007 = [];
+        memoryLocked3007 = false;
+        memoryMatchesCount3007++;
+        updateMemoryScore3007();
+
+        if (memoryInstruction3007 && memoryMatchesCount3007 < memoryPairs3007.length) {
+            const remaining = memoryPairs3007.length - memoryMatchesCount3007;
+            memoryInstruction3007.textContent = remaining === 1
+                ? 'falta só um par pra revelar tudo ♡'
+                : `mais ${remaining} pares e a mensagem final aparece.`;
+        }
+
+        if (memoryMatchesCount3007 === memoryPairs3007.length) {
+            if (memoryInstruction3007) {
+                memoryInstruction3007.textContent = 'achou tudo, minha linda ♡';
+            }
+            memoryFinishTimer3007 = setTimeout(showMemoryCompletion3007, 1050);
+        }
+    }
+
+    function handleMemoryCardClick3007(card) {
+        if (!card || memoryLocked3007 || memoryPreviewing3007 || card.classList.contains('is-revealed') || card.classList.contains('is-matched')) return;
+
+        card.classList.add('is-revealed');
+        card.setAttribute('aria-label', card.dataset.cardLabel);
+        memoryOpenedCards3007.push(card);
+
+        if (memoryOpenedCards3007.length < 2) return;
+
+        memoryLocked3007 = true;
+        memoryAttemptsCount3007++;
+        updateMemoryScore3007();
+
+        const [firstCard, secondCard] = memoryOpenedCards3007;
+        const isMatch = firstCard.dataset.pairId === secondCard.dataset.pairId;
+
+        if (isMatch) {
+            setTimeout(matchMemoryCards3007, 480);
+        } else {
+            if (memoryInstruction3007) {
+                memoryInstruction3007.textContent = 'não é um par, meu amor. tenta de novo ♡';
+            }
+            setTimeout(closeMemoryCards3007, 820);
+        }
+    }
+
+    function previewAllMemoryCards3007() {
+        if (!memoryGrid3007 || !memoryPreview3007 || memoryLocked3007 || memoryPreviewing3007) return;
+
+        memoryPreviewing3007 = true;
+        memoryPreview3007.disabled = true;
+        memoryPreview3007.textContent = 'memorizando...';
+
+        const alreadyRevealed = new Set(memoryOpenedCards3007);
+        const cards = [...memoryGrid3007.querySelectorAll('.memory-card:not(.is-matched)')];
+        cards.forEach(card => card.classList.add('is-preview'));
+
+        setTimeout(() => {
+            cards.forEach(card => {
+                card.classList.remove('is-preview');
+                if (alreadyRevealed.has(card)) card.classList.add('is-revealed');
+            });
+            memoryPreviewing3007 = false;
+            memoryPreview3007.disabled = false;
+            memoryPreview3007.textContent = 'ver todas por 2 segundos';
+        }, 2000);
+    }
+
+    function resetMemoryGame3007() {
+        if (memoryFinishTimer3007) clearTimeout(memoryFinishTimer3007);
+        memoryOpenedCards3007 = [];
+        memoryLocked3007 = false;
+        memoryPreviewing3007 = false;
+        memoryMatchesCount3007 = 0;
+        memoryAttemptsCount3007 = 0;
+
+        if (memoryCompletionView3007) {
+            memoryCompletionView3007.classList.remove('show');
+            memoryCompletionView3007.hidden = true;
+        }
+        if (memoryPlayView3007) {
+            memoryPlayView3007.hidden = false;
+            memoryPlayView3007.classList.remove('is-leaving');
+        }
+        if (memoryLanguageList3007) {
+            memoryLanguageList3007.classList.remove('show');
+            memoryLanguageList3007.hidden = true;
+        }
+        if (memoryLanguagesToggle3007) {
+            memoryLanguagesToggle3007.setAttribute('aria-expanded', 'false');
+            memoryLanguagesToggle3007.textContent = 'ver lista de línguas';
+        }
+        if (memoryInstruction3007) memoryInstruction3007.textContent = 'encontra todos os pares, meu amor ♡';
+        if (memoryPreview3007) {
+            memoryPreview3007.disabled = false;
+            memoryPreview3007.textContent = 'ver todas por 2 segundos';
+        }
+
+        renderMemoryDeck3007();
+        updateMemoryScore3007();
+        refreshAccordion(loveMemoryGame3007);
+
+        setTimeout(() => {
+            loveMemoryGame3007?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+    }
+
+    function toggleMemoryLanguageList3007() {
+        if (!memoryLanguageList3007 || !memoryLanguagesToggle3007) return;
+        const opening = memoryLanguageList3007.hidden;
+
+        if (opening) {
+            memoryLanguageList3007.hidden = false;
+            requestAnimationFrame(() => memoryLanguageList3007.classList.add('show'));
+        } else {
+            memoryLanguageList3007.classList.remove('show');
+            setTimeout(() => {
+                memoryLanguageList3007.hidden = true;
+                refreshAccordion(memoryCompletionView3007);
+            }, 260);
+        }
+
+        memoryLanguagesToggle3007.setAttribute('aria-expanded', opening ? 'true' : 'false');
+        memoryLanguagesToggle3007.textContent = opening ? 'ocultar lista de línguas' : 'ver lista de línguas';
+        refreshAccordion(memoryCompletionView3007);
+    }
+
+    if (memoryGrid3007) {
+        renderMemoryDeck3007();
+        updateMemoryScore3007();
+    }
+    if (memoryPreview3007) memoryPreview3007.addEventListener('click', previewAllMemoryCards3007);
+    if (memoryReplay3007) memoryReplay3007.addEventListener('click', resetMemoryGame3007);
+    if (memoryLanguagesToggle3007) memoryLanguagesToggle3007.addEventListener('click', toggleMemoryLanguageList3007);
+
 });

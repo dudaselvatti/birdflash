@@ -1645,3 +1645,422 @@ body.revealed #main-content {
     .context-input-row, .context-dashboard { grid-template-columns: 1fr; }
     .context-submit { width: 100%; }
 }
+
+/* --- JOGO DA MEMÓRIA DO EU TE AMO (DIA 30.07) --- */
+.love-memory-game {
+    width: 100%;
+    max-width: 580px;
+    margin: 28px auto 0;
+    padding: 22px 16px 24px;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top left, rgba(255, 190, 214, 0.12), transparent 38%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.05), transparent 45%),
+        rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+}
+
+.memory-play-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .4s ease, transform .4s ease;
+}
+
+.memory-play-view.is-leaving {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+.love-memory-heading {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.love-memory-kicker {
+    color: #7f7f7f;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-bottom: 7px;
+}
+
+.love-memory-heading h3 {
+    color: #ededed;
+    font-size: 1.18rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.love-memory-heading > p:last-child {
+    color: #979797;
+    font-size: .86rem;
+    line-height: 1.5;
+    max-width: 390px;
+    margin: 0 auto;
+}
+
+.memory-status {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.memory-counter {
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .045);
+    border: 1px solid rgba(255, 255, 255, .06);
+    text-align: center;
+}
+
+.memory-counter span {
+    display: block;
+    color: #717171;
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    margin-bottom: 4px;
+}
+
+.memory-counter strong {
+    display: block;
+    color: #ececec;
+    font-size: .96rem;
+    font-weight: 600;
+}
+
+.memory-instruction {
+    min-height: 38px;
+    margin: 0 auto 8px;
+    color: #9a9a9a;
+    font-size: .84rem;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.memory-preview-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.memory-preview-button {
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, .05);
+    color: #c8c8c8;
+    font-size: .76rem;
+    letter-spacing: .45px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.memory-preview-button:active { transform: scale(.97); }
+.memory-preview-button:disabled { opacity: .55; cursor: default; }
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.memory-card {
+    position: relative;
+    min-width: 0;
+    min-height: 82px;
+    border: none;
+    border-radius: 17px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.memory-card:disabled { cursor: default; }
+
+.memory-card-back,
+.memory-card-front {
+    position: absolute;
+    inset: 0;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 9px 6px;
+    transition: opacity .26s ease, transform .26s ease, background .26s ease, border-color .26s ease;
+}
+
+.memory-card-back {
+    opacity: 1;
+    transform: scale(1);
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, .09), transparent 60%),
+        rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .09);
+    color: #d7d7d7;
+    font-size: 1.45rem;
+}
+
+.memory-card-front {
+    opacity: 0;
+    transform: scale(.88);
+    pointer-events: none;
+    background: rgba(255, 255, 255, .11);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #fff;
+    font-size: .72rem;
+    line-height: 1.28;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.memory-card-front-small {
+    font-size: .61rem;
+    line-height: 1.17;
+}
+
+.memory-card[data-card-type="language"] .memory-card-front {
+    color: #f6d7e8;
+    text-transform: lowercase;
+    letter-spacing: .35px;
+}
+
+.memory-card.is-revealed .memory-card-back,
+.memory-card.is-preview .memory-card-back,
+.memory-card.is-matched .memory-card-back {
+    opacity: 0;
+    transform: scale(.88);
+}
+
+.memory-card.is-revealed .memory-card-front,
+.memory-card.is-preview .memory-card-front,
+.memory-card.is-matched .memory-card-front {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.memory-card.is-matched .memory-card-front {
+    background: rgba(255, 191, 220, .16);
+    border-color: rgba(255, 191, 220, .28);
+    box-shadow: 0 0 0 1px rgba(255, 191, 220, .07), 0 9px 22px rgba(0, 0, 0, .15);
+}
+
+.memory-completion-view {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.memory-completion-view.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.memory-complete-badge {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 191, 220, .08);
+    border: 1px solid rgba(255, 191, 220, .16);
+    color: #d8d8d8;
+}
+
+.memory-complete-badge span { color: #f1c9dc; font-size: 1rem; }
+.memory-complete-badge strong { font-size: .72rem; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
+
+.memory-final-message {
+    padding: 24px 18px;
+    border-radius: 22px;
+    text-align: center;
+    background:
+        radial-gradient(circle at top, rgba(255, 190, 214, .12), transparent 66%),
+        rgba(255, 255, 255, .045);
+    border: 1px solid rgba(255, 191, 220, .14);
+}
+
+.memory-final-kicker {
+    display: block;
+    color: #8e8e8e;
+    font-size: .7rem;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.memory-final-message h3 {
+    color: #fff;
+    font-family: Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.memory-final-message p {
+    max-width: 440px;
+    margin: 0 auto;
+    color: #bdbdbd;
+    font-family: Georgia, serif;
+    font-size: .96rem;
+    font-style: italic;
+    line-height: 1.62;
+}
+
+.memory-final-message > strong {
+    display: block;
+    max-width: 440px;
+    margin: 17px auto 0;
+    color: #f4e6ed;
+    font-family: Georgia, serif;
+    font-size: 1.04rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.memory-song-feature {
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .035);
+    border: 1px solid rgba(255, 255, 255, .07);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .2);
+}
+
+.memory-song-label {
+    display: block;
+    margin: 1px 0 11px;
+    color: #858585;
+    font-size: .67rem;
+    letter-spacing: 1.6px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.memory-completion-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.memory-action-button {
+    min-height: 48px;
+    padding: 10px 12px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, .045);
+    color: #d0d0d0;
+    font-size: .78rem;
+    line-height: 1.25;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.memory-action-primary {
+    background: rgba(255, 191, 220, .11);
+    border-color: rgba(255, 191, 220, .19);
+    color: #f2e1e9;
+}
+
+.memory-action-button:active { transform: scale(.98); }
+
+.memory-language-list {
+    opacity: 0;
+    transform: translateY(7px);
+    margin-top: 0;
+    transition: opacity .26s ease, transform .26s ease, margin-top .26s ease;
+}
+
+.memory-language-list.show {
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 22px;
+}
+
+.memory-language-section + .memory-language-section { margin-top: 22px; }
+
+.memory-language-section h4 {
+    margin: 0 0 10px;
+    color: #838383;
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: 1.3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.memory-language-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.memory-language-card {
+    min-width: 0;
+    padding: 11px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .06);
+    text-align: center;
+}
+
+.memory-language-card span {
+    display: block;
+    margin-bottom: 4px;
+    color: #737373;
+    font-size: .61rem;
+    letter-spacing: .9px;
+    text-transform: uppercase;
+}
+
+.memory-language-card strong {
+    display: block;
+    color: #e2e2e2;
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.memory-language-card-long strong { font-size: .69rem; }
+.memory-language-extra .memory-language-card { background: rgba(255, 191, 220, .035); }
+
+@media (max-width: 480px) {
+    .love-memory-game { padding: 18px 12px 20px; border-radius: 18px; }
+    .memory-grid { gap: 7px; }
+    .memory-card { min-height: 74px; }
+    .memory-card-back, .memory-card-front { border-radius: 14px; padding: 7px 5px; }
+    .memory-card-front { font-size: .64rem; }
+    .memory-card-front-small { font-size: .52rem; line-height: 1.12; }
+    .memory-card-back { font-size: 1.25rem; }
+    .memory-final-message { padding: 21px 14px; border-radius: 18px; }
+    .memory-final-message h3 { font-size: 1.55rem; }
+    .memory-final-message p { font-size: .91rem; }
+    .memory-final-message > strong { font-size: .97rem; }
+    .memory-song-feature { padding: 10px; border-radius: 17px; }
+    .memory-completion-actions { gap: 8px; }
+    .memory-action-button { padding: 9px 8px; font-size: .73rem; }
+}
+
+@media (max-width: 360px) {
+    .memory-card { min-height: 68px; }
+    .memory-card-front { font-size: .59rem; }
+    .memory-card-front-small { font-size: .48rem; }
+    .memory-completion-actions { grid-template-columns: 1fr; }
+}
+
