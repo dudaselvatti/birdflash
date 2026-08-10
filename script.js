@@ -43,6 +43,88 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================
+    // BIRDFLASH — NOVA HOME / NOVA ERA
+    // =========================================================
+    const relationshipStart = new Date(2026, 7, 5); // 05.08.2026
+    relationshipStart.setHours(0, 0, 0, 0);
+
+    function updateRelationshipDays() {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const diff = Math.max(0, Math.floor((now - relationshipStart) / 86400000));
+        const label = `${diff} ${diff === 1 ? 'dia' : 'dias'}`;
+        document.querySelectorAll('[data-relationship-days]').forEach(element => {
+            element.textContent = label;
+        });
+    }
+
+    updateRelationshipDays();
+
+    const appViews = [...document.querySelectorAll('.app-view')];
+    const viewButtons = document.querySelectorAll('[data-open-view]');
+
+    function openBirdflashView(viewName) {
+        const target = appViews.find(view => view.dataset.view === viewName);
+        if (!target) return;
+
+        appViews.forEach(view => {
+            view.classList.toggle('active', view === target);
+        });
+
+        document.body.dataset.birdflashView = viewName;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', () => openBirdflashView(button.dataset.openView));
+    });
+
+    // =========================================================
+    // CARTEIRINHA DA MINHA SHAW
+    // =========================================================
+    const girlfriendCardTrigger = document.getElementById('girlfriend-card-trigger');
+    const girlfriendModal = document.getElementById('girlfriend-modal');
+    const girlfriendIdCard = document.getElementById('girlfriend-id-card');
+    const girlfriendCloseButtons = document.querySelectorAll('[data-close-girlfriend-card]');
+
+    function openGirlfriendCard() {
+        if (!girlfriendModal) return;
+        girlfriendModal.hidden = false;
+        document.body.classList.add('modal-open');
+        girlfriendIdCard?.classList.remove('is-flipped');
+        setTimeout(() => girlfriendIdCard?.focus(), 20);
+    }
+
+    function closeGirlfriendCard() {
+        if (!girlfriendModal) return;
+        girlfriendModal.hidden = true;
+        document.body.classList.remove('modal-open');
+        girlfriendIdCard?.classList.remove('is-flipped');
+        girlfriendCardTrigger?.focus();
+    }
+
+    girlfriendCardTrigger?.addEventListener('click', openGirlfriendCard);
+    girlfriendCloseButtons.forEach(button => button.addEventListener('click', closeGirlfriendCard));
+    girlfriendIdCard?.addEventListener('click', () => girlfriendIdCard.classList.toggle('is-flipped'));
+    girlfriendIdCard?.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            girlfriendIdCard.classList.toggle('is-flipped');
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && girlfriendModal && !girlfriendModal.hidden) {
+            closeGirlfriendCard();
+        }
+    });
+
+    // =========================================================
+    // DUDA I JULIA CODED
+    // Cadastro/sincronização agora são tratados em firebase-codeds.js.
+    // Mantemos o restante das dinâmicas antigas completamente separado.
+    // =========================================================
 
     const dayHeaders = document.querySelectorAll('.accordion-header');
     const monthSections = document.querySelectorAll('.month-section');

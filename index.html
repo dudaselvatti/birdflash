@@ -6,7 +6,392 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>thinking about you...</title>
-    <link href="style.css?v=11" rel="stylesheet" />
+    <link href="style.css?v=28" rel="stylesheet" />
+    <!-- BIRDFLASH GIRLFRIEND ID — isolated styles v13 -->
+    <style id="girlfriend-id-isolated-styles">
+        #girlfriend-modal[hidden] { display: none !important; }
+        #girlfriend-modal {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 9999 !important;
+            display: grid !important;
+            place-items: center !important;
+            padding: 18px !important;
+            box-sizing: border-box !important;
+        }
+        #girlfriend-modal .girlfriend-modal-backdrop {
+            position: absolute !important;
+            inset: 0 !important;
+            background: rgba(5, 6, 9, .84) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+        }
+        #girlfriend-modal .girlfriend-modal-dialog {
+            position: relative !important;
+            z-index: 1 !important;
+            width: min(100%, 700px) !important;
+            margin: 0 auto !important;
+            box-sizing: border-box !important;
+        }
+        #girlfriend-modal .girlfriend-modal-hint {
+            margin: 0 0 10px !important;
+            color: #f2f2f2 !important;
+            font: 400 .72rem/1.3 Arial, Helvetica, sans-serif !important;
+            text-align: center !important;
+        }
+        #girlfriend-modal .girlfriend-modal-close {
+            position: absolute !important;
+            z-index: 10 !important;
+            top: -10px !important;
+            right: -5px !important;
+            width: 40px !important;
+            height: 40px !important;
+            padding: 0 !important;
+            border: 1px solid #d8d8d8 !important;
+            border-radius: 50% !important;
+            background: #fff !important;
+            color: #111 !important;
+            font: 400 1.25rem/1 Arial, Helvetica, sans-serif !important;
+            cursor: pointer !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,.22) !important;
+        }
+        #girlfriend-modal .girlfriend-id-card {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            perspective: 1400px !important;
+            cursor: pointer !important;
+            text-align: left !important;
+            outline: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        #girlfriend-modal .girlfriend-id-inner {
+            position: relative !important;
+            display: block !important;
+            width: 100% !important;
+            height: 430px !important;
+            min-height: 430px !important;
+            transform-style: preserve-3d !important;
+            transition: transform .65s cubic-bezier(.2,.75,.25,1) !important;
+        }
+        #girlfriend-modal .girlfriend-id-card.is-flipped .girlfriend-id-inner {
+            transform: rotateY(180deg) !important;
+        }
+        #girlfriend-modal .girlfriend-id-face {
+            position: absolute !important;
+            inset: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            padding: 22px !important;
+            border: 1px solid #d2d2cd !important;
+            border-radius: 24px !important;
+            background: #f7f7f4 !important;
+            color: #111 !important;
+            box-shadow: 0 28px 70px rgba(0,0,0,.3) !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            font-family: Arial, Helvetica, sans-serif !important;
+        }
+        #girlfriend-modal .girlfriend-id-front { transform: rotateY(0deg) !important; }
+        #girlfriend-modal .girlfriend-id-back { transform: rotateY(180deg) !important; }
+        #girlfriend-modal .girlfriend-id-topstripe,
+        #girlfriend-modal .girlfriend-id-back-strip {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 13px !important;
+            background: #111 !important;
+        }
+        #girlfriend-modal .girlfriend-id-front-head {
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: space-between !important;
+            gap: 14px !important;
+            margin-top: 8px !important;
+            padding-bottom: 12px !important;
+            border-bottom: 1px solid #d9d9d4 !important;
+        }
+        #girlfriend-modal .girlfriend-id-org { min-width: 0 !important; }
+        #girlfriend-modal .girlfriend-id-org small,
+        #girlfriend-modal .girlfriend-id-back-head small {
+            display: block !important;
+            margin: 0 !important;
+            color: #111 !important;
+            font-size: .58rem !important;
+            font-weight: 700 !important;
+            letter-spacing: .11em !important;
+            line-height: 1.3 !important;
+            text-transform: uppercase !important;
+        }
+        #girlfriend-modal .girlfriend-id-org strong,
+        #girlfriend-modal .girlfriend-id-back-head strong {
+            display: block !important;
+            margin: 4px 0 0 !important;
+            color: #111 !important;
+            font-size: 1.2rem !important;
+            font-weight: 800 !important;
+            line-height: 1.15 !important;
+        }
+        #girlfriend-modal .girlfriend-id-chip {
+            position: relative !important;
+            flex: 0 0 48px !important;
+            width: 48px !important;
+            height: 36px !important;
+            border: 1px solid #ab8736 !important;
+            border-radius: 9px !important;
+            background: linear-gradient(135deg,#f4dc93,#c89d3d) !important;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.35) !important;
+        }
+        #girlfriend-modal .girlfriend-id-chip::before,
+        #girlfriend-modal .girlfriend-id-chip::after {
+            content: '' !important;
+            position: absolute !important;
+            background: rgba(92,68,18,.28) !important;
+        }
+        #girlfriend-modal .girlfriend-id-chip::before {
+            top: 0 !important; bottom: 0 !important; left: 50% !important; width: 1px !important;
+        }
+        #girlfriend-modal .girlfriend-id-chip::after {
+            left: 0 !important; right: 0 !important; top: 50% !important; height: 1px !important;
+        }
+        #girlfriend-modal .girlfriend-id-main {
+            display: grid !important;
+            grid-template-columns: 150px minmax(0,1fr) !important;
+            gap: 17px !important;
+            align-items: stretch !important;
+            min-width: 0 !important;
+            margin: 17px 0 14px !important;
+            flex: 1 1 auto !important;
+        }
+        #girlfriend-modal .girlfriend-photo-column {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+            min-width: 0 !important;
+        }
+        #girlfriend-modal .girlfriend-photo-slot {
+            display: grid !important;
+            place-items: center !important;
+            width: 100% !important;
+            aspect-ratio: 4 / 5 !important;
+            overflow: hidden !important;
+            border: 1px solid #cfcfca !important;
+            border-radius: 12px !important;
+            background: #ecece8 !important;
+        }
+        #girlfriend-modal .girlfriend-photo-slot img {
+            width: 100% !important;
+            height: 100% !important;
+            display: block !important;
+            object-fit: cover !important;
+        }
+        #girlfriend-modal .girlfriend-photo-placeholder {
+            color: #111 !important;
+            font-size: .78rem !important;
+            font-style: italic !important;
+            line-height: 1.35 !important;
+            text-align: center !important;
+        }
+        #girlfriend-modal .girlfriend-photo-label {
+            display: block !important;
+            color: #111 !important;
+            font-size: .54rem !important;
+            font-weight: 700 !important;
+            letter-spacing: .07em !important;
+            line-height: 1.3 !important;
+            text-align: center !important;
+            text-transform: uppercase !important;
+        }
+        #girlfriend-modal .girlfriend-id-data-card {
+            display: grid !important;
+            grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+            gap: 8px !important;
+            min-width: 0 !important;
+            align-content: start !important;
+        }
+        #girlfriend-modal .girlfriend-id-row,
+        #girlfriend-modal .girlfriend-id-signature-block,
+        #girlfriend-modal .girlfriend-id-days-block {
+            display: block !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+            padding: 9px 10px !important;
+            border: 1px solid #deded9 !important;
+            border-radius: 10px !important;
+            background: #fff !important;
+        }
+        #girlfriend-modal .girlfriend-id-row small,
+        #girlfriend-modal .girlfriend-id-signature-block small,
+        #girlfriend-modal .girlfriend-id-days-block small {
+            display: block !important;
+            margin: 0 0 3px !important;
+            color: #111 !important;
+            font-size: .52rem !important;
+            font-weight: 700 !important;
+            letter-spacing: .09em !important;
+            line-height: 1.2 !important;
+            text-transform: uppercase !important;
+        }
+        #girlfriend-modal .girlfriend-id-row strong,
+        #girlfriend-modal .girlfriend-id-signature-block strong,
+        #girlfriend-modal .girlfriend-id-days-block strong {
+            display: block !important;
+            overflow-wrap: anywhere !important;
+            color: #111 !important;
+            font-size: .8rem !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+        }
+        #girlfriend-modal .girlfriend-id-front-footer {
+            display: grid !important;
+            grid-template-columns: .8fr 1.2fr !important;
+            gap: 9px !important;
+            flex: 0 0 auto !important;
+        }
+        #girlfriend-modal .girlfriend-id-back-head {
+            display: block !important;
+            margin-top: 9px !important;
+            padding-bottom: 12px !important;
+            border-bottom: 1px solid #d9d9d4 !important;
+        }
+        #girlfriend-modal .girlfriend-id-back-main {
+            display: grid !important;
+            grid-template-columns: 190px minmax(0,1fr) !important;
+            gap: 16px !important;
+            align-items: stretch !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            margin-top: 16px !important;
+            flex: 1 1 auto !important;
+        }
+        #girlfriend-modal .girlfriend-qr-panel,
+        #girlfriend-modal .girlfriend-message-panel {
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+            border: 1px solid #deded9 !important;
+            border-radius: 14px !important;
+            background: #fff !important;
+        }
+        #girlfriend-modal .girlfriend-qr-panel {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            padding: 12px !important;
+        }
+        #girlfriend-modal .girlfriend-qr-image {
+            width: min(100%,155px) !important;
+            aspect-ratio: 1 !important;
+            display: block !important;
+            object-fit: contain !important;
+            border-radius: 8px !important;
+            background: #fff !important;
+        }
+        #girlfriend-modal .girlfriend-qr-panel small,
+        #girlfriend-modal .girlfriend-message-title {
+            display: block !important;
+            color: #111 !important;
+            font-size: .58rem !important;
+            font-weight: 800 !important;
+            letter-spacing: .08em !important;
+            line-height: 1.3 !important;
+            text-transform: uppercase !important;
+        }
+        #girlfriend-modal .girlfriend-qr-panel small { text-align: center !important; }
+        #girlfriend-modal .girlfriend-message-panel { padding: 14px 15px !important; }
+        #girlfriend-modal .girlfriend-message-title { margin-bottom: 9px !important; }
+        #girlfriend-modal .girlfriend-benefits {
+            display: grid !important;
+            gap: 7px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            list-style: none !important;
+        }
+        #girlfriend-modal .girlfriend-benefits li {
+            position: relative !important;
+            margin: 0 !important;
+            padding: 8px 9px 8px 27px !important;
+            border: 1px solid #e5e5e0 !important;
+            border-radius: 9px !important;
+            background: #f7f7f4 !important;
+            color: #111 !important;
+            font: 400 .75rem/1.3 Arial, Helvetica, sans-serif !important;
+        }
+        #girlfriend-modal .girlfriend-benefits li::before {
+            content: '♡' !important;
+            position: absolute !important;
+            left: 9px !important;
+            top: 7px !important;
+            color: #111 !important;
+        }
+        #girlfriend-modal .girlfriend-id-back-note {
+            display: block !important;
+            margin: 10px 0 0 !important;
+            color: #111 !important;
+            font: 400 .66rem/1.4 Arial, Helvetica, sans-serif !important;
+            text-align: left !important;
+        }
+        @media (max-width: 560px) {
+            #girlfriend-modal {
+                display: block !important;
+                overflow-y: auto !important;
+                padding: max(12px,env(safe-area-inset-top)) 12px max(18px,env(safe-area-inset-bottom)) !important;
+            }
+            #girlfriend-modal .girlfriend-modal-dialog {
+                width: 100% !important;
+                margin: 28px auto 0 !important;
+            }
+            #girlfriend-modal .girlfriend-modal-close { top: -14px !important; right: 0 !important; }
+            #girlfriend-modal .girlfriend-id-inner { height: 590px !important; min-height: 590px !important; }
+            #girlfriend-modal .girlfriend-id-face { padding: 18px 15px !important; border-radius: 20px !important; }
+            #girlfriend-modal .girlfriend-id-org strong,
+            #girlfriend-modal .girlfriend-id-back-head strong { font-size: 1rem !important; }
+            #girlfriend-modal .girlfriend-id-chip { flex-basis: 42px !important; width: 42px !important; height: 31px !important; }
+            #girlfriend-modal .girlfriend-id-main {
+                grid-template-columns: 96px minmax(0,1fr) !important;
+                gap: 11px !important;
+                margin: 13px 0 11px !important;
+            }
+            #girlfriend-modal .girlfriend-id-data-card { grid-template-columns: 1fr !important; gap: 5px !important; }
+            #girlfriend-modal .girlfriend-id-row { padding: 6px 8px !important; }
+            #girlfriend-modal .girlfriend-id-row small { font-size: .46rem !important; }
+            #girlfriend-modal .girlfriend-id-row strong { font-size: .7rem !important; }
+            #girlfriend-modal .girlfriend-id-front-footer { grid-template-columns: 1fr !important; gap: 6px !important; }
+            #girlfriend-modal .girlfriend-id-signature-block,
+            #girlfriend-modal .girlfriend-id-days-block { padding: 7px 8px !important; }
+            #girlfriend-modal .girlfriend-id-back-main {
+                grid-template-columns: 1fr !important;
+                gap: 9px !important;
+                margin-top: 11px !important;
+            }
+            #girlfriend-modal .girlfriend-qr-panel {
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                padding: 9px !important;
+            }
+            #girlfriend-modal .girlfriend-qr-image { width: 112px !important; flex: 0 0 112px !important; }
+            #girlfriend-modal .girlfriend-qr-panel small { text-align: left !important; }
+            #girlfriend-modal .girlfriend-message-panel { padding: 10px 11px !important; }
+            #girlfriend-modal .girlfriend-benefits { gap: 5px !important; }
+            #girlfriend-modal .girlfriend-benefits li { padding: 6px 8px 6px 25px !important; font-size: .69rem !important; }
+            #girlfriend-modal .girlfriend-benefits li::before { top: 5px !important; left: 8px !important; }
+            #girlfriend-modal .girlfriend-id-back-note { margin-top: 7px !important; font-size: .6rem !important; }
+        }
+        @media (max-width: 360px) {
+            #girlfriend-modal .girlfriend-id-inner { height: 620px !important; min-height: 620px !important; }
+            #girlfriend-modal .girlfriend-id-main { grid-template-columns: 84px minmax(0,1fr) !important; gap: 9px !important; }
+            #girlfriend-modal .girlfriend-id-row strong { font-size: .67rem !important; }
+            #girlfriend-modal .girlfriend-qr-image { width: 102px !important; flex-basis: 102px !important; }
+        }
+    </style>
+    <!-- /BIRDFLASH GIRLFRIEND ID — isolated styles v13 -->
 </head>
 
 <body>
@@ -20,6 +405,16 @@
         </div>
     </div>
     <main id="main-content">
+        <section class="app-view home-view active" id="home-view" data-view="home">
+            <div class="home-hero">
+                <span class="home-kicker">birdflash</span>
+                <h2>duda + júlia</h2>
+                <p class="officially-yours">being officially yours há <strong data-relationship-days>0 dias</strong> ♡</p>
+                <button class="girlfriend-card-trigger" id="girlfriend-card-trigger" type="button">
+                    ver carteirinha da minha shaw
+                </button>
+            </div>
+
         <div class="weather-container">
             <div class="weather-header">
                 <div class="weather-location">
@@ -36,6 +431,32 @@
             </div>
             <p class="weather-caption" id="weather-caption">ainda estamos sob o mesmo sol.</p>
         </div>
+
+            <nav class="home-menu" aria-label="seções do birdflash">
+                <button class="home-menu-card" data-open-view="diary" type="button">
+                    <span class="home-menu-icon" aria-hidden="true">♫</span>
+                    <span class="home-menu-copy">
+                        <strong>diary entries</strong>
+                        <small>músicas, textinhos e pedacinhos dos nossos dias</small>
+                    </span>
+                    <span class="home-menu-arrow" aria-hidden="true">→</span>
+                </button>
+                <button class="home-menu-card" data-open-view="coded" type="button">
+                    <span class="home-menu-icon" aria-hidden="true">♡</span>
+                    <span class="home-menu-copy">
+                        <strong>duda i julia coded</strong>
+                        <small>coisas nas quais a gente continua se encontrando</small>
+                    </span>
+                    <span class="home-menu-arrow" aria-hidden="true">→</span>
+                </button>
+            </nav>
+        </section>
+
+        <section class="app-view diary-view" id="diary-view" data-view="diary">
+            <div class="view-topbar">
+                <button class="view-back" data-open-view="home" type="button">← voltar pro birdflash</button>
+                <span>diary entries</span>
+            </div>
         <div class="diary-container">
             <div class="diary-heading"><span>daily entries</span>
                 <p>um mês de cada vez, um pedacinho nosso por dia.</p>
@@ -304,7 +725,7 @@
                     </div>
                 </div>
             </section>
-            <section class="month-section active" data-month="2026-07"><button aria-expanded="true" class="month-header"
+            <section class="month-section" data-month="2026-07"><button aria-expanded="false" class="month-header"
                     type="button"><span class="month-header-copy"><strong>julho</strong><small>4
                             entradas</small></span><span aria-hidden="true" class="month-icon">+</span></button>
                 <div class="month-content">
@@ -797,13 +1218,275 @@
                     </div>
                 </div>
             </section>
+
+            <div class="relationship-era-divider" aria-label="início do namoro em 5 de agosto de 2026">
+                <span class="era-line"></span>
+                <div class="era-copy">
+                    <span>♡</span>
+                    <strong>05.08.2026</strong>
+                    <p>e, de repente, “a gente” era oficial.</p>
+                </div>
+                <span class="era-line"></span>
+            </div>
+
+            <section class="month-section active" data-month="2026-08">
+                <button aria-expanded="true" class="month-header" type="button">
+                    <span class="month-header-copy"><strong>agosto</strong><small>1 entrada</small></span>
+                    <span aria-hidden="true" class="month-icon">+</span>
+                </button>
+                <div class="month-content">
+                    <div class="month-inner">
+                        <div class="month-entries">
+                            <div class="diary-entry">
+                                <button class="accordion-header">
+                                    <span>09.08 - domingo</span>
+                                    <span class="icon">+</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner">
+                                        <header class="clean-header">
+                                            <h2>nova etapa.</h2>
+                                            <p class="personal-message compact-text">
+                                                boa noite, minha linda &lt;3. eu sei que fiquei uns dias sem aparecer por aqui, mas acho que esse tempinho sem atualizar acabou me dando vontade de mudar um monte de coisa nesse site... e, pensando bem, acho que fazia sentido. as coisas entre a gente mudaram também, de um jeito tão bonito, e eu queria que esse cantinho acompanhasse um pouquinho isso.
+                                                <br />no fim são só coisinhas bobas que eu invento - um site, uma carteirinha, um arquivo de coisas que lembram a gente, joguinhos pra te fazer descobrir uma música, mas eu gosto tanto de dedicar meu tempo a você desse jeito. gosto de passar horas pensando em algum detalhe que talvez te faça sorrir por alguns segundos, de esconder coisinhas aqui e ali e de construir um lugar que só existe porque eu gosto muito, muito de tudo que envolve você.
+                                                <br />e agora eu queria também que ele fosse um pouquinho mais nosso. não só um lugar onde eu venho deixar coisas pra você, mas um lugar onde você também possa deixar pedacinhos da gente. então tem uma coisinha nova por aqui pra você fuçar e, dessa vez, até adicionar os próprios codeds de “isso é muito a gente”.
+                                                <br />acho engraçado falar que agora você é minha porque eu já te chamava de minha mulher há tempos e você sempre soube muito bem disso KKKKKKKKKKKKKKKKKK. mas ainda assim existe alguma coisa diferente em lembrar do jeito que você me pediu, de como aquilo pareceu tão genuíno, e poder pensar com todas as letras: essa é a minha namorada. minha mulher. minha shaw. <strong>minha de verdade.</strong>
+                                                <br /><br />eu durmo pensando em você e acordo pensando em você praticamente todos os dias, e às vezes sinto que a gente construiu uma intimidade em níveis que nem o contato físico propriamente dito seria capaz de alcançar. tem coisas minhas que parecem tão seguras nas tuas mãos, e coisas tuas que eu quero sempre receber com o mesmo cuidado. você virou meu porto seguro de um jeito que eu nem sei explicar direito, e eu espero que você sempre me permita ser o seu também, toda vez que precisar.
+                                                <br />e eu fico tão, tão feliz com isso. feliz de ter você, feliz de poder te escolher e, principalmente, feliz por você ter me escolhido também.
+                                                <br />a música de hoje é <em>anything</em> porque acho que ela combina muito com o jeito que eu penso em nós. eu não preciso que seja alguma coisa grandiosa, eu só quero poder dividir qualquer coisa contigo, até os dias mais comuns, e continuar encontrando você neles.
+                                                <br />e hoje não tem dinâmica porque aparentemente eu decidi fazer o site inteiro ser a dinâmica do dia KKKKKKKJKJKKKKKKKKKK. considere todas essas mudanças o joguinho de hoje, por favor.....
+                                                <br /><br />enfim tô enrolando muito já... seja bem-vinda à nova era do nosso cantinho que eu chamei de birdflash, minha linda ♡ eu espero que você goste dela tanto quanto eu gostei de passar meu dia fazendo tudo isso pensando em você.
+                                                <br /><br /><strong>eu te amo.</strong>
+                                            </p>
+                                        </header>
+
+                                        <div class="memory-song-feature simple-daily-song">
+                                            <span class="memory-song-label">a música de hoje</span>
+                                            <iframe data-testid="embed-iframe"
+                                                style="border-radius:12px;display:block;"
+                                                src="https://open.spotify.com/embed/track/4PwWESSlTwzvw9B7bmtTLS?utm_source=generator&amp;theme=0&amp;si=951534a294764f60"
+                                                width="100%" height="352" frameborder="0" allowfullscreen=""
+                                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                                loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
+        </section>
+
+        <section class="app-view coded-view" id="coded-view" data-view="coded">
+            <div class="view-topbar">
+                <button class="view-back" data-open-view="home" type="button">← voltar pro birdflash</button>
+                <span>duda i julia coded</span>
+            </div>
+
+            <header class="coded-header">
+                <span class="coded-kicker">arquivo confidencial (nem tanto)</span>
+                <h2>duda i julia coded</h2>
+                <p>um arquivo de referências nossas: casais, personagens, cenas, músicas ou qualquer coisinha que faça uma de nós olhar pra outra e pensar “meu deus, isso é muito a gente”.</p>
+            </header>
+
+            <div class="coded-grid" id="coded-grid">
+                <article class="coded-card coded-card-featured">
+                    <div class="coded-card-top">
+                        <span class="coded-number">coded #001</span>
+                        <span class="coded-badge">confirmadíssimo</span>
+                    </div>
+                    <div class="coded-body">
+                        <div class="coded-media">
+                            <figure class="coded-photo-card coded-photo-card-single">
+                                <div class="coded-photo-frame">
+                                    <img src="assets/root_shaw.jpg" alt="foto de Root e Shaw" />
+                                </div>
+                                <figcaption>eu i vc de casal em POI ♡</figcaption>
+                            </figure>
+                        </div>
+                        <div class="coded-content">
+                            <h3>root + shaw</h3>
+                            <p class="coded-roles"><strong>duda:</strong> root <span>·</span> <strong>júlia:</strong> minha shaw ♡</p>
+                            <blockquote>“você é muito a root.”</blockquote>
+                            <p class="coded-note">diagnóstico emitido pela própria júlia. eu só aceitei as evidências.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="coded-card">
+                    <div class="coded-card-top">
+                        <span class="coded-number">coded #002</span>
+                        <span class="coded-badge">em campanha</span>
+                    </div>
+                    <div class="coded-body">
+                        <div class="coded-media">
+                            <figure class="coded-photo-card coded-photo-card-single">
+                                <div class="coded-photo-frame">
+                                    <img src="assets/megan_yoonchae.jpg" alt="foto de Megan e Yoonchae" />
+                                </div>
+                                <figcaption>oiii olha a gente ai ♡</figcaption>
+                            </figure>
+                        </div>
+                        <div class="coded-content">
+                            <h3>meichae</h3>
+                            <p class="coded-roles"><strong>ela:</strong> megan <span>·</span> <strong>eu:</strong> yoonchae ♡</p>
+                            <p class="coded-note">mesmo você sendo meizini, vou te converter!</p>
+                            <span class="coded-signature">- propaganda da duda</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <section class="coded-submit-box">
+                <div class="coded-session" id="coded-session" hidden>
+                    <span>arquivo destravado por <strong id="coded-session-name">uma de nós</strong> ♡</span>
+                    <button id="coded-lock" type="button">bloquear</button>
+                </div>
+
+                <button class="coded-add-toggle" id="coded-add-toggle" aria-expanded="false" aria-controls="coded-form-wrap coded-pin-wrap" type="button">
+                    + adicionar ao arquivo
+                </button>
+
+                <div class="coded-pin-wrap" id="coded-pin-wrap" hidden>
+                    <div class="coded-pin-card">
+                        <span class="coded-pin-kicker">área restrita (dramaticamente)</span>
+                        <strong>prove que é uma de nós ♡</strong>
+                        <p>digita seu pin e eu descubro quem chegou.</p>
+                        <div class="coded-pin-row">
+                            <input id="coded-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="30" aria-label="PIN do arquivo" placeholder="••••••••" />
+                            <button id="coded-pin-submit" type="button">desbloquear</button>
+                        </div>
+                        <p class="coded-auth-feedback" id="coded-auth-feedback" role="status" aria-live="polite"></p>
+                    </div>
+                </div>
+
+                <div class="coded-form-wrap" id="coded-form-wrap" hidden>
+                    <form class="coded-form" id="coded-form" autocomplete="off">
+                        <label>
+                            <span>qual é a referência?</span>
+                            <input id="coded-title" name="title" maxlength="60" placeholder="ex.: casal, personagens, cena, música, meme..." required />
+                        </label>
+                        <label>
+                            <span>por que isso é a nossa cara?</span>
+                            <textarea id="coded-reason" name="reason" maxlength="280" rows="4" placeholder="deixa a acusação registrada aqui..."></textarea>
+                        </label>
+                        <label>
+                            <span>quem é quem? <small>(opcional e se tiver ne pode deixar em branco de nao achar que encaixa)</small></span>
+                            <input id="coded-roles" name="roles" maxlength="120" placeholder="ex.: duda é X e júlia é Y" />
+                        </label>
+                        <label class="coded-upload-label">
+                            <span>imagem de referência <small>(opcional)</small></span>
+                            <input id="coded-photo-file" name="photoFile" type="file" accept="image/*" />
+                            <span class="coded-upload-button">escolher foto do celular</span>
+                            <small class="coded-upload-help">foto da galeria ou câmera · até 8 MB</small>
+                        </label>
+
+                        <div class="coded-upload-preview" id="coded-upload-preview" hidden>
+                            <img id="coded-upload-preview-image" alt="prévia da imagem escolhida" />
+                            <button id="coded-upload-clear" type="button">remover foto</button>
+                        </div>
+
+                        <div class="coded-upload-progress" id="coded-upload-progress" hidden>
+                            <div class="coded-upload-progress-copy">
+                                <span id="coded-upload-progress-text">enviando imagem...</span>
+                                <strong id="coded-upload-progress-percent">0%</strong>
+                            </div>
+                            <div class="coded-upload-progress-track"><span id="coded-upload-progress-bar"></span></div>
+                        </div>
+
+                        <button class="coded-submit" id="coded-submit" type="submit">adicionar ao arquivo ♡</button>
+                        <p class="coded-feedback" id="coded-feedback" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </section>
+        </section>
+
         <footer class="clean-footer">
             <p>de: duda sunlaurs</p>
             <p>para: julia, minha potiguar 🤍</p>
         </footer>
     </main>
-    <script src="script.js?v=11"></script>
+
+    <div class="girlfriend-modal" id="girlfriend-modal" hidden>
+        <div class="girlfriend-modal-backdrop" data-close-girlfriend-card></div>
+        <div class="girlfriend-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="girlfriend-card-title">
+            <button class="girlfriend-modal-close" type="button" aria-label="fechar carteirinha" data-close-girlfriend-card>×</button>
+            <p class="girlfriend-modal-hint">toque na carteirinha pra virar ♡</p>
+
+            <div class="girlfriend-id-card" id="girlfriend-id-card" role="button" tabindex="0" aria-label="virar carteirinha da Júlia">
+                <div class="girlfriend-id-inner">
+                    <section class="girlfriend-id-face girlfriend-id-front" aria-label="frente da carteirinha">
+                        <div class="girlfriend-id-topstripe"></div>
+                        <header class="girlfriend-id-front-head">
+                            <div class="girlfriend-id-org">
+                                <small>birdflash relationship pass</small>
+                                <strong id="girlfriend-card-title">carteirinha oficial da minha shaw</strong>
+                            </div>
+                            <div class="girlfriend-id-chip" aria-hidden="true"></div>
+                        </header>
+
+                        <div class="girlfriend-id-main">
+                            <div class="girlfriend-photo-column">
+                                <div class="girlfriend-photo-slot">
+                                   <img src="megan.jpg" alt="foto de identificação da carteirinha da Júlia">
+                                </div>
+                                <span class="girlfriend-photo-label">foto oficial da portadora</span>
+                            </div>
+
+                            <div class="girlfriend-id-data-card">
+                                <div class="girlfriend-id-row"><small>nome</small><strong>Júlia</strong></div>
+                                <div class="girlfriend-id-row"><small>categoria</small><strong>minha namorada</strong></div>
+                                <div class="girlfriend-id-row"><small>codinome</small><strong>minha shaw</strong></div>
+                                <div class="girlfriend-id-row"><small>emissão</small><strong>05.08.2026</strong></div>
+                                <div class="girlfriend-id-row"><small>status</small><strong>válida ♡</strong></div>
+                                <div class="girlfriend-id-row"><small>registro</small><strong>BF-0508-SHAW</strong></div>
+                            </div>
+                        </div>
+
+                        <footer class="girlfriend-id-front-footer">
+                            <div class="girlfriend-id-signature-block">
+                                <small>assinatura da emissora</small>
+                                <strong>duda sunlaurs</strong>
+                            </div>
+                            <div class="girlfriend-id-days-block">
+                                <small>situação atual</small>
+                                <strong>being officially yours há <span data-relationship-days>0 dias</span> ♡</strong>
+                            </div>
+                        </footer>
+                    </section>
+
+                    <section class="girlfriend-id-face girlfriend-id-back" aria-label="verso da carteirinha">
+                        <div class="girlfriend-id-back-strip"></div>
+                        <header class="girlfriend-id-back-head">
+                            <strong>verso da carteirinha</strong>
+                            <small>apresentar sempre que quiser carinho, música ou beijos futuros</small>
+                        </header>
+
+                        <div class="girlfriend-id-back-main">
+                            <div class="girlfriend-qr-panel">
+                                <img src="assets/shaw_qr.png" alt="QR code com mensagem especial da Duda para a Júlia" class="girlfriend-qr-image">
+                                <small>escaneável pela minha shaw</small>
+                            </div>
+                            <div class="girlfriend-message-panel">
+                                <span class="girlfriend-message-title">observações da administração</span>
+                                <ul class="girlfriend-benefits">
+                                    <li>uso ilimitado do título “minha shaw”</li>
+                                    <li>acesso vitalício aos meus textinhos</li>
+                                    <li>prioridade máxima em carinho</li>
+                                </ul>
+                                <p class="girlfriend-id-back-note">mensagem subliminar escondida no QR code: uma declaração completamente previsível.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=28"></script>
+    <script type="module" src="firebase-codeds.js?v=1"></script>
 </body>
 
 </html>
