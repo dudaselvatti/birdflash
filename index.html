@@ -1469,7 +1469,8 @@
                                                                 </div>
                                                                 <div class="memory-language-card">
                                                                     <span>russo</span><strong lang="ru">Я тебя
-                                                                        люблю</strong></div>
+                                                                        люблю</strong>
+                                                                </div>
                                                                 <div class="memory-language-card">
                                                                     <span>guarani</span><strong>rohayhu</strong>
                                                                 </div>
@@ -1930,22 +1931,63 @@
 
                 <div class="coded-form-wrap" id="coded-form-wrap" hidden>
                     <form class="coded-form" id="coded-form" autocomplete="off">
-                        <label>
-                            <span>qual é a referência?</span>
-                            <input id="coded-title" name="title" maxlength="60"
-                                placeholder="ex.: casal, personagens, cena, música, meme..." required />
+
+                        <div class="coded-kind-picker">
+                            <span class="coded-kind-heading">o que você encontrou?</span>
+
+                            <div class="coded-kind-grid" role="group" aria-label="tipo de referência coded">
+                                <button class="coded-kind-option is-active" type="button" data-coded-kind="pair"
+                                    aria-pressed="true">
+                                    <span class="coded-kind-icon" aria-hidden="true">♡</span>
+                                    <span class="coded-kind-name">duo / casal</span>
+                                </button>
+
+                                <button class="coded-kind-option" type="button" data-coded-kind="person"
+                                    aria-pressed="false">
+                                    <span class="coded-kind-icon" aria-hidden="true">☆</span>
+                                    <span class="coded-kind-name">personagem / pessoa</span>
+                                </button>
+
+                                <button class="coded-kind-option" type="button" data-coded-kind="music"
+                                    aria-pressed="false">
+                                    <span class="coded-kind-icon" aria-hidden="true">♫</span>
+                                    <span class="coded-kind-name">música</span>
+                                </button>
+
+                                <button class="coded-kind-option" type="button" data-coded-kind="scene"
+                                    aria-pressed="false">
+                                    <span class="coded-kind-icon" aria-hidden="true">▣</span>
+                                    <span class="coded-kind-name">cena / meme</span>
+                                </button>
+
+                                <button class="coded-kind-option" type="button" data-coded-kind="other"
+                                    aria-pressed="false">
+                                    <span class="coded-kind-icon" aria-hidden="true">✦</span>
+                                    <span class="coded-kind-name">outra coisa</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <label class="coded-dynamic-field">
+                            <span id="coded-title-label">qual é o duo ou casal?</span>
+                            <input id="coded-title" name="title" maxlength="60" placeholder="ex.: root + shaw"
+                                required />
                         </label>
-                        <label>
-                            <span>por que isso é a nossa cara?</span>
-                            <textarea id="coded-reason" name="reason" maxlength="280" rows="4"
-                                placeholder="deixa a acusação registrada aqui..."></textarea>
-                        </label>
-                        <label>
-                            <span>quem é quem? <small>(opcional e se tiver ne pode deixar em branco de nao achar que
-                                    encaixa)</small></span>
+
+                        <label class="coded-dynamic-field" id="coded-roles-field">
+                            <span id="coded-roles-label">
+                                quem é quem? <small>(opcional)</small>
+                            </span>
                             <input id="coded-roles" name="roles" maxlength="120"
                                 placeholder="ex.: duda é X e júlia é Y" />
                         </label>
+
+                        <label class="coded-dynamic-field">
+                            <span id="coded-reason-label">por que isso é a nossa cara?</span>
+                            <textarea id="coded-reason" name="reason" maxlength="280" rows="4"
+                                placeholder="deixa a acusação registrada aqui..."></textarea>
+                        </label>
+
                         <label class="coded-upload-label">
                             <span>imagem de referência <small>(opcional)</small></span>
                             <input id="coded-photo-file" name="photoFile" type="file" accept="image/*" />
@@ -1963,10 +2005,15 @@
                                 <span id="coded-upload-progress-text">enviando imagem...</span>
                                 <strong id="coded-upload-progress-percent">0%</strong>
                             </div>
-                            <div class="coded-upload-progress-track"><span id="coded-upload-progress-bar"></span></div>
+                            <div class="coded-upload-progress-track">
+                                <span id="coded-upload-progress-bar"></span>
+                            </div>
                         </div>
 
-                        <button class="coded-submit" id="coded-submit" type="submit">adicionar ao arquivo ♡</button>
+                        <button class="coded-submit" id="coded-submit" type="submit">
+                            adicionar ao arquivo ♡
+                        </button>
+
                         <p class="coded-feedback" id="coded-feedback" role="status" aria-live="polite"></p>
                     </form>
                 </div>

@@ -70,9 +70,20 @@ const els = {
     lock: document.getElementById('coded-lock'),
     formWrap: document.getElementById('coded-form-wrap'),
     form: document.getElementById('coded-form'),
+
+    kindButtons: [...document.querySelectorAll('[data-coded-kind]')],
+
     title: document.getElementById('coded-title'),
+    titleLabel: document.getElementById('coded-title-label'),
+
     reason: document.getElementById('coded-reason'),
+    reasonLabel: document.getElementById('coded-reason-label'),
+
     roles: document.getElementById('coded-roles'),
+    rolesField: document.getElementById('coded-roles-field'),
+    rolesLabel: document.getElementById('coded-roles-label'),
+
+    file: document.getElementById('coded-photo-file'),
     file: document.getElementById('coded-photo-file'),
     preview: document.getElementById('coded-upload-preview'),
     previewImage: document.getElementById('coded-upload-preview-image'),
@@ -89,6 +100,106 @@ let currentPerson = null;
 let remoteCodeds = [];
 let previewObjectUrl = null;
 let isSubmitting = false;
+
+const CODED_KIND_CONFIG = {
+    pair: {
+        titleLabel: 'qual é a dupla ou casal?',
+        titlePlaceholder: 'ex.: root + shaw',
+
+        rolesVisible: true,
+        rolesLabel: 'quem é quem? (opcional)',
+        rolesPlaceholder: 'ex.: duda é X e júlia é Y',
+
+        reasonLabel: 'por que isso é a nossa cara?',
+        reasonPlaceholder: 'deixa a acusação registrada aqui...'
+    },
+
+    person: {
+        titleLabel: 'quem é a referência?',
+        titlePlaceholder: 'ex.: megan, batman, uma personagem...',
+
+        rolesVisible: true,
+        rolesLabel: 'quem isso te lembra? (opcional)',
+        rolesPlaceholder: 'ex.: você / eu / nós duas',
+
+        reasonLabel: 'por que essa pessoa ou personagem é coded?',
+        reasonPlaceholder: 'explica as evidências...'
+    },
+
+    music: {
+        titleLabel: 'qual música?',
+        titlePlaceholder: 'ex.: bags — clairo',
+
+        rolesVisible: false,
+
+        reasonLabel: 'por que essa música é coded?',
+        reasonPlaceholder: 'qual pedacinho dela fez você pensar na gente?'
+    },
+
+    scene: {
+        titleLabel: 'qual cena ou meme?',
+        titlePlaceholder: 'ex.: aquela cena de..., aquele meme da...',
+
+        rolesVisible: true,
+        rolesLabel: 'tem um “quem é quem”? (opcional)',
+        rolesPlaceholder: 'ex.: eu sou a da esquerda e você é a outra',
+
+        reasonLabel: 'por que isso é a nossa cara?',
+        reasonPlaceholder: 'registre a acusação KKKKKKK'
+    },
+
+    other: {
+        titleLabel: 'o que é?',
+        titlePlaceholder: 'ex.: uma frase, lugar, objeto, situação...',
+
+        rolesVisible: true,
+        rolesLabel: 'algum detalhe? (opcional)',
+        rolesPlaceholder: 'qualquer informação que ajude a entender',
+
+        reasonLabel: 'por que isso é coded?',
+        reasonPlaceholder: 'me explica como a gente veio parar nisso...'
+    }
+};
+
+function setCodedKind(kind) {
+    const config = CODED_KIND_CONFIG[kind] || CODED_KIND_CONFIG.pair;
+
+    els.kindButtons.forEach(button => {
+        const active = button.dataset.codedKind === kind;
+
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    setText(els.titleLabel, config.titleLabel);
+    setText(els.reasonLabel, config.reasonLabel);
+
+    if (els.title) {
+        els.title.placeholder = config.titlePlaceholder;
+    }
+
+    if (els.reason) {
+        els.reason.placeholder = config.reasonPlaceholder;
+    }
+
+    if (els.rolesField) {
+        els.rolesField.hidden = !config.rolesVisible;
+    }
+
+    if (config.rolesVisible) {
+        setText(els.rolesLabel, config.rolesLabel);
+
+        if (els.roles) {
+            els.roles.placeholder = config.rolesPlaceholder;
+        }
+    } else if (els.roles) {
+        /*
+         * Se ela escreveu "quem é quem?" e depois mudou para música,
+         * não queremos mandar aquele valor escondido pro Firebase.
+         */
+        els.roles.value = '';
+    }
+}
 
 function setText(element, text = '') {
     if (element) element.textContent = text;
@@ -485,6 +596,7 @@ async function submitCoded(event) {
         });
 
         els.form?.reset();
+        setCodedKind('pair');
         clearSelectedPhoto();
         resetUploadProgress();
         setText(els.feedback, `registrado por ${currentPerson.name} com sucesso ♡`);
@@ -525,6 +637,14 @@ function subscribeToCodeds() {
         }
     );
 }
+
+els.kindButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        setCodedKind(button.dataset.codedKind);
+    });
+});
+
+setCodedKind('pair');
 
 els.addToggle?.addEventListener('click', () => {
     const pinOpen = els.pinWrap && !els.pinWrap.hidden;

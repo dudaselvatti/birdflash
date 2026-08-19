@@ -4487,3 +4487,115 @@ body.modal-open { overflow: hidden; }
     }
 }
 
+/* =========================================================
+   DUDA I JULIA CODED — SELETOR DE TIPO
+   Apenas interface. A categoria não é salva no Firebase.
+   ========================================================= */
+
+.coded-kind-picker {
+    margin-bottom: 18px;
+}
+
+.coded-kind-heading {
+    display: block;
+    margin: 0 0 9px 2px;
+    color: #bdbdbd;
+    font-size: .72rem;
+    letter-spacing: .5px;
+}
+
+.coded-kind-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.coded-kind-option {
+    min-width: 0;
+    min-height: 60px;
+    padding: 9px 7px;
+
+    border: 1px solid rgba(255, 255, 255, .085);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, .035);
+    color: #888;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
+
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.coded-kind-option:active {
+    transform: scale(.97);
+}
+
+.coded-kind-option:focus-visible {
+    outline: none;
+    border-color: rgba(217, 154, 179, .5);
+    box-shadow: 0 0 0 3px rgba(217, 154, 179, .09);
+}
+
+.coded-kind-option.is-active,
+.coded-kind-option[aria-pressed="true"] {
+    background: rgba(217, 154, 179, .11);
+    border-color: rgba(217, 154, 179, .3);
+    color: #ead9e0;
+    box-shadow: inset 0 0 18px rgba(217, 154, 179, .035);
+}
+
+.coded-kind-icon {
+    display: block;
+    font-size: 1.08rem;
+    line-height: 1;
+    color: inherit;
+}
+
+.coded-kind-name {
+    display: block;
+    font-size: .68rem;
+    line-height: 1.2;
+    color: inherit;
+}
+
+.coded-form label[hidden] {
+    display: none;
+}
+
+@media (min-width: 560px) {
+    .coded-kind-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 380px) {
+    .coded-kind-grid {
+        gap: 7px;
+    }
+
+    .coded-kind-option {
+        min-height: 58px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .coded-kind-name {
+        font-size: .64rem;
+    }
+}
