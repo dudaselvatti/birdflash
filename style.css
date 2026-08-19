@@ -3764,3 +3764,726 @@ body.modal-open { overflow: hidden; }
     width: 100%;
     margin: 0 !important;
 }
+
+/* =========================================================
+   BATMAN CASE FILE — 18.08
+   Adicione este bloco AO FINAL do seu style.css atual.
+   ========================================================= */
+
+.batcase-entry-header {
+    position: relative;
+}
+
+.batcase-eyebrow {
+    margin-bottom: 9px;
+    color: #c7a83b;
+    font-family: "Courier New", monospace;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.batcase-entry-header h2 {
+    color: #f0d65a;
+    text-shadow: 0 0 20px rgba(240, 214, 90, .12);
+}
+
+.batcase {
+    --bat-yellow: #e8c840;
+    --bat-yellow-soft: #c6aa3b;
+    --bat-black: #070809;
+    --bat-panel: #121416;
+    --bat-paper: #c9bea0;
+    --bat-paper-dark: #8c8268;
+    --bat-red: #7b2020;
+    width: 100%;
+    max-width: 620px;
+    margin: 34px auto 0;
+    color: #dedede;
+}
+
+.batcase-gotham {
+    position: relative;
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    border: 1px solid rgba(232, 200, 64, .15);
+    border-bottom: 0;
+    border-radius: 22px 22px 0 0;
+    background:
+        radial-gradient(circle at 72% 27%, rgba(228, 213, 149, .18) 0 9%, transparent 10%),
+        linear-gradient(180deg, #11151a 0%, #08090b 72%, #020303 100%);
+}
+
+.batcase-gotham::after {
+    content: "GOTHAM CITY";
+    position: absolute;
+    left: 18px;
+    top: 16px;
+    color: rgba(255,255,255,.28);
+    font-family: "Courier New", monospace;
+    font-size: .62rem;
+    letter-spacing: 3px;
+}
+
+.batcase-moon {
+    position: absolute;
+    right: 45px;
+    top: 26px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #d7d0a8;
+    box-shadow: 0 0 30px rgba(226, 215, 157, .16);
+}
+
+.batcase-moon span {
+    font-size: 1.65rem;
+    filter: grayscale(1) brightness(.12);
+}
+
+.batcase-skyline,
+.batcase-skyline::before,
+.batcase-skyline::after {
+    position: absolute;
+    bottom: 0;
+    content: "";
+    background: #030405;
+}
+
+.batcase-skyline {
+    left: 0;
+    width: 100%;
+    height: 62px;
+    clip-path: polygon(0 45%,6% 45%,6% 20%,12% 20%,12% 52%,18% 52%,18% 7%,24% 7%,24% 43%,31% 43%,31% 27%,36% 27%,36% 57%,43% 57%,43% 13%,49% 13%,49% 51%,54% 51%,54% 31%,60% 31%,60% 61%,66% 61%,66% 3%,73% 3%,73% 46%,79% 46%,79% 24%,85% 24%,85% 55%,91% 55%,91% 15%,96% 15%,96% 39%,100% 39%,100% 100%,0 100%);
+}
+
+.batcase-folder {
+    position: relative;
+    padding: 27px 20px 22px;
+    border: 1px solid rgba(232,200,64,.16);
+    border-top: 0;
+    background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,.025) 0 1px, transparent 1px 4px),
+        linear-gradient(135deg, #c9bea0, #a89d80);
+    color: #191a18;
+    box-shadow: 0 15px 38px rgba(0,0,0,.3);
+}
+
+.batcase-folder::before {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 18px;
+    width: 138px;
+    height: 20px;
+    border-radius: 7px 7px 0 0;
+    background: #b8ad90;
+}
+
+.batcase-folder-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.35);
+    font-family: "Courier New", monospace;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.batcase-stamp,
+.batcase-solved-stamp {
+    width: fit-content;
+    margin: 19px auto;
+    padding: 7px 13px;
+    border: 3px solid #6d1d1d;
+    color: #6d1d1d;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    transform: rotate(-4deg);
+    opacity: .82;
+}
+
+.batcase-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.batcase-meta div {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,.22);
+    background: rgba(255,255,255,.12);
+}
+
+.batcase-meta span,
+.batcase-objective > span {
+    display: block;
+    margin-bottom: 4px;
+    font-family: "Courier New", monospace;
+    font-size: .56rem;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.batcase-meta strong {
+    font-family: "Courier New", monospace;
+    font-size: .8rem;
+    overflow-wrap: anywhere;
+}
+
+.batcase-objective {
+    margin-top: 13px;
+    padding: 12px;
+    border-left: 4px solid #222;
+    background: rgba(255,255,255,.1);
+}
+
+.batcase-objective p {
+    font-family: Georgia, serif;
+    font-size: .86rem;
+    line-height: 1.5;
+}
+
+.batcase-start {
+    width: 100%;
+    min-height: 50px;
+    margin-top: 18px;
+    border: 1px solid #111;
+    background: #151719;
+    color: var(--bat-yellow);
+    font-family: "Courier New", monospace;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.batcase-start:active,
+.batcase-evidence:active,
+.batcase-signal-button:active {
+    transform: scale(.98);
+}
+
+.batcase-investigation,
+.batcase-board,
+.batcase-conclusion,
+.batcase-reward {
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.batcase-investigation.show,
+.batcase-board.show,
+.batcase-conclusion.show,
+.batcase-reward.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.batcase-section-heading {
+    padding: 16px 15px;
+    border: 1px solid rgba(232,200,64,.13);
+    background: #0b0d0f;
+    text-align: center;
+}
+
+.batcase-section-heading span,
+.batcase-board-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--bat-yellow-soft);
+    font-family: "Courier New", monospace;
+    font-size: .62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.batcase-section-heading strong {
+    font-family: Georgia, serif;
+    font-size: .88rem;
+    font-weight: 400;
+    color: #c8c8c8;
+}
+
+.batcase-evidence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.batcase-evidence {
+    position: relative;
+    width: 100%;
+    min-height: 78px;
+    padding: 14px 48px 14px 14px;
+    border: 1px solid rgba(232,200,64,.12);
+    border-left: 4px solid #454545;
+    background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 4px),
+        #121416;
+    color: #d7d7d7;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color .3s ease, background .3s ease, transform .2s ease;
+}
+
+.batcase-evidence-number,
+.batcase-evidence-title,
+.batcase-lock {
+    display: block;
+}
+
+.batcase-evidence-number {
+    margin-bottom: 5px;
+    color: #777;
+    font-family: "Courier New", monospace;
+    font-size: .57rem;
+    letter-spacing: 1.5px;
+}
+
+.batcase-evidence-title {
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    color: #ececec;
+}
+
+.batcase-lock {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #686868;
+    font-family: "Courier New", monospace;
+    font-size: .55rem;
+    letter-spacing: 1px;
+}
+
+.batcase-evidence-body {
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .55s ease, opacity .4s ease, padding-top .4s ease;
+}
+
+.batcase-evidence-body small {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--bat-yellow-soft);
+    font-family: "Courier New", monospace;
+    font-size: .57rem;
+    letter-spacing: 1.3px;
+}
+
+.batcase-evidence-body p,
+.batcase-testimony {
+    color: #b5b5b5;
+    font-family: Georgia, serif;
+    font-size: .86rem;
+    line-height: 1.55;
+}
+
+.batcase-evidence-body > strong {
+    display: block;
+    margin-top: 12px;
+    color: var(--bat-yellow);
+    font-family: "Courier New", monospace;
+    font-size: .62rem;
+    letter-spacing: 1px;
+}
+
+.batcase-testimony {
+    display: block;
+    margin: 8px 0;
+    padding: 8px 9px;
+    border-left: 2px solid rgba(123,32,32,.8);
+    background: rgba(255,255,255,.025);
+}
+
+.batcase-testimony b {
+    display: block;
+    margin-bottom: 3px;
+    color: #797979;
+    font-family: "Courier New", monospace;
+    font-size: .58rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.batcase-evidence.opened {
+    border-left-color: var(--bat-yellow-soft);
+    background: #17191b;
+}
+
+.batcase-evidence.opened .batcase-lock {
+    color: var(--bat-yellow);
+}
+
+.batcase-evidence.opened .batcase-evidence-body {
+    max-height: 390px;
+    opacity: 1;
+    padding-top: 14px;
+}
+
+.batcase-progress {
+    margin-top: 13px;
+    color: #757575;
+    font-family: "Courier New", monospace;
+    font-size: .63rem;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.batcase-board {
+    padding: 20px 14px 18px;
+    border: 1px solid rgba(232,200,64,.13);
+    background:
+        radial-gradient(circle at center, rgba(255,255,255,.025), transparent 55%),
+        #090b0c;
+    box-shadow: 0 18px 42px rgba(0,0,0,.3);
+}
+
+.batcase-board h3 {
+    margin-bottom: 17px;
+    color: var(--bat-yellow);
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: 1.45rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.batcase-board-grid {
+    position: relative;
+    width: 100%;
+    min-height: 390px;
+}
+
+.batcase-pin,
+.batcase-subject-card {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(0,0,0,.28);
+    background: #bdb292;
+    color: #171717;
+    box-shadow: 0 7px 18px rgba(0,0,0,.28);
+    font-family: "Courier New", monospace;
+    font-weight: 700;
+    text-align: center;
+}
+
+.batcase-pin {
+    width: 92px;
+    min-height: 58px;
+    padding: 7px;
+    font-size: .62rem;
+    transform: rotate(var(--rotation, 0deg));
+}
+
+.batcase-pin::before,
+.batcase-subject-card::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7b2020;
+    box-shadow: 0 1px 4px rgba(0,0,0,.35);
+    transform: translateX(-50%);
+}
+
+.batcase-pin-lab { left: 2%; top: 4%; --rotation: -4deg; }
+.batcase-pin-meeting { right: 2%; top: 5%; --rotation: 3deg; }
+.batcase-pin-bench { left: 0; bottom: 9%; --rotation: 3deg; }
+.batcase-pin-college { right: 0; bottom: 9%; --rotation: -3deg; }
+.batcase-pin-witness { left: 50%; bottom: 1%; transform: translateX(-50%) rotate(2deg); }
+
+.batcase-subject-card {
+    left: 50%;
+    top: 48%;
+    width: 148px;
+    min-height: 105px;
+    padding: 12px 10px;
+    transform: translate(-50%, -50%) rotate(-1deg);
+    background: #d0c5a5;
+}
+
+.batcase-subject-card span,
+.batcase-subject-card small {
+    display: block;
+    font-size: .52rem;
+    letter-spacing: 1px;
+}
+
+.batcase-subject-card strong {
+    display: block;
+    margin: 5px 0;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: 1.65rem;
+    letter-spacing: 2px;
+}
+
+.batcase-thread {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 48%;
+    height: 2px;
+    background: #7b2020;
+    transform-origin: 0 50%;
+    opacity: .85;
+    box-shadow: 0 0 4px rgba(123,32,32,.35);
+}
+
+.thread-1 { width: 46%; transform: rotate(-143deg); }
+.thread-2 { width: 45%; transform: rotate(-37deg); }
+.thread-3 { width: 47%; transform: rotate(145deg); }
+.thread-4 { width: 47%; transform: rotate(35deg); }
+.thread-5 { width: 34%; transform: rotate(90deg); }
+
+.batcase-conclusion {
+    padding: 20px 15px 22px;
+    border: 1px solid rgba(232,200,64,.15);
+    background: #0b0d0f;
+}
+
+.batcase-solved-stamp {
+    border-color: var(--bat-yellow-soft);
+    color: var(--bat-yellow-soft);
+}
+
+.batcase-analysis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 9px;
+}
+
+.batcase-analysis div {
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid rgba(255,255,255,.07);
+    background: rgba(255,255,255,.025);
+}
+
+.batcase-analysis span {
+    display: block;
+    margin-bottom: 5px;
+    color: #6f6f6f;
+    font-family: "Courier New", monospace;
+    font-size: .55rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.batcase-analysis strong {
+    color: #e7e7e7;
+    font-family: "Courier New", monospace;
+    font-size: .86rem;
+}
+
+.batcase-final-line {
+    max-width: 470px;
+    margin: 25px auto 12px;
+    color: #f0df8a;
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.batcase-final-signal {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.07);
+    text-align: center;
+}
+
+.batcase-final-signal > span,
+.batcase-final-signal > small {
+    display: block;
+    color: #747474;
+    font-family: "Courier New", monospace;
+    font-size: .58rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.batcase-signal-button {
+    width: 92px;
+    height: 92px;
+    margin: 16px auto 10px;
+    border: 2px solid rgba(238,211,81,.4);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle, #efd750 0 42%, #97862c 68%, #24230e 100%);
+    box-shadow: 0 0 32px rgba(232,200,64,.2);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .4s ease;
+}
+
+.batcase-signal-button span {
+    font-size: 2rem;
+    filter: grayscale(1) brightness(.1);
+}
+
+.batcase-signal-button.lit {
+    box-shadow: 0 0 75px rgba(239,215,80,.62), 0 0 150px rgba(239,215,80,.18);
+}
+
+.batcase-reward {
+    padding-bottom: 40px;
+}
+
+.batcase-closed {
+    margin-bottom: 20px;
+    padding: 18px 15px;
+    border: 1px solid rgba(232,200,64,.14);
+    background:
+        radial-gradient(circle at top, rgba(232,200,64,.09), transparent 65%),
+        #0b0d0f;
+    text-align: center;
+}
+
+.batcase-closed span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--bat-yellow);
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.batcase-closed p {
+    max-width: 420px;
+    margin: 0 auto;
+    color: #b7b7b7;
+    font-family: Georgia, serif;
+    font-size: .92rem;
+    font-style: italic;
+    line-height: 1.55;
+}
+
+.batcase-flying-bat {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    font-size: 1.3rem;
+    animation: batcaseFly 1.4s cubic-bezier(.2,.8,.3,1) forwards;
+}
+
+@keyframes batcaseFly {
+    from { opacity: 1; transform: translate(-50%,-50%) scale(.5) rotate(0deg); }
+    to { opacity: 0; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.4) rotate(var(--rot)); }
+}
+
+@media (max-width: 480px) {
+    .batcase {
+        margin-top: 28px;
+    }
+
+    .batcase-gotham {
+        height: 140px;
+        border-radius: 18px 18px 0 0;
+    }
+
+    .batcase-moon {
+        right: 26px;
+        top: 24px;
+        width: 54px;
+        height: 54px;
+    }
+
+    .batcase-folder {
+        padding: 24px 13px 18px;
+    }
+
+    .batcase-folder-topline {
+        font-size: .56rem;
+        letter-spacing: .9px;
+    }
+
+    .batcase-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .batcase-evidence {
+        padding: 13px 43px 13px 12px;
+    }
+
+    .batcase-evidence-body p,
+    .batcase-testimony {
+        font-size: .82rem;
+    }
+
+    .batcase-board {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .batcase-board-grid {
+        min-height: 355px;
+    }
+
+    .batcase-pin {
+        width: 76px;
+        min-height: 52px;
+        padding: 6px 4px;
+        font-size: .53rem;
+    }
+
+    .batcase-subject-card {
+        width: 124px;
+        min-height: 94px;
+    }
+
+    .batcase-subject-card strong {
+        font-size: 1.4rem;
+    }
+
+    .batcase-analysis {
+        grid-template-columns: 1fr;
+    }
+
+    .batcase-final-line {
+        font-size: 1.18rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .batcase-board-grid {
+        min-height: 330px;
+    }
+
+    .batcase-pin {
+        width: 68px;
+        min-height: 48px;
+        font-size: .48rem;
+    }
+
+    .batcase-subject-card {
+        width: 112px;
+        min-height: 88px;
+    }
+}
+

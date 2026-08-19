@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (dropZone && !dropZone.contains(element)) {
             dropZone.appendChild(element);
             piecesInZone++;
-            
+
             const text = dropZone.querySelector('.drop-text');
             if (text) text.style.display = 'none';
 
@@ -243,10 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('over');
-            
+
             const id = e.dataTransfer.getData('text/plain');
             const draggableElement = document.getElementById(id);
-            
+
             if (draggableElement) {
                 handlePieceAssembled(draggableElement);
             }
@@ -308,25 +308,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const thoughts = document.querySelectorAll('.draggable-thought');
     const paperZone = document.getElementById('paper-zone');
     const thoughtsContainer = document.getElementById('thoughts-container');
-    const songContainer = document.getElementById('organized-thoughts'); 
+    const songContainer = document.getElementById('organized-thoughts');
     let wordsFilled = 0;
 
     const ordemCerta = ['confusão', 'palavras', 'clareza'];
 
     function fillNextBlank(element) {
-        if (wordsFilled >= 3) return; 
+        if (wordsFilled >= 3) return;
 
-        const wordText = element.id; 
+        const wordText = element.id;
 
         if (wordText !== ordemCerta[wordsFilled]) {
             element.style.transform = 'translateX(-5px)';
             setTimeout(() => element.style.transform = 'translateX(5px)', 100);
             setTimeout(() => element.style.transform = 'translateX(0)', 200);
-            return; 
+            return;
         }
 
         wordsFilled++;
-        
+
         const blank = document.getElementById(`blank-${wordsFilled}`);
         if (blank) {
             blank.textContent = wordText;
@@ -343,11 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (thoughtsContainer) thoughtsContainer.style.display = 'none';
                 if (paperZone) paperZone.classList.add('completed');
-                
+
                 // Passo 2: Espera 2.5s pra ela ler, depois vira o envelope
                 setTimeout(() => {
                     if (paperZone) paperZone.classList.add('envelope-mode');
-                    
+
                     // Passo 3: Espera mais 0.8s e desce a música suavemente
                     setTimeout(() => {
                         if (songContainer) {
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             refreshAccordion(songContainer);
                         }
                     }, 800);
-                }, 2500); 
+                }, 2500);
             }, 600);
         }
     }
@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const conexoSolved = document.getElementById('conexo-solved');
     const conexoReward = document.getElementById('conexo-reward');
     const conexoIntro = document.getElementById('conexo-intro');
-    
+
     let conexoSelected = [];
     let conexoCount = 0;
 
@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 conexoWords.push({ word: word, catId: cat.id });
             });
         });
-        
+
         // Embaralha o array aleatoriamente
         conexoWords.sort(() => Math.random() - 0.5);
 
@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = 'conexo-btn';
             btn.textContent = item.word;
             btn.dataset.catId = item.catId;
-            
+
             btn.addEventListener('click', () => {
                 // Se já estiver selecionado, desmarca
                 if (btn.classList.contains('selected')) {
@@ -440,30 +440,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     checkConexoMatch();
                 }
             });
-            
+
             conexoGrid.appendChild(btn);
         });
     }
 
     function checkConexoMatch() {
         const firstCatId = conexoSelected[0].dataset.catId;
-        
+
         // Verifica se todas as 4 pecinhas têm o mesmo ID de categoria
         const isMatch = conexoSelected.every(btn => btn.dataset.catId === firstCatId);
 
         if (isMatch) {
             // Acertou!
             const catInfo = conexoCategories.find(c => c.id == firstCatId);
-            
+
             // Remove os botões da grade
             conexoSelected.forEach(btn => btn.remove());
-            
+
             // Cria a barra colorida na área resolvida
             const solvedDiv = document.createElement('div');
             solvedDiv.className = `conexo-category ${catInfo.colorClass}`;
             solvedDiv.innerHTML = `<h3>${catInfo.name}</h3><p>${catInfo.words.join(', ')}</p>`;
             conexoSolved.appendChild(solvedDiv);
-            
+
             conexoCount++;
             conexoSelected = [];
 
@@ -472,18 +472,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (conexoCount === 4) {
                 setTimeout(() => {
                     // 1. Esconde o grid vazio e a introdução do jogo
-                    if(conexoGrid) conexoGrid.style.display = 'none';
-                    if(conexoIntro) conexoIntro.style.display = 'none';
-                    
+                    if (conexoGrid) conexoGrid.style.display = 'none';
+                    if (conexoIntro) conexoIntro.style.display = 'none';
+
                     // 2. Modifica o estilo inline diretamente via JS para garantir a revelação
                     if (conexoReward) {
                         conexoReward.style.display = 'block'; // Substitui o 'none' inline
-                        
+
                         // Um micro-atraso para o navegador processar a mudança de display antes de rodar a opacidade
                         setTimeout(() => {
                             conexoReward.style.opacity = '1';
                         }, 50);
-                        
+
                         // 3. Expande o accordion pai para caber o bloco novo
                         refreshAccordion(conexoReward);
                     }
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
             conexoSelected.forEach(btn => {
                 btn.classList.remove('selected');
                 btn.classList.add('error');
-                
+
                 // Tira a classe de erro depois da animação
                 setTimeout(() => {
                     btn.classList.remove('error');
@@ -1567,5 +1567,143 @@ document.addEventListener('DOMContentLoaded', () => {
     if (memoryPreview3007) memoryPreview3007.addEventListener('click', previewAllMemoryCards3007);
     if (memoryReplay3007) memoryReplay3007.addEventListener('click', resetMemoryGame3007);
     if (memoryLanguagesToggle3007) memoryLanguagesToggle3007.addEventListener('click', toggleMemoryLanguageList3007);
+
+    // =========================================================
+    // BATMAN CASE FILE — 18.08
+    // Cole este bloco DENTRO do seu DOMContentLoaded atual,
+    // imediatamente antes do último "});" do script.js.
+    // Ele usa a função refreshAccordion() que já existe no seu arquivo.
+    // =========================================================
+
+    const batcase1808 = document.getElementById('batcase-1808');
+    const batcaseStart1808 = document.getElementById('batcase-start-1808');
+    const batcaseInvestigation1808 = document.getElementById('batcase-investigation-1808');
+    const batcaseEvidence1808 = document.querySelectorAll('#batcase-1808 .batcase-evidence');
+    const batcaseProgress1808 = document.getElementById('batcase-progress-1808');
+    const batcaseBoard1808 = document.getElementById('batcase-board-1808');
+    const batcaseConclusion1808 = document.getElementById('batcase-conclusion-1808');
+    const batcaseStatus1808 = document.getElementById('batcase-status-1808');
+    const batcaseSignalButton1808 = document.getElementById('batcase-signal-button-1808');
+    const batcaseReward1808 = document.getElementById('batcase-reward-1808');
+
+    let batcaseOpened1808 = 0;
+    let batcaseSolved1808 = false;
+    let batcaseSignalUsed1808 = false;
+
+    function showBatcaseBlock1808(element) {
+        if (!element) return;
+
+        element.hidden = false;
+        requestAnimationFrame(() => {
+            element.classList.add('show');
+            refreshAccordion(element);
+        });
+    }
+
+    function updateBatcaseProgress1808() {
+        if (!batcaseProgress1808) return;
+        batcaseProgress1808.textContent = `${batcaseOpened1808} / ${batcaseEvidence1808.length} evidências analisadas`;
+    }
+
+    function solveBatcase1808() {
+        if (batcaseSolved1808) return;
+        batcaseSolved1808 = true;
+
+        if (batcaseStatus1808) batcaseStatus1808.textContent = 'SOLVED';
+
+        setTimeout(() => {
+            showBatcaseBlock1808(batcaseBoard1808);
+        }, 500);
+
+        setTimeout(() => {
+            showBatcaseBlock1808(batcaseConclusion1808);
+        }, 1500);
+    }
+
+    function releaseBatcaseBats1808(button) {
+        if (!button) return;
+
+        const rect = button.getBoundingClientRect();
+        const startX = rect.left + rect.width / 2;
+        const startY = rect.top + rect.height / 2;
+
+        for (let i = 0; i < 14; i++) {
+            const bat = document.createElement('div');
+            bat.className = 'batcase-flying-bat';
+            bat.textContent = '🦇';
+            bat.style.left = `${startX}px`;
+            bat.style.top = `${startY}px`;
+
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 90 + Math.random() * 150;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            const rot = (Math.random() - .5) * 120;
+
+            bat.style.setProperty('--tx', `${tx}px`);
+            bat.style.setProperty('--ty', `${ty}px`);
+            bat.style.setProperty('--rot', `${rot}deg`);
+
+            document.body.appendChild(bat);
+            setTimeout(() => bat.remove(), 1450);
+        }
+    }
+
+    if (batcaseStart1808 && batcaseInvestigation1808) {
+        batcaseStart1808.addEventListener('click', () => {
+            batcaseStart1808.disabled = true;
+            batcaseStart1808.textContent = 'investigação iniciada';
+            showBatcaseBlock1808(batcaseInvestigation1808);
+
+            setTimeout(() => {
+                batcaseInvestigation1808.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 220);
+        });
+    }
+
+    if (batcaseEvidence1808.length) {
+        batcaseEvidence1808.forEach(evidence => {
+            evidence.addEventListener('click', () => {
+                if (evidence.classList.contains('opened')) return;
+
+                evidence.classList.add('opened');
+                evidence.setAttribute('aria-expanded', 'true');
+
+                const lock = evidence.querySelector('.batcase-lock');
+                if (lock) lock.textContent = 'ANALYZED';
+
+                batcaseOpened1808++;
+                updateBatcaseProgress1808();
+                refreshAccordion(evidence);
+
+                if (batcaseOpened1808 === batcaseEvidence1808.length) {
+                    if (batcaseProgress1808) {
+                        batcaseProgress1808.textContent = '5 / 5 evidências analisadas // padrão identificado';
+                    }
+                    solveBatcase1808();
+                }
+            });
+        });
+    }
+
+    if (batcaseSignalButton1808) {
+        batcaseSignalButton1808.addEventListener('click', () => {
+            if (batcaseSignalUsed1808) return;
+            batcaseSignalUsed1808 = true;
+
+            batcaseSignalButton1808.classList.add('lit');
+            batcaseSignalButton1808.disabled = true;
+            releaseBatcaseBats1808(batcaseSignalButton1808);
+
+            setTimeout(() => {
+                showBatcaseBlock1808(batcaseReward1808);
+                refreshAccordion(batcase1808);
+            }, 850);
+
+            setTimeout(() => {
+                batcaseReward1808?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 1150);
+        });
+    }
 
 });
