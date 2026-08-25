@@ -1705,5 +1705,182 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1150);
         });
     }
+    // =========================================================
+    // PAREDÃO DE VESTÍGIOS — 25.08
+    // =========================================================
+
+    const fossilDig2508 = document.getElementById('fossil-dig-2508');
+    const fossilSites2508 = document.querySelectorAll('#fossil-dig-2508 [data-fossil-site]');
+    const fossilProgressText2508 = document.getElementById('fossil-progress-text-2508');
+    const fossilProgressBar2508 = document.getElementById('fossil-progress-bar-2508');
+    const fossilHelp2508 = document.getElementById('fossil-help-2508');
+    const fossilDiscovery2508 = document.getElementById('fossil-discovery-2508');
+    const fossilRecordButton2508 = document.getElementById('fossil-record-button-2508');
+    const fossilReward2508 = document.getElementById('fossil-reward-2508');
+    const fossilWall2508 = document.getElementById('fossil-wall-2508');
+
+    let fossilFound2508 = 0;
+    let fossilCompleted2508 = false;
+    let fossilRewardShown2508 = false;
+
+    function showFossilBlock2508(element) {
+        if (!element) return;
+
+        element.hidden = false;
+
+        requestAnimationFrame(() => {
+            element.classList.add('show');
+            refreshAccordion(element);
+        });
+    }
+
+    function updateFossilProgress2508() {
+        const total = fossilSites2508.length;
+        const percentage = total
+            ? (fossilFound2508 / total) * 100
+            : 0;
+
+        if (fossilProgressText2508) {
+            fossilProgressText2508.textContent =
+                `${fossilFound2508} / ${total} ${fossilFound2508 === 1 ? 'vestígio encontrado' : 'vestígios encontrados'}`;
+        }
+
+        if (fossilProgressBar2508) {
+            fossilProgressBar2508.style.width = `${percentage}%`;
+        }
+
+        if (!fossilHelp2508) return;
+
+        const remaining = total - fossilFound2508;
+
+        if (remaining === total) {
+            fossilHelp2508.textContent =
+                'ainda existem quatro pontos escondidos na rocha.';
+        } else if (remaining > 1) {
+            fossilHelp2508.textContent =
+                `mais ${remaining} vestígios continuam escondidos no paredão.`;
+        } else if (remaining === 1) {
+            fossilHelp2508.textContent =
+                'falta só um último vestígio.';
+        } else {
+            fossilHelp2508.textContent =
+                'todos os vestígios foram encontrados.';
+        }
+    }
+
+    function releaseFossilDust2508(site) {
+        if (!site) return;
+
+        const rect = site.getBoundingClientRect();
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        for (let i = 0; i < 14; i++) {
+            const dust = document.createElement('span');
+            dust.className = 'fossil-dust';
+
+            const size = 3 + Math.random() * 6;
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 20 + Math.random() * 65;
+
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+
+            dust.style.left = `${centerX + (Math.random() - .5) * rect.width * .35}px`;
+            dust.style.top = `${centerY + (Math.random() - .5) * rect.height * .35}px`;
+
+            dust.style.setProperty('--size', `${size}px`);
+            dust.style.setProperty('--x', `${x}px`);
+            dust.style.setProperty('--y', `${y}px`);
+
+            document.body.appendChild(dust);
+
+            setTimeout(() => {
+                dust.remove();
+            }, 800);
+        }
+    }
+
+    function completeFossilDig2508() {
+        if (fossilCompleted2508) return;
+        fossilCompleted2508 = true;
+        fossilWall2508?.classList.add('complete');
+
+        if (fossilProgressText2508) {
+            fossilProgressText2508.textContent =
+                '4 / 4 vestígios encontrados // escavação concluída';
+        }
+
+        if (fossilHelp2508) {
+            fossilHelp2508.textContent =
+                'acho que já temos material suficiente para uma conclusão.';
+        }
+
+        setTimeout(() => {
+            showFossilBlock2508(fossilDiscovery2508);
+
+            setTimeout(() => {
+                fossilDiscovery2508?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }, 250);
+        }, 750);
+    }
+
+    if (fossilSites2508.length) {
+        fossilSites2508.forEach(site => {
+            site.addEventListener('click', () => {
+                if (site.classList.contains('excavated')) return;
+
+                releaseFossilDust2508(site);
+
+                site.classList.add('excavated');
+                const fossilKey = site.dataset.fossilKey;
+
+                if (fossilKey === 'brachio') {
+                    fossilWall2508?.classList.add('reveal-brachio');
+                }
+
+                if (fossilKey === 'raptor') {
+                    fossilWall2508?.classList.add('reveal-raptor');
+                }
+                site.setAttribute('aria-expanded', 'true');
+                site.disabled = true;
+
+                fossilFound2508++;
+
+                updateFossilProgress2508();
+                refreshAccordion(site);
+
+                if (fossilFound2508 === fossilSites2508.length) {
+                    completeFossilDig2508();
+                }
+            });
+        });
+
+        updateFossilProgress2508();
+    }
+
+    if (fossilRecordButton2508) {
+        fossilRecordButton2508.addEventListener('click', () => {
+            if (fossilRewardShown2508) return;
+            fossilRewardShown2508 = true;
+
+            fossilRecordButton2508.disabled = true;
+            fossilRecordButton2508.textContent = 'descoberta registrada ♡';
+
+            showFossilBlock2508(fossilReward2508);
+            refreshAccordion(fossilDig2508);
+
+            setTimeout(() => {
+                fossilReward2508?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
+        });
+    }
 
 });
