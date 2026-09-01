@@ -1883,4 +1883,439 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================
+    // AUGUST.SAVE — 31.08
+    // =========================================================
+
+    const augustSave3108 = document.getElementById('august-save-3108');
+
+    const saveBoot3108 = document.getElementById('save-boot-3108');
+    const saveStart3108 = document.getElementById('save-start-3108');
+    const saveReview3108 = document.getElementById('save-review-3108');
+
+    const saveProgressCount3108 = document.getElementById('save-progress-count-3108');
+    const saveOverallProgress3108 = document.getElementById('save-overall-progress-3108');
+
+    const saveSlot1_3108 = document.getElementById('save-slot-1-3108');
+    const saveSlot2_3108 = document.getElementById('save-slot-2-3108');
+    const saveSlot3_3108 = document.getElementById('save-slot-3-3108');
+    const saveSlot4_3108 = document.getElementById('save-slot-4-3108');
+
+    const saveSlot1Action3108 = document.getElementById('save-slot-1-action-3108');
+    const saveSlot2Action3108 = document.getElementById('save-slot-2-action-3108');
+    const saveSlot3Action3108 = document.getElementById('save-slot-3-action-3108');
+    const saveSlot4Action3108 = document.getElementById('save-slot-4-action-3108');
+
+    const saveFeelingsError3108 = document.getElementById('save-feelings-error-3108');
+
+    const saveSongAnalysis3108 = document.getElementById('save-song-analysis-3108');
+    const saveSongAnalysisText3108 = document.getElementById('save-song-analysis-text-3108');
+    const saveSongPercent3108 = document.getElementById('save-song-percent-3108');
+    const saveSongProgress3108 = document.getElementById('save-song-progress-3108');
+    const saveSongError3108 = document.getElementById('save-song-error-3108');
+
+    const saveFinalAction3108 = document.getElementById('save-final-action-3108');
+    const saveFinalButton3108 = document.getElementById('save-final-button-3108');
+
+    const saveComplete3108 = document.getElementById('save-complete-3108');
+    const augustSaveReward3108 = document.getElementById('august-save-reward-3108');
+
+    let saveProcessed3108 = 0;
+    let saveBusy3108 = false;
+    let saveFinished3108 = false;
+
+
+    function waitSave3108(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    function refreshAugustSave3108(element = augustSave3108) {
+        if (!element) return;
+
+        requestAnimationFrame(() => {
+            refreshAccordion(element);
+        });
+    }
+
+
+    function updateSaveProgress3108() {
+        if (saveProgressCount3108) {
+            saveProgressCount3108.textContent = `${saveProcessed3108} / 4`;
+        }
+
+        if (saveOverallProgress3108) {
+            saveOverallProgress3108.style.width =
+                `${Math.min(100, saveProcessed3108 * 25)}%`;
+        }
+
+        refreshAugustSave3108();
+    }
+
+
+    function getSaveState3108(slot) {
+        return slot?.querySelector('.save-slot-state') || null;
+    }
+
+
+    function unlockSaveSlot3108(slot, button) {
+        if (!slot) return;
+
+        slot.classList.remove('is-locked');
+        slot.classList.add('is-active');
+
+        const state = getSaveState3108(slot);
+
+        if (state) {
+            state.textContent = 'READY';
+        }
+
+        if (button) {
+            button.disabled = false;
+        }
+
+        refreshAugustSave3108(slot);
+    }
+
+
+    function markSaveSlot3108(slot, type = 'saved') {
+        if (!slot) return;
+
+        slot.classList.remove('is-active');
+
+        const state = getSaveState3108(slot);
+
+        if (type === 'saved') {
+            slot.classList.add('is-saved');
+
+            if (state) {
+                state.textContent = 'SAVED';
+            }
+        }
+
+        if (type === 'error') {
+            slot.classList.add('is-error');
+
+            if (state) {
+                state.textContent = 'OVERFLOW';
+            }
+        }
+    }
+
+
+    function finishSimpleSlot3108(slot, nextSlot, nextButton) {
+        if (!slot || saveBusy3108) return;
+
+        const result = slot.querySelector('.save-slot-result');
+
+        markSaveSlot3108(slot, 'saved');
+
+        if (result) {
+            result.hidden = false;
+        }
+
+        saveProcessed3108++;
+        updateSaveProgress3108();
+
+        setTimeout(() => {
+            unlockSaveSlot3108(nextSlot, nextButton);
+        }, 450);
+    }
+
+
+    /* ---------------------------------------------------------
+       START
+       --------------------------------------------------------- */
+
+    if (saveStart3108 && saveBoot3108 && saveReview3108) {
+
+        saveStart3108.addEventListener('click', async () => {
+
+            if (saveBusy3108) return;
+
+            saveBusy3108 = true;
+
+            saveStart3108.disabled = true;
+            saveStart3108.innerHTML = 'CARREGANDO SAVE...';
+
+            await waitSave3108(650);
+
+            saveBoot3108.hidden = true;
+            saveReview3108.hidden = false;
+
+            saveBusy3108 = false;
+
+            updateSaveProgress3108();
+            refreshAugustSave3108(saveReview3108);
+        });
+    }
+
+
+    /* ---------------------------------------------------------
+       SLOT 01
+       --------------------------------------------------------- */
+
+    saveSlot1Action3108?.addEventListener('click', () => {
+
+        finishSimpleSlot3108(
+            saveSlot1_3108,
+            saveSlot2_3108,
+            saveSlot2Action3108
+        );
+    });
+
+
+    /* ---------------------------------------------------------
+       SLOT 02
+       --------------------------------------------------------- */
+
+    saveSlot2Action3108?.addEventListener('click', () => {
+
+        finishSimpleSlot3108(
+            saveSlot2_3108,
+            saveSlot3_3108,
+            saveSlot3Action3108
+        );
+    });
+
+
+    /* ---------------------------------------------------------
+       SLOT 03 — FEELINGS OVERFLOW
+       --------------------------------------------------------- */
+
+    saveSlot3Action3108?.addEventListener('click', async () => {
+
+        if (saveBusy3108 || !saveSlot3_3108) return;
+
+        saveBusy3108 = true;
+
+        saveSlot3Action3108.disabled = true;
+        saveSlot3Action3108.textContent = 'ANALYZING...';
+
+        const state = getSaveState3108(saveSlot3_3108);
+
+        if (state) {
+            state.textContent = 'READING';
+        }
+
+        const bars = [
+            ...saveSlot3_3108.querySelectorAll('[data-save-feeling-bar]')
+        ];
+
+        const values = [96, 100, 103, 108];
+
+        for (let index = 0; index < bars.length; index++) {
+
+            bars[index].style.width = `${values[index]}%`;
+
+            const row = bars[index].closest('.save-feeling-row');
+            const value = row?.querySelector('strong');
+
+            if (value) {
+                value.textContent =
+                    index < 2
+                        ? 'MAX'
+                        : '!!!';
+            }
+
+            await waitSave3108(260);
+        }
+
+        await waitSave3108(350);
+
+        saveSlot3_3108.classList.add('save-overflow');
+
+        if (saveFeelingsError3108) {
+            saveFeelingsError3108.hidden = false;
+        }
+
+        markSaveSlot3108(saveSlot3_3108, 'error');
+
+        saveProcessed3108++;
+        updateSaveProgress3108();
+
+        await waitSave3108(700);
+
+        unlockSaveSlot3108(
+            saveSlot4_3108,
+            saveSlot4Action3108
+        );
+
+        saveBusy3108 = false;
+
+        refreshAugustSave3108(saveSlot3_3108);
+    });
+
+
+    /* ---------------------------------------------------------
+       SLOT 04 — SONG ACCURACY CHECK
+       --------------------------------------------------------- */
+
+    saveSlot4Action3108?.addEventListener('click', async () => {
+
+        if (saveBusy3108 || saveFinished3108) return;
+
+        saveBusy3108 = true;
+
+        saveSlot4Action3108.disabled = true;
+        saveSlot4Action3108.textContent = 'SEARCHING...';
+
+        const state = getSaveState3108(saveSlot4_3108);
+
+        if (state) {
+            state.textContent = 'SEARCHING';
+        }
+
+        if (saveSongAnalysis3108) {
+            saveSongAnalysis3108.hidden = false;
+        }
+
+        const analysisSteps = [
+            {
+                percent: 23,
+                text: 'procurando na biblioteca...'
+            },
+            {
+                percent: 51,
+                text: 'comparando letras...'
+            },
+            {
+                percent: 78,
+                text: 'medindo precisão emocional...'
+            },
+            {
+                percent: 99,
+                text: 'quase lá...'
+            }
+        ];
+
+        for (const step of analysisSteps) {
+
+            if (saveSongAnalysisText3108) {
+                saveSongAnalysisText3108.textContent = step.text;
+            }
+
+            if (saveSongPercent3108) {
+                saveSongPercent3108.textContent = `${step.percent}%`;
+            }
+
+            if (saveSongProgress3108) {
+                saveSongProgress3108.style.width = `${step.percent}%`;
+            }
+
+            refreshAugustSave3108(saveSongAnalysis3108);
+
+            await waitSave3108(650);
+        }
+
+
+        await waitSave3108(450);
+
+
+        if (saveSongAnalysisText3108) {
+            saveSongAnalysisText3108.textContent = 'não foi possível representar tudo.';
+        }
+
+        if (saveSongPercent3108) {
+            saveSongPercent3108.textContent = 'ERROR';
+        }
+
+        if (saveSongProgress3108) {
+            saveSongProgress3108.style.width = '99%';
+        }
+
+        if (saveSongError3108) {
+            saveSongError3108.hidden = false;
+        }
+
+        markSaveSlot3108(saveSlot4_3108, 'error');
+
+        if (state) {
+            state.textContent = 'INACCURATE';
+        }
+
+        saveProcessed3108++;
+        updateSaveProgress3108();
+
+
+        await waitSave3108(700);
+
+
+        if (saveFinalAction3108) {
+            saveFinalAction3108.hidden = false;
+        }
+
+        saveBusy3108 = false;
+
+        refreshAugustSave3108(saveFinalAction3108);
+    });
+
+
+    /* ---------------------------------------------------------
+       FINAL SAVE
+       --------------------------------------------------------- */
+
+    saveFinalButton3108?.addEventListener('click', async () => {
+
+        if (
+            saveBusy3108 ||
+            saveFinished3108 ||
+            saveProcessed3108 < 4
+        ) {
+            return;
+        }
+
+        saveBusy3108 = true;
+        saveFinished3108 = true;
+
+        saveFinalButton3108.disabled = true;
+        saveFinalButton3108.textContent = 'SALVANDO AGOSTO...';
+
+        const systemLight =
+            augustSave3108?.querySelector('.save-system-light');
+
+        if (systemLight) {
+            systemLight.style.background = 'var(--save-yellow)';
+        }
+
+
+        await waitSave3108(1000);
+
+
+        if (saveReview3108) {
+            saveReview3108.hidden = true;
+        }
+
+        if (saveComplete3108) {
+            saveComplete3108.hidden = false;
+        }
+
+        if (systemLight) {
+            systemLight.style.background = 'var(--save-green)';
+        }
+
+        refreshAugustSave3108(saveComplete3108);
+
+
+        await waitSave3108(1100);
+
+
+        if (augustSaveReward3108) {
+
+            augustSaveReward3108.hidden = false;
+
+            requestAnimationFrame(() => {
+
+                augustSaveReward3108.classList.add('show');
+
+                refreshAugustSave3108(
+                    augustSaveReward3108
+                );
+            });
+        }
+
+
+        saveBusy3108 = false;
+    });
+
 });
