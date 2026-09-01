@@ -6861,3 +6861,366 @@ body.modal-open { overflow: hidden; }
     }
 }
 
+/* =========================================================
+   AUGUST.SAVE — visual menos "card dentro de card"
+   ========================================================= */
+
+/* console principal um pouco mais seca */
+.august-save-console {
+    max-width: 580px;
+    border-radius: 10px;
+}
+
+
+/* menos margem interna na tela de revisão */
+.save-review {
+    padding: 12px 0 18px;
+}
+
+
+/* cabeçalho do arquivo mantém uma margem lateral pequena */
+.save-progress-header {
+    padding: 4px 15px 10px;
+}
+
+.save-overall-progress {
+    width: calc(100% - 30px);
+    margin: 0 15px 11px;
+}
+
+
+/* ---------------------------------------------------------
+   SLOTS
+   em vez de 4 cards separados, parecem linhas de um menu
+   --------------------------------------------------------- */
+
+.save-slot-panel {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid rgba(99, 216, 255, .11);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.save-slot-panel:last-of-type {
+    border-bottom: 1px solid rgba(99, 216, 255, .11);
+}
+
+
+/* ativo = barra lateral, como seleção de videogame */
+.save-slot-panel.is-active {
+    border-color: rgba(99, 216, 255, .16);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(99, 216, 255, .09) 0%,
+            rgba(99, 216, 255, .025) 45%,
+            transparent 100%
+        );
+    box-shadow:
+        inset 3px 0 0 var(--save-cyan);
+}
+
+
+/* salvo também fica mais discreto */
+.save-slot-panel.is-saved {
+    border-color: rgba(120, 240, 174, .13);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(120, 240, 174, .055),
+            transparent 60%
+        );
+    box-shadow:
+        inset 3px 0 0 rgba(120, 240, 174, .55);
+}
+
+
+/* erro */
+.save-slot-panel.is-error {
+    border-color: rgba(255, 111, 125, .15);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 111, 125, .055),
+            transparent 60%
+        );
+    box-shadow:
+        inset 3px 0 0 rgba(255, 111, 125, .65);
+}
+
+
+/* bloqueados continuam visíveis sem parecer uma pilha de cards */
+.save-slot-panel.is-locked {
+    opacity: .3;
+}
+
+
+/* ---------------------------------------------------------
+   CABEÇALHO DE CADA SAVE
+   --------------------------------------------------------- */
+
+.save-slot-top {
+    min-height: 61px;
+    padding: 11px 15px;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+}
+
+
+/* número menos "badge/card" */
+.save-slot-number {
+    width: auto;
+    height: auto;
+    display: block;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #536e89;
+    font-size: .7rem;
+}
+
+.save-slot-panel.is-active .save-slot-number {
+    color: var(--save-cyan);
+}
+
+.save-slot-panel.is-saved .save-slot-number {
+    color: var(--save-green);
+}
+
+.save-slot-panel.is-error .save-slot-number {
+    color: var(--save-red);
+}
+
+
+/* status também deixa de ser pill */
+.save-slot-state {
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0;
+    background: transparent;
+    font-size: .49rem;
+    letter-spacing: 1px;
+}
+
+
+/* ---------------------------------------------------------
+   CONTEÚDO
+   --------------------------------------------------------- */
+
+.save-slot-body {
+    padding: 3px 15px 19px 59px;
+    border-top: 0;
+}
+
+
+/* textos ganham mais cara de log/menu */
+.save-slot-note {
+    max-width: 440px;
+    margin: 8px 0 13px;
+    line-height: 1.65;
+}
+
+
+/* tags dos dias menos "chips bonitinhos" */
+.save-data-list {
+    display: block;
+    margin: 8px 0 14px;
+}
+
+.save-data-list span {
+    display: block;
+    position: relative;
+    padding: 4px 0 4px 14px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #aebdcc;
+    font-size: .63rem;
+}
+
+.save-data-list span::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--save-cyan);
+}
+
+
+/* ---------------------------------------------------------
+   STATUS CHANGE
+   deixa de ser dois cards simétricos
+   --------------------------------------------------------- */
+
+.save-status-change {
+    display: block;
+    margin: 8px 0 13px;
+}
+
+.save-status-change > div {
+    position: relative;
+    padding: 7px 0 7px 15px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.save-status-change > div:first-child {
+    opacity: .58;
+}
+
+.save-status-change > div::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: #59718b;
+}
+
+.save-status-change > div:last-child::before {
+    color: var(--save-pink);
+}
+
+.save-change-arrow {
+    display: none;
+}
+
+
+/* ---------------------------------------------------------
+   RESULTADOS / ERROS
+   também mais parecidos com mensagens do sistema
+   --------------------------------------------------------- */
+
+.save-slot-result {
+    position: relative;
+    margin: 12px 0 0;
+    padding: 9px 10px 9px 24px;
+    border-width: 0 0 0 2px;
+    border-radius: 0;
+    background: rgba(120, 240, 174, .025);
+}
+
+.save-slot-result::before {
+    content: ">";
+    position: absolute;
+    left: 9px;
+    top: 9px;
+    color: var(--save-green);
+}
+
+
+.save-error-message {
+    position: relative;
+    margin: 13px 0 0;
+    padding: 10px 10px 10px 25px;
+    border-width: 0 0 0 2px;
+    border-radius: 0;
+    background: rgba(255, 111, 125, .025);
+}
+
+.save-error-message::before {
+    content: "!";
+    position: absolute;
+    left: 9px;
+    top: 10px;
+    color: var(--save-red);
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   FEELINGS
+   --------------------------------------------------------- */
+
+.save-feeling-bars {
+    margin: 12px 0 15px;
+}
+
+.save-feeling-track {
+    height: 5px;
+}
+
+
+/* ---------------------------------------------------------
+   MÚSICA
+   tira mais um card interno
+   --------------------------------------------------------- */
+
+.save-song-search {
+    margin: 8px 0 13px;
+    padding: 6px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.save-song-icon {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+
+/* ---------------------------------------------------------
+   BOTÃO FINAL
+   --------------------------------------------------------- */
+
+.save-final-action {
+    margin: 19px 15px 0;
+    padding: 15px 0 2px;
+    border: 0;
+    border-top: 1px dashed rgba(99, 216, 255, .22);
+    border-radius: 0;
+    background: transparent;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 480px) {
+
+    .august-save-console {
+        border-radius: 8px;
+    }
+
+    .save-review {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .save-slot-top {
+        grid-template-columns: 28px minmax(0, 1fr) auto;
+        padding: 11px 10px;
+        gap: 7px;
+    }
+
+    .save-slot-body {
+        padding:
+            2px
+            11px
+            18px
+            45px;
+    }
+
+    .save-progress-header {
+        padding-left: 11px;
+        padding-right: 11px;
+    }
+
+    .save-overall-progress {
+        width: calc(100% - 22px);
+        margin-left: 11px;
+        margin-right: 11px;
+    }
+
+    .save-final-action {
+        margin-left: 11px;
+        margin-right: 11px;
+    }
+}
+
