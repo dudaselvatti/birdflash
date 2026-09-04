@@ -2318,4 +2318,1583 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBusy3108 = false;
     });
 
+    // =========================================================
+    // MONTH 01 ARCHIVE 05.09
+    // =========================================================
+
+    const month01Archive0509 =
+        document.getElementById('month01-archive-0509');
+
+    const month01Grid0509 =
+        document.getElementById('month01-grid-0509');
+
+    const month01Stage0509 =
+        document.getElementById('month01-stage-0509');
+
+    const month01Progress0509 =
+        document.getElementById('month01-progress-0509');
+
+    const month01ProgressBar0509 =
+        document.getElementById('month01-progress-bar-0509');
+
+    const month01Legend0509 =
+        document.getElementById('month01-legend-0509');
+
+    const month01Finale0509 =
+        document.getElementById('month01-finale-0509');
+
+    const month01Reopen0509 =
+        document.getElementById('month01-reopen-0509');
+
+    const month01StorageKey0509 =
+        'birdflash-month01-0509-v1';
+
+
+    // Deixa setembro como o mês aberto ao carregar.
+
+    const septemberMonth0509 =
+        month01Archive0509?.closest('.month-section');
+
+    if (septemberMonth0509) {
+        document
+            .querySelectorAll('.month-section')
+            .forEach(section => {
+                const shouldOpen =
+                    section === septemberMonth0509;
+
+                section.classList.toggle(
+                    'active',
+                    shouldOpen
+                );
+
+                const header =
+                    section.firstElementChild;
+
+                if (
+                    header?.classList.contains(
+                        'month-header'
+                    )
+                ) {
+                    header.setAttribute(
+                        'aria-expanded',
+                        shouldOpen
+                            ? 'true'
+                            : 'false'
+                    );
+                }
+            });
+    }
+
+
+    // =========================================================
+    // REGISTROS
+    // =========================================================
+
+    const month01Records0509 = [
+        {
+            id: 1,
+            symbol: '♡',
+            category: 'affection',
+            title: 'officially yours',
+            text:
+                'poder falar “minha namorada” e estar falando de você. ainda gosto demais disso.'
+        },
+
+        {
+            id: 2,
+            symbol: '♡',
+            category: 'affection',
+            title: 'mornings',
+            text:
+                'acordar antes de você e ficar esperando aparecer tua mensagem de bom dia virou uma das pequenas partes favoritas da minha manhã.'
+        },
+
+        {
+            id: 3,
+            symbol: '!',
+            category: 'lore',
+            title: 'scheduling department',
+            text:
+                'nós duas somos excelentes em marcar coisas. executar aquilo que foi marcado já é responsabilidade de outro setor.'
+        },
+
+        {
+            id: 4,
+            symbol: '♡',
+            category: 'affection',
+            title: 'our playlist',
+            text:
+                'continuar ouvindo nossa playlist e descobrir que aparentemente ter uma namorada só aumentou a quantidade de vezes que cada música me faz pensar em você.'
+        },
+
+        {
+            id: 5,
+            symbol: '✦',
+            category: 'future',
+            title: 'one month',
+            text:
+                'um mês inteiro podendo ser tua. gosto desse cargo. pretendo permanecer nele.'
+        },
+
+        {
+            id: 6,
+            symbol: '🔥',
+            category: 'classified',
+            title: 'classified',
+            special: 'classified'
+        },
+
+        {
+            id: 7,
+            symbol: '☁',
+            category: 'care',
+            title: 'you stayed',
+            text:
+                'naquele dia da faculdade eu estava tão desconfortável, frustrada e assustada que simplesmente desabei. e você ficou ali comigo enquanto eu chorava até aquilo parecer um pouco menos enorme.'
+        },
+
+        {
+            id: 8,
+            symbol: '!',
+            category: 'lore',
+            title: 'game night #01',
+            text:
+                '“vamos jogar plato?” excelente ideia. infelizmente nunca saberemos como essa partida terminaria porque ela aparentemente jamais começou.'
+        },
+
+        {
+            id: 9,
+            symbol: '♡',
+            category: 'affection',
+            title: 'knowing you',
+            text:
+                'gosto da sensação de estar aprendendo cada vez mais sobre você mesmo depois de todo o tempo que a gente já passava conversando antes de namorar.'
+        },
+
+        {
+            id: 10,
+            symbol: '🔥',
+            category: 'classified',
+            title: 'dangerous woman',
+            text:
+                'infelizmente descobri que minha namorada sabe exatamente quais botões apertar para acabar completamente com qualquer capacidade minha de raciocínio. informação preocupante.'
+        },
+
+        {
+            id: 11,
+            symbol: '☁',
+            category: 'care',
+            title: 'listening',
+            text:
+                'eu tava chateada com uma situação que parecia tão boba e, mesmo assim, você me ouviu como se não fosse boba só porque estava me fazendo mal. eu guardei isso.'
+        },
+
+        {
+            id: 12,
+            symbol: '!',
+            category: 'lore',
+            title: 'game night simulator',
+            special: 'game'
+        },
+
+        {
+            id: 13,
+            symbol: '♡',
+            category: 'affection',
+            title: 'ordinary things',
+            text:
+                'gosto que nosso namoro também exista nas coisas completamente normais. contar sobre o dia, reclamar, mandar alguma besteira, aparecer de novo depois de algumas horas e continuar falando como se nunca tivesse parado.'
+        },
+
+        {
+            id: 14,
+            symbol: '✦',
+            category: 'future',
+            title: 'madrid notification service',
+            text:
+                'me comprometi oficialmente a nunca mais esquecer de te avisar dos jogos do real madrid. aparentemente isso também faz parte das minhas atribuições como namorada.'
+        },
+
+        {
+            id: 15,
+            symbol: '☁',
+            category: 'care',
+            title: 'your turn',
+            text:
+                'quando você ficou tão ansiosa por causa da entrevista, eu só queria conseguir fazer tua cabeça desacelerar um pouquinho. gosto de poder ser a pessoa que você procura quando as coisas ficam assustadoras.'
+        },
+
+        {
+            id: 16,
+            symbol: '🔥',
+            category: 'classified',
+            title: 'less shy',
+            text:
+                'uma das coisas mais gostosas desse mês foi perceber o quanto a gente ficou confortável pra falar sobre vontade, desejo e sobre o que mexe com a outra sem aquilo parecer estranho. acho bonita essa intimidade que a gente tá construindo.'
+        },
+
+        {
+            id: 17,
+            symbol: '♡',
+            category: 'affection',
+            title: 'comfortable',
+            text:
+                'eu gosto de não precisar montar uma versão certinha de mim pra estar contigo. posso ser carinhosa, chata, dramática, provocadora, insegura, besta e ainda continuar sendo eu.'
+        },
+
+        {
+            id: 18,
+            symbol: '!',
+            category: 'lore',
+            title: 'internet incident',
+            special: 'birdpost'
+        },
+
+        {
+            id: 19,
+            symbol: '☁',
+            category: 'care',
+            title: 'after the tweet',
+            text:
+                'eu sei que algumas coisas que falaram te irritaram e te preocuparam de verdade. gostei de conseguir ficar contigo, conversar e te acalmar até aquilo perder um pouco do peso. no fim, quem sabe como a gente funciona somos nós duas.'
+        },
+
+        {
+            id: 20,
+            symbol: '♡',
+            category: 'affection',
+            title: 'us, privately',
+            text:
+                'acho engraçado que milhares de pessoas puderam ver um pedacinho minúsculo nosso e ainda assim aquilo não diz quase nada sobre o que realmente existe aqui.'
+        },
+
+        {
+            id: 21,
+            symbol: '!',
+            category: 'lore',
+            title: 'game night #02',
+            text:
+                'talvez nosso verdadeiro jogo multiplayer seja falar “vamos jogar hoje” e ver quantas horas conseguimos conversar antes de lembrar que existia um jogo.'
+        },
+
+        {
+            id: 22,
+            symbol: '🔥',
+            category: 'classified',
+            title: 'mutual threat',
+            text:
+                'eu adoraria registrar aqui que sou a única responsável pelo caos, mas infelizmente minha namorada também é perigosíssima e sabe muito bem o que está fazendo.'
+        },
+
+        {
+            id: 23,
+            symbol: '♡',
+            category: 'affection',
+            title: 'wanting',
+            text:
+                'gosto de poder demonstrar que te quero. e gosto ainda mais de saber que posso fazer isso contigo me sentindo segura, querida e completamente à vontade.'
+        },
+
+        {
+            id: 24,
+            symbol: '☁',
+            category: 'care',
+            title: 'both ways',
+            special: 'care'
+        },
+
+        {
+            id: 25,
+            symbol: '♡',
+            category: 'affection',
+            title: 'telling you things',
+            text:
+                'gosto de pensar “preciso contar isso pra júlia” sobre coisas completamente irrelevantes. acho que você virou uma espécie de destino automático dos meus pensamentos.'
+        },
+
+        {
+            id: 26,
+            symbol: '✦',
+            category: 'future',
+            title: 'things pending',
+            text:
+                'ainda precisamos jogar roblox. e plato. e fortnite. honestamente acho que isso já garante conteúdo para vários meses de namoro.'
+        },
+
+        {
+            id: 27,
+            symbol: '☁',
+            category: 'care',
+            title: 'safe place',
+            text:
+                'não acho que nosso papel seja resolver tudo uma pra outra. gosto mais da ideia de saber que, quando alguma coisa ficar pesada demais, nenhuma das duas precisa carregar sozinha.'
+        },
+
+        {
+            id: 28,
+            symbol: '🔥',
+            category: 'classified',
+            title: 'confidential status',
+            special: 'chemistry'
+        },
+
+        {
+            id: 29,
+            symbol: '♡',
+            category: 'affection',
+            title: 'still exciting',
+            text:
+                'gosto que, mesmo estando tão confortável contigo, você ainda consegue me deixar completamente bobinha. talvez essas duas coisas juntas sejam justamente uma das minhas partes favoritas.'
+        },
+
+        {
+            id: 30,
+            symbol: '✦',
+            category: 'future',
+            title: 'next month',
+            text:
+                'quero mais das coisas grandes, claro. mas quero principalmente mais disso: mais manhãs, mais conversas, mais cuidado, mais vontade, mais idiotice nossa e talvez, com bastante sorte, finalmente uma partida de alguma coisa.'
+        }
+    ];
+
+
+    // =========================================================
+    // ESTADO E PROGRESSO
+    // =========================================================
+
+    let month01Viewed0509 =
+        new Set();
+
+    let month01CareOpened0509 =
+        new Set();
+
+
+    try {
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    month01StorageKey0509
+                ) || '[]'
+            );
+
+        if (Array.isArray(saved)) {
+            month01Viewed0509 =
+                new Set(
+                    saved.filter(
+                        id =>
+                            Number.isInteger(id) &&
+                            id >= 1 &&
+                            id <= 31
+                    )
+                );
+        }
+    } catch (error) {
+        console.warn(
+            'Não foi possível recuperar o progresso do month 01:',
+            error
+        );
+    }
+
+
+    function saveMonth01Progress0509() {
+        try {
+            localStorage.setItem(
+                month01StorageKey0509,
+                JSON.stringify(
+                    [...month01Viewed0509]
+                )
+            );
+        } catch (error) {
+            console.warn(
+                'Não foi possível salvar o progresso do month 01:',
+                error
+            );
+        }
+    }
+
+
+    function month01FirstThirtyComplete0509() {
+        for (
+            let id = 1;
+            id <= 30;
+            id++
+        ) {
+            if (
+                !month01Viewed0509.has(id)
+            ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    function month01RecordLabel0509(record) {
+        return String(record.id)
+            .padStart(2, '0');
+    }
+
+
+    // =========================================================
+    // GRID
+    // =========================================================
+
+    function renderMonth01Grid0509() {
+        if (!month01Grid0509) return;
+
+        month01Grid0509.innerHTML = '';
+
+        for (
+            let id = 1;
+            id <= 31;
+            id++
+        ) {
+            const record =
+                month01Records0509.find(
+                    item => item.id === id
+                );
+
+            const button =
+                document.createElement(
+                    'button'
+                );
+
+            const unlockedFinal =
+                month01FirstThirtyComplete0509();
+
+            const viewed =
+                month01Viewed0509.has(id);
+
+            button.type = 'button';
+
+            button.className =
+                'month01-node';
+
+            button.dataset.recordId =
+                String(id);
+
+
+            if (viewed) {
+                button.classList.add(
+                    'is-viewed'
+                );
+            }
+
+
+            if (id === 31) {
+                button.classList.add(
+                    'month01-node-final'
+                );
+
+                button.disabled =
+                    !unlockedFinal;
+
+                button.setAttribute(
+                    'aria-label',
+                    unlockedFinal
+                        ? 'abrir registro final 31'
+                        : 'registro final bloqueado'
+                );
+
+                button.innerHTML =
+                    unlockedFinal
+                        ? `
+                            <span class="month01-node-number">
+                                31
+                            </span>
+
+                            <span class="month01-node-symbol">
+                                ♡
+                            </span>
+                        `
+                        : `
+                            <span class="month01-node-lock">
+                                ♡
+                            </span>
+
+                            <span class="month01-node-symbol">
+                                lock
+                            </span>
+                        `;
+            } else {
+                button.setAttribute(
+                    'aria-label',
+                    `abrir registro ${id}${viewed
+                        ? ', já visualizado'
+                        : ''
+                    }`
+                );
+
+                button.innerHTML = `
+                    <span class="month01-node-number">
+                        ${String(id).padStart(2, '0')}
+                    </span>
+
+                    <span class="month01-node-symbol">
+                        ${viewed
+                        ? record.symbol
+                        : '·'
+                    }
+                    </span>
+                `;
+            }
+
+            month01Grid0509.appendChild(
+                button
+            );
+        }
+    }
+
+
+    function updateMonth01Progress0509() {
+        const count =
+            month01Viewed0509.size;
+
+        const percent =
+            Math.round(
+                (count / 31) * 100
+            );
+
+
+        if (month01Progress0509) {
+            month01Progress0509.textContent =
+                `${count} / 31 visualizados`;
+        }
+
+
+        if (month01ProgressBar0509) {
+            month01ProgressBar0509.style.width =
+                `${percent}%`;
+        }
+
+
+        if (month01Legend0509) {
+            const showLegend =
+                month01FirstThirtyComplete0509();
+
+            month01Legend0509.hidden =
+                !showLegend;
+
+            if (showLegend) {
+                requestAnimationFrame(
+                    () =>
+                        month01Legend0509
+                            .classList
+                            .add('show')
+                );
+            }
+        }
+    }
+
+
+    function markMonth01Viewed0509(id) {
+        if (
+            !month01Viewed0509.has(id)
+        ) {
+            month01Viewed0509.add(id);
+
+            saveMonth01Progress0509();
+        }
+
+        renderMonth01Grid0509();
+        updateMonth01Progress0509();
+    }
+
+
+    // =========================================================
+    // PALCO
+    // =========================================================
+
+    function month01StageShell0509(
+        record,
+        content
+    ) {
+        return `
+            <div class="month01-stage-head">
+                <span>
+                    registro
+                    ${month01RecordLabel0509(record)}
+                    / 31
+                </span>
+
+                <strong>
+                    ${record.symbol}
+                </strong>
+            </div>
+
+            <div class="month01-stage-copy">
+                <p class="month01-stage-kicker">
+                    ${record.category}
+                </p>
+
+                <h4>
+                    ${record.title}
+                </h4>
+
+                ${content}
+            </div>
+        `;
+    }
+
+
+    function renderMonth01Standard0509(
+        record
+    ) {
+        return month01StageShell0509(
+            record,
+            `
+                <p>
+                    ${record.text}
+                </p>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // 06 CLASSIFIED
+    // =========================================================
+
+    function renderMonth01Classified0509(
+        record
+    ) {
+        return month01StageShell0509(
+            record,
+            `
+                <p>
+                    algumas conversas desse mês
+                    foram consideradas inadequadas
+                    para arquivamento público.
+                </p>
+
+                <button
+                    class="month01-action"
+                    type="button"
+                    data-month01-action="classified"
+                >
+                    consultar relatório restrito
+                </button>
+
+                <div
+                    class="month01-classified-result"
+                    id="month01-classified-result-0509"
+                    hidden
+                >
+                    <div
+                        class="month01-redacted"
+                        aria-hidden="true"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <p>
+                        o birdflash decidiu que
+                        certas conversas pertencem
+                        exclusivamente às partes
+                        envolvidas.
+                    </p>
+
+                    <p>
+                        mas gosto demais do quanto
+                        a gente consegue falar sobre
+                        desejo, provocar uma à outra
+                        e ainda assim me sentir
+                        completamente confortável
+                        contigo. gosto dessa intimidade
+                        que tá aparecendo aos pouquinhos,
+                        mesmo quando você sabe exatamente
+                        como me deixar totoca da cabeça.
+                    </p>
+
+                    <small>
+                        observação técnica:
+                        ela não é tão inocente quanto parece.
+                    </small>
+                </div>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // 12 GAME NIGHT
+    // =========================================================
+
+    function renderMonth01Game0509(
+        record
+    ) {
+        return month01StageShell0509(
+            record,
+            `
+                <p>
+                    escolha o jogo que nós vamos
+                    definitivamente jogar dessa vez:
+                </p>
+
+                <div class="month01-game-options">
+                    <button
+                        type="button"
+                        data-month01-game="roblox"
+                    >
+                        roblox
+                    </button>
+
+                    <button
+                        type="button"
+                        data-month01-game="plato"
+                    >
+                        plato
+                    </button>
+
+                    <button
+                        type="button"
+                        data-month01-game="fortnite"
+                    >
+                        fortnite
+                    </button>
+
+                    <button
+                        type="button"
+                        data-month01-game="julia-irma"
+                    >
+                        com a júlia irmã
+                    </button>
+                </div>
+
+                <div
+                    class="month01-game-console"
+                    id="month01-game-console-0509"
+                    aria-live="polite"
+                >
+                    <span>
+                        status: aguardando escolha
+                    </span>
+                </div>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // 18 BIRDPOST
+    // =========================================================
+
+    function renderMonth01Birdpost0509(
+        record
+    ) {
+        return month01StageShell0509(
+            record,
+            `
+                <div
+                    class="birdpost-0509"
+                    aria-label="recriação personalizada do tweet da júlia"
+                >
+                    <div class="birdpost-topline">
+                        <span>
+                            🦇 BIRDPOST
+                        </span>
+
+                        <span>
+                            GOTHAM FEED ♡
+                        </span>
+                    </div>
+
+                    <div class="birdpost-author">
+                        <div
+                            class="birdpost-avatar"
+                            aria-hidden="true"
+                        >
+                            🦇
+                        </div>
+
+                        <div>
+                            <strong>
+                                julietta wayne
+                                <span>♡</span>
+                            </strong>
+
+                            <small>
+                                @megsbird · 03 sep 2026
+                            </small>
+                        </div>
+                    </div>
+
+                    <p class="birdpost-text">
+                        ter mulher com ciúmes retroativo
+                        é engraçado porque nunca sabemos
+                        quando vamos ser ameaçada por algo
+                        que aconteceu há duzentos anos
+                    </p>
+
+                    <div class="birdpost-quoted">
+                        <div class="birdpost-quoted-head">
+                            <span>
+                                🦇 julietta wayne
+                            </span>
+
+                            <small>
+                                24 jul 25
+                            </small>
+                        </div>
+
+                        <p>
+                            às vezes o amor da sua vida
+                            é a sua ex
+                        </p>
+
+                        <div class="birdpost-reply">
+                            voce vai morrer
+                            <span>♡</span>
+                        </div>
+                    </div>
+
+                    <div class="birdpost-meta">
+                        4:04 PM · 3 de set de 2026 ·
+                        <strong>
+                            329 mil visualizações
+                        </strong>
+                    </div>
+
+                    <div
+                        class="birdpost-stats"
+                        aria-label="estatísticas do post"
+                    >
+                        <span>
+                            ♡ 25 mil
+                        </span>
+
+                        <span>
+                            ↻ 1 mil
+                        </span>
+
+                        <span>
+                            ☁ 199
+                        </span>
+
+                        <span>
+                            🦇 677
+                        </span>
+                    </div>
+
+                    <div
+                        class="birdpost-bats"
+                        aria-hidden="true"
+                    >
+                        🦇 ♡ 🦇 ♡ 🦇
+                    </div>
+                </div>
+
+                <div class="month01-incident-report">
+                    <span>
+                        BIRDFLASH INCIDENT REPORT
+                    </span>
+
+                    <p>
+                        <strong>
+                            natureza da ocorrência:
+                        </strong>
+                        ciúme retroativo
+                    </p>
+
+                    <p>
+                        <strong>
+                            alcance:
+                        </strong>
+                        muito maior que o previsto
+                    </p>
+
+                    <p>
+                        <strong>
+                            envolvidos:
+                        </strong>
+                        duas namoradas + pessoas
+                        aleatórias que ninguém chamou
+                    </p>
+                </div>
+
+                <p class="month01-question">
+                    qual foi o resultado?
+                </p>
+
+                <div class="month01-quiz-options">
+                    <button
+                        type="button"
+                        data-month01-tweet-answer="understood"
+                    >
+                        a internet entendeu a piada
+                    </button>
+
+                    <button
+                        type="button"
+                        data-month01-tweet-answer="quiet"
+                    >
+                        ninguém deu opinião
+                    </button>
+
+                    <button
+                        type="button"
+                        data-month01-tweet-answer="analysis"
+                    >
+                        decidiram analisar nosso relacionamento
+                    </button>
+                </div>
+
+                <p
+                    class="month01-quiz-feedback"
+                    id="month01-tweet-feedback-0509"
+                    aria-live="polite"
+                ></p>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // 24 BOTH WAYS
+    // =========================================================
+
+    function renderMonth01Care0509(
+        record
+    ) {
+        month01CareOpened0509 =
+            new Set();
+
+        return month01StageShell0509(
+            record,
+            `
+                <p>
+                    esse mês também foi aprender
+                    que cuidado não precisa andar
+                    em uma direção só.
+                </p>
+
+                <div
+                    class="month01-care-map"
+                    id="month01-care-map-0509"
+                >
+                    <button
+                        type="button"
+                        data-month01-care="duda"
+                    >
+                        duda
+                    </button>
+
+                    <span
+                        class="month01-care-heart"
+                        aria-hidden="true"
+                    >
+                        ♡
+                    </span>
+
+                    <button
+                        type="button"
+                        data-month01-care="julia"
+                    >
+                        júlia
+                    </button>
+                </div>
+
+                <div
+                    class="month01-care-copy"
+                    id="month01-care-copy-0509"
+                >
+                    <p>
+                        toque em nós duas.
+                    </p>
+                </div>
+
+                <div
+                    class="month01-care-final"
+                    id="month01-care-final-0509"
+                    hidden
+                >
+                    <p>
+                        quando uma ficou assustada,
+                        a outra ficou. quando uma
+                        precisou falar, a outra ouviu.
+                        quando alguma coisa pesou,
+                        a gente tentou não deixar
+                        a outra lidar sozinha.
+                    </p>
+                </div>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // 28 CHEMISTRY REPORT
+    // =========================================================
+
+    function renderMonth01Chemistry0509(
+        record
+    ) {
+        return month01StageShell0509(
+            record,
+            `
+                <div class="month01-chemistry">
+                    <div>
+                        <span>
+                            trust
+                        </span>
+
+                        <strong>
+                            VERY HIGH
+                        </strong>
+
+                        <i style="--level:100%"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            comfort
+                        </span>
+
+                        <strong>
+                            VERY HIGH
+                        </strong>
+
+                        <i style="--level:100%"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            flirting
+                        </span>
+
+                        <strong>
+                            CRITICAL
+                        </strong>
+
+                        <i style="--level:96%"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            self-control
+                        </span>
+
+                        <strong>
+                            UNSTABLE
+                        </strong>
+
+                        <i style="--level:24%"></i>
+                    </div>
+                </div>
+
+                <p class="month01-chemistry-access">
+                    public access:
+                    <strong>DENIED</strong>
+                </p>
+            `
+        );
+    }
+
+
+    // =========================================================
+    // RENDERIZA UM REGISTRO
+    // =========================================================
+
+    function renderMonth01Record0509(id) {
+        if (!month01Stage0509) return;
+
+        const record =
+            month01Records0509.find(
+                item => item.id === id
+            );
+
+        if (!record) return;
+
+
+        markMonth01Viewed0509(id);
+
+
+        month01Stage0509
+            .classList
+            .remove('is-changing');
+
+        void month01Stage0509.offsetWidth;
+
+        month01Stage0509
+            .classList
+            .add('is-changing');
+
+
+        if (
+            record.special ===
+            'classified'
+        ) {
+            month01Stage0509.innerHTML =
+                renderMonth01Classified0509(
+                    record
+                );
+        } else if (
+            record.special ===
+            'game'
+        ) {
+            month01Stage0509.innerHTML =
+                renderMonth01Game0509(
+                    record
+                );
+        } else if (
+            record.special ===
+            'birdpost'
+        ) {
+            month01Stage0509.innerHTML =
+                renderMonth01Birdpost0509(
+                    record
+                );
+        } else if (
+            record.special ===
+            'care'
+        ) {
+            month01Stage0509.innerHTML =
+                renderMonth01Care0509(
+                    record
+                );
+        } else if (
+            record.special ===
+            'chemistry'
+        ) {
+            month01Stage0509.innerHTML =
+                renderMonth01Chemistry0509(
+                    record
+                );
+        } else {
+            month01Stage0509.innerHTML =
+                renderMonth01Standard0509(
+                    record
+                );
+        }
+
+
+        refreshAccordion(
+            month01Archive0509
+        );
+    }
+
+
+    // =========================================================
+    // REGISTRO 31
+    // =========================================================
+
+    function openMonth01Finale0509() {
+        if (
+            !month01FirstThirtyComplete0509()
+        ) {
+            return;
+        }
+
+
+        markMonth01Viewed0509(31);
+
+
+        if (month01Archive0509) {
+            month01Archive0509.hidden =
+                true;
+        }
+
+
+        if (month01Finale0509) {
+            month01Finale0509.hidden =
+                false;
+
+            requestAnimationFrame(
+                () => {
+                    month01Finale0509
+                        .classList
+                        .add('show');
+
+                    refreshAccordion(
+                        month01Finale0509
+                    );
+                }
+            );
+        }
+
+
+        setTimeout(
+            () => {
+                month01Finale0509
+                    ?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+            },
+            120
+        );
+    }
+
+
+    // =========================================================
+    // INICIALIZA GRID
+    // =========================================================
+
+    if (month01Grid0509) {
+        renderMonth01Grid0509();
+        updateMonth01Progress0509();
+
+
+        month01Grid0509
+            .addEventListener(
+                'click',
+                event => {
+                    const button =
+                        event.target.closest(
+                            '.month01-node'
+                        );
+
+                    if (
+                        !button ||
+                        button.disabled
+                    ) {
+                        return;
+                    }
+
+
+                    const id =
+                        Number(
+                            button.dataset.recordId
+                        );
+
+
+                    if (id === 31) {
+                        openMonth01Finale0509();
+                    } else {
+                        renderMonth01Record0509(
+                            id
+                        );
+                    }
+                }
+            );
+    }
+
+
+    // =========================================================
+    // INTERAÇÕES DENTRO DO PALCO
+    // =========================================================
+
+    month01Stage0509
+        ?.addEventListener(
+            'click',
+            event => {
+
+                // CLASSIFIED
+
+                const action =
+                    event.target.closest(
+                        '[data-month01-action]'
+                    );
+
+                if (
+                    action?.dataset
+                        .month01Action ===
+                    'classified'
+                ) {
+                    const result =
+                        document.getElementById(
+                            'month01-classified-result-0509'
+                        );
+
+                    if (result) {
+                        result.hidden =
+                            false;
+
+                        requestAnimationFrame(
+                            () =>
+                                result
+                                    .classList
+                                    .add('show')
+                        );
+
+                        action.disabled =
+                            true;
+
+                        action.textContent =
+                            'acesso restrito liberado';
+
+                        refreshAccordion(
+                            month01Archive0509
+                        );
+                    }
+
+                    return;
+                }
+
+
+                // GAME NIGHT
+
+                const gameButton =
+                    event.target.closest(
+                        '[data-month01-game]'
+                    );
+
+                if (gameButton) {
+                    const consoleEl =
+                        document.getElementById(
+                            'month01-game-console-0509'
+                        );
+
+                    const allGameButtons =
+                        month01Stage0509
+                            .querySelectorAll(
+                                '[data-month01-game]'
+                            );
+
+                    allGameButtons
+                        .forEach(
+                            button =>
+                                button.disabled =
+                                true
+                        );
+
+
+                    if (consoleEl) {
+                        consoleEl.innerHTML =
+                            `
+                                <span>
+                                    criando lobby...
+                                </span>
+                            `;
+                    }
+
+
+                    setTimeout(
+                        () => {
+                            if (consoleEl) {
+                                consoleEl.innerHTML =
+                                    `
+                                        <span>
+                                            conectando namoradas...
+                                        </span>
+                                    `;
+                            }
+                        },
+                        450
+                    );
+
+
+                    setTimeout(
+                        () => {
+                            if (consoleEl) {
+                                consoleEl.innerHTML =
+                                    `
+                                        <strong>
+                                            ERRO 031
+                                        </strong>
+
+                                        <p>
+                                            as usuárias começaram
+                                            a conversar e esqueceram
+                                            completamente que tinham
+                                            marcado de jogar.
+                                        </p>
+                                    `;
+                            }
+
+                            refreshAccordion(
+                                month01Archive0509
+                            );
+                        },
+                        1050
+                    );
+
+                    return;
+                }
+
+
+                // TWEET
+
+                const tweetAnswer =
+                    event.target.closest(
+                        '[data-month01-tweet-answer]'
+                    );
+
+                if (tweetAnswer) {
+                    const feedback =
+                        document.getElementById(
+                            'month01-tweet-feedback-0509'
+                        );
+
+                    if (!feedback) return;
+
+
+                    const answer =
+                        tweetAnswer.dataset
+                            .month01TweetAnswer;
+
+
+                    if (
+                        answer ===
+                        'analysis'
+                    ) {
+                        feedback.textContent =
+                            'CORRETO! infelizmente. parecer oficial do birdflash: as partes envolvidas entenderam a brincadeira. caso encerrado. ♡';
+
+                        feedback.classList.add(
+                            'success'
+                        );
+
+                        month01Stage0509
+                            .querySelectorAll(
+                                '[data-month01-tweet-answer]'
+                            )
+                            .forEach(
+                                button =>
+                                    button.disabled =
+                                    true
+                            );
+                    } else if (
+                        answer ===
+                        'understood'
+                    ) {
+                        feedback.textContent =
+                            'queria muito que essa tivesse sido a resposta certa KKKKKKK tenta de novo.';
+                    } else {
+                        feedback.textContent =
+                            'essa realidade alternativa parece ótima, mas infelizmente não foi o que aconteceu.';
+                    }
+
+
+                    refreshAccordion(
+                        month01Archive0509
+                    );
+
+                    return;
+                }
+
+
+                // CUIDADO NAS DUAS DIREÇÕES
+
+                const careButton =
+                    event.target.closest(
+                        '[data-month01-care]'
+                    );
+
+                if (careButton) {
+                    const side =
+                        careButton.dataset
+                            .month01Care;
+
+                    const copy =
+                        document.getElementById(
+                            'month01-care-copy-0509'
+                        );
+
+                    const final =
+                        document.getElementById(
+                            'month01-care-final-0509'
+                        );
+
+
+                    month01CareOpened0509
+                        .add(side);
+
+
+                    careButton
+                        .classList
+                        .add('is-open');
+
+                    careButton.disabled =
+                        true;
+
+
+                    if (copy) {
+                        copy.innerHTML =
+                            side === 'duda'
+                                ? `
+                                    <p>
+                                        teve a situação da
+                                        faculdade, teve choro,
+                                        desconforto, a briga com
+                                        uma amiga e momentos em
+                                        que eu só precisava falar.
+                                        você ficou e me ouviu.
+                                    </p>
+                                `
+                                : `
+                                    <p>
+                                        teve a entrevista,
+                                        a ansiedade e tua cabeça
+                                        imaginando tudo que podia
+                                        dar errado. eu quis ficar
+                                        contigo até parecer um
+                                        pouquinho menos assustador.
+                                    </p>
+                                `;
+                    }
+
+
+                    if (
+                        month01CareOpened0509
+                            .size === 2 &&
+                        final
+                    ) {
+                        final.hidden =
+                            false;
+
+                        requestAnimationFrame(
+                            () =>
+                                final
+                                    .classList
+                                    .add('show')
+                        );
+                    }
+
+
+                    refreshAccordion(
+                        month01Archive0509
+                    );
+                }
+            }
+        );
+
+
+    // =========================================================
+    // REABRIR ARQUIVO DEPOIS DO FINAL
+    // =========================================================
+
+    month01Reopen0509
+        ?.addEventListener(
+            'click',
+            () => {
+                if (month01Finale0509) {
+                    month01Finale0509
+                        .classList
+                        .remove('show');
+
+                    month01Finale0509.hidden =
+                        true;
+                }
+
+
+                if (month01Archive0509) {
+                    month01Archive0509.hidden =
+                        false;
+                }
+
+
+                updateMonth01Progress0509();
+                renderMonth01Grid0509();
+
+                refreshAccordion(
+                    month01Archive0509
+                );
+
+
+                setTimeout(
+                    () =>
+                        month01Archive0509
+                            ?.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            }),
+                    80
+                );
+            }
+        );
+
 });
