@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================
     // BIRDFLASH — NOVA HOME / NOVA ERA
     // =========================================================
-        // =========================================================
+    // =========================================================
     // BIRDFLASH - RELATIONSHIP STATE / MONTHLY MILESTONES V2
     // =========================================================
 
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMonthlyAnniversary =
             completedMonths > 0 &&
             today.getDate() ===
-                relationshipStart.getDate();
+            relationshipStart.getDate();
 
 
         return {
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return new Date(
             relationshipStart.getFullYear(),
             relationshipStart.getMonth() +
-                monthNumber,
+            monthNumber,
             relationshipStart.getDate()
         );
     }
@@ -235,15 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const event =
             monthlyAnniversaryEvents[
-                state.completedMonths
+            state.completedMonths
             ] || null;
 
 
         const daysLabel =
-            `${state.days} ${
-                state.days === 1
-                    ? 'dia'
-                    : 'dias'
+            `${state.days} ${state.days === 1
+                ? 'dia'
+                : 'dias'
             }`;
 
 
@@ -531,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (
                 event?.celebration ===
-                    'gotham' &&
+                'gotham' &&
                 gothamMoment
             ) {
                 gothamMoment.hidden =
@@ -611,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => openBirdflashView(button.dataset.openView));
     });
 
-        // =========================================================
+    // =========================================================
     // HOME - MONTHLY MILESTONE ACTIONS V2
     // =========================================================
 
@@ -656,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const event =
                     monthlyAnniversaryEvents[
-                        state.completedMonths
+                    state.completedMonths
                     ];
 
 
@@ -826,10 +825,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             particle.textContent =
                 symbols[
-                    Math.floor(
-                        Math.random() *
-                        symbols.length
-                    )
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
                 ];
 
 
@@ -962,12 +961,190 @@ document.addEventListener('DOMContentLoaded', () => {
     const girlfriendIdCard = document.getElementById('girlfriend-id-card');
     const girlfriendCloseButtons = document.querySelectorAll('[data-close-girlfriend-card]');
 
+    const girlfriendValidationBlock =
+        document.getElementById(
+            'girlfriend-id-validation-block'
+        );
+
+    const girlfriendLatestValidation =
+        document.getElementById(
+            'girlfriend-latest-validation'
+        );
+
+    const girlfriendLatestValidationLabel =
+        document.getElementById(
+            'girlfriend-latest-validation-label'
+        );
+
+    const girlfriendValidationHistory =
+        document.getElementById(
+            'girlfriend-validation-history'
+        );
+
+    const girlfriendValidationList =
+        document.getElementById(
+            'girlfriend-validation-list'
+        );
+
+
+    function updateGirlfriendCardMilestones() {
+        const state =
+            getRelationshipState();
+
+
+        if (
+            state.completedMonths <= 0
+        ) {
+            if (
+                girlfriendValidationBlock
+            ) {
+                girlfriendValidationBlock.hidden =
+                    true;
+            }
+
+
+            if (
+                girlfriendValidationHistory
+            ) {
+                girlfriendValidationHistory.hidden =
+                    true;
+            }
+
+
+            return;
+        }
+
+
+        const latestMilestoneDate =
+            getMilestoneDate(
+                state.completedMonths
+            );
+
+
+        const latestMonth =
+            formatMilestoneNumber(
+                state.completedMonths
+            );
+
+
+        /*
+         * Frente
+         */
+
+        if (
+            girlfriendValidationBlock
+        ) {
+            girlfriendValidationBlock.hidden =
+                false;
+        }
+
+
+        if (
+            girlfriendLatestValidation
+        ) {
+            girlfriendLatestValidation.textContent =
+                `MONTH ${latestMonth} ✓`;
+        }
+
+
+        if (
+            girlfriendLatestValidationLabel
+        ) {
+            girlfriendLatestValidationLabel.textContent =
+                `validado ${formatBirdflashDate(
+                    latestMilestoneDate
+                )}`;
+        }
+
+
+        /*
+         * Verso
+         */
+
+        if (
+            girlfriendValidationHistory
+        ) {
+            girlfriendValidationHistory.hidden =
+                false;
+        }
+
+
+        if (
+            girlfriendValidationList
+        ) {
+            girlfriendValidationList.innerHTML =
+                '';
+
+
+            for (
+                let month = 1;
+                month <=
+                state.completedMonths;
+                month++
+            ) {
+                const stamp =
+                    document.createElement(
+                        'span'
+                    );
+
+
+                stamp.className =
+                    'girlfriend-validation-stamp';
+
+
+                stamp.textContent =
+                    `M${formatMilestoneNumber(
+                        month
+                    )} ✓`;
+
+
+                const date =
+                    getMilestoneDate(
+                        month
+                    );
+
+
+                stamp.title =
+                    `validado em ${formatBirdflashDate(
+                        date
+                    )}`;
+
+
+                girlfriendValidationList
+                    .appendChild(
+                        stamp
+                    );
+            }
+        }
+    }
+
     function openGirlfriendCard() {
         if (!girlfriendModal) return;
-        girlfriendModal.hidden = false;
-        document.body.classList.add('modal-open');
-        girlfriendIdCard?.classList.remove('is-flipped');
-        setTimeout(() => girlfriendIdCard?.focus(), 20);
+
+
+        updateGirlfriendCardMilestones();
+
+
+        girlfriendModal.hidden =
+            false;
+
+
+        document.body
+            .classList
+            .add('modal-open');
+
+
+        girlfriendIdCard
+            ?.classList
+            .remove('is-flipped');
+
+
+        setTimeout(
+            () =>
+                girlfriendIdCard
+                    ?.focus(),
+            20
+        );
     }
 
     function closeGirlfriendCard() {
