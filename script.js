@@ -46,20 +46,551 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================
     // BIRDFLASH — NOVA HOME / NOVA ERA
     // =========================================================
-    const relationshipStart = new Date(2026, 7, 5); // 05.08.2026
-    relationshipStart.setHours(0, 0, 0, 0);
+        // =========================================================
+    // BIRDFLASH - RELATIONSHIP STATE / MONTHLY MILESTONES V2
+    // =========================================================
 
-    function updateRelationshipDays() {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-        const diff = Math.max(0, Math.floor((now - relationshipStart) / 86400000));
-        const label = `${diff} ${diff === 1 ? 'dia' : 'dias'}`;
-        document.querySelectorAll('[data-relationship-days]').forEach(element => {
-            element.textContent = label;
-        });
+    const relationshipStart =
+        new Date(2026, 7, 5);
+
+    relationshipStart.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    /*
+     * Só para testes.
+     *
+     * Para simular 05.09:
+     *
+     * const BIRDFLASH_PREVIEW_DATE =
+     *     new Date(2026, 8, 5);
+     *
+     * Antes do deploy:
+     *
+     * const BIRDFLASH_PREVIEW_DATE = null;
+     */
+
+    const BIRDFLASH_PREVIEW_DATE = new Date(2026, 8, 5);
+
+
+    /*
+     * O milestone do dia 05 é automático.
+     *
+     * Essa lista guarda somente coisas
+     * especiais que você decidiu criar
+     * manualmente para determinado mês.
+     */
+
+    const monthlyAnniversaryEvents = {
+        1: {
+            targetMonth: '2026-09',
+
+            targetEntrySelector:
+                '.diary-entry:first-child',
+
+            diaryDescription:
+                'month one archive · 31 registros esperando por você',
+
+            diaryDate:
+                '05.09 · one month of us',
+
+            celebration:
+                'gotham',
+
+            gothamText:
+                'parece que gotham ficou sabendo do nosso primeiro mês...'
+        }
+    };
+
+
+    function getBirdflashToday() {
+        const date =
+            BIRDFLASH_PREVIEW_DATE
+                ? new Date(
+                    BIRDFLASH_PREVIEW_DATE
+                )
+                : new Date();
+
+        date.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+        return date;
     }
 
-    updateRelationshipDays();
+
+    function getRelationshipState() {
+        const today =
+            getBirdflashToday();
+
+
+        const days =
+            Math.max(
+                0,
+                Math.floor(
+                    (
+                        today -
+                        relationshipStart
+                    ) /
+                    86400000
+                )
+            );
+
+
+        let completedMonths =
+            (
+                today.getFullYear() -
+                relationshipStart.getFullYear()
+            ) * 12 +
+            (
+                today.getMonth() -
+                relationshipStart.getMonth()
+            );
+
+
+        if (
+            today.getDate() <
+            relationshipStart.getDate()
+        ) {
+            completedMonths--;
+        }
+
+
+        completedMonths =
+            Math.max(
+                0,
+                completedMonths
+            );
+
+
+        const isMonthlyAnniversary =
+            completedMonths > 0 &&
+            today.getDate() ===
+                relationshipStart.getDate();
+
+
+        return {
+            today,
+            days,
+            completedMonths,
+            isMonthlyAnniversary
+        };
+    }
+
+
+    function getMilestoneDate(
+        monthNumber
+    ) {
+        return new Date(
+            relationshipStart.getFullYear(),
+            relationshipStart.getMonth() +
+                monthNumber,
+            relationshipStart.getDate()
+        );
+    }
+
+
+    function formatBirdflashDate(
+        date
+    ) {
+        return [
+            String(
+                date.getDate()
+            ).padStart(2, '0'),
+
+            String(
+                date.getMonth() + 1
+            ).padStart(2, '0'),
+
+            date.getFullYear()
+        ].join('.');
+    }
+
+
+    function formatMilestoneNumber(
+        number
+    ) {
+        return String(number)
+            .padStart(2, '0');
+    }
+
+
+    function updateRelationshipExperience() {
+        const state =
+            getRelationshipState();
+
+
+        const monthNumber =
+            formatMilestoneNumber(
+                state.completedMonths
+            );
+
+
+        const event =
+            monthlyAnniversaryEvents[
+                state.completedMonths
+            ] || null;
+
+
+        const daysLabel =
+            `${state.days} ${
+                state.days === 1
+                    ? 'dia'
+                    : 'dias'
+            }`;
+
+
+        document
+            .querySelectorAll(
+                '[data-relationship-days]'
+            )
+            .forEach(element => {
+                element.textContent =
+                    daysLabel;
+            });
+
+
+        const homeView =
+            document.getElementById(
+                'home-view'
+            );
+
+        const normalState =
+            document.getElementById(
+                'home-relationship-normal'
+            );
+
+        const milestoneState =
+            document.getElementById(
+                'home-milestone-state'
+            );
+
+        const milestoneTitle =
+            document.getElementById(
+                'home-milestone-title'
+            );
+
+        const milestoneDays =
+            document.getElementById(
+                'home-milestone-days'
+            );
+
+        const milestoneDates =
+            document.getElementById(
+                'home-milestone-dates'
+            );
+
+        const latestLine =
+            document.getElementById(
+                'home-latest-line'
+            );
+
+        const latestTitle =
+            document.getElementById(
+                'home-latest-title'
+            );
+
+        const latestDate =
+            document.getElementById(
+                'home-latest-date'
+            );
+
+
+        const diaryCard =
+            document.getElementById(
+                'home-diary-card'
+            );
+
+        const diaryBadge =
+            document.getElementById(
+                'home-diary-feature-badge'
+            );
+
+        const diaryDescription =
+            document.getElementById(
+                'home-diary-description'
+            );
+
+        const diaryFeatureDate =
+            document.getElementById(
+                'home-diary-feature-date'
+            );
+
+
+        const gothamMoment =
+            document.getElementById(
+                'home-gotham-moment'
+            );
+
+        const gothamCopy =
+            document.getElementById(
+                'home-gotham-copy'
+            );
+
+        const gothamResult =
+            document.getElementById(
+                'home-gotham-result'
+            );
+
+        const gothamButton =
+            document.getElementById(
+                'home-gotham-celebrate'
+            );
+
+
+        /*
+         * Primeiro restaura tudo
+         * para o estado normal.
+         */
+
+        homeView
+            ?.classList
+            .remove(
+                'is-anniversary-day'
+            );
+
+
+        if (normalState) {
+            normalState.hidden =
+                false;
+        }
+
+
+        if (milestoneState) {
+            milestoneState.hidden =
+                true;
+        }
+
+
+        if (latestLine) {
+            latestLine.hidden =
+                true;
+        }
+
+
+        if (gothamMoment) {
+            gothamMoment.hidden =
+                true;
+
+            gothamMoment
+                .classList
+                .remove(
+                    'is-celebrated'
+                );
+        }
+
+
+        if (gothamResult) {
+            gothamResult.hidden =
+                true;
+        }
+
+
+        if (gothamButton) {
+            gothamButton.textContent =
+                'comemorar com gotham';
+        }
+
+
+        if (diaryCard) {
+            diaryCard
+                .classList
+                .remove(
+                    'is-month-featured'
+                );
+        }
+
+
+        if (diaryBadge) {
+            diaryBadge.hidden =
+                true;
+        }
+
+
+        if (diaryDescription) {
+            diaryDescription.textContent =
+                'músicas, textinhos e pedacinhos dos nossos dias';
+        }
+
+
+        if (diaryFeatureDate) {
+            diaryFeatureDate.hidden =
+                true;
+        }
+
+
+        /*
+         * DIA 05
+         */
+
+        if (
+            state.isMonthlyAnniversary
+        ) {
+            homeView
+                ?.classList
+                .add(
+                    'is-anniversary-day'
+                );
+
+
+            if (normalState) {
+                normalState.hidden =
+                    true;
+            }
+
+
+            if (milestoneState) {
+                milestoneState.hidden =
+                    false;
+            }
+
+
+            const milestoneDate =
+                getMilestoneDate(
+                    state.completedMonths
+                );
+
+
+            if (milestoneTitle) {
+                milestoneTitle.textContent =
+                    `MONTH ${monthNumber} COMPLETE ♡`;
+            }
+
+
+            if (milestoneDays) {
+                milestoneDays.textContent =
+                    `${state.days} days of being officially yours`;
+            }
+
+
+            if (milestoneDates) {
+                milestoneDates.textContent =
+                    `${formatBirdflashDate(
+                        relationshipStart
+                    )} · ${formatBirdflashDate(
+                        milestoneDate
+                    )}`;
+            }
+
+
+            /*
+             * Existe uma entry especial
+             * cadastrada para esse mês.
+             */
+
+            if (
+                event?.targetMonth &&
+                diaryCard
+            ) {
+                diaryCard
+                    .classList
+                    .add(
+                        'is-month-featured'
+                    );
+
+
+                if (diaryBadge) {
+                    diaryBadge.hidden =
+                        false;
+                }
+
+
+                if (
+                    diaryDescription &&
+                    event.diaryDescription
+                ) {
+                    diaryDescription.textContent =
+                        event.diaryDescription;
+                }
+
+
+                if (
+                    diaryFeatureDate &&
+                    event.diaryDate
+                ) {
+                    diaryFeatureDate.textContent =
+                        event.diaryDate;
+
+                    diaryFeatureDate.hidden =
+                        false;
+                }
+            }
+
+
+            /*
+             * Comemoração artesanal.
+             * Gotham só existe no month 01.
+             */
+
+            if (
+                event?.celebration ===
+                    'gotham' &&
+                gothamMoment
+            ) {
+                gothamMoment.hidden =
+                    false;
+
+
+                if (
+                    gothamCopy &&
+                    event.gothamText
+                ) {
+                    gothamCopy.textContent =
+                        event.gothamText;
+                }
+            }
+
+
+            return;
+        }
+
+
+        /*
+         * DIAS NORMAIS
+         *
+         * O contador continua normal
+         * e só fica um registro discreto
+         * do milestone mais recente.
+         */
+
+        if (
+            state.completedMonths > 0 &&
+            latestLine
+        ) {
+            const milestoneDate =
+                getMilestoneDate(
+                    state.completedMonths
+                );
+
+
+            latestLine.hidden =
+                false;
+
+
+            if (latestTitle) {
+                latestTitle.textContent =
+                    `month ${monthNumber} ✓`;
+            }
+
+
+            if (latestDate) {
+                latestDate.textContent =
+                    formatBirdflashDate(
+                        milestoneDate
+                    );
+            }
+        }
+    }
+
+
+    updateRelationshipExperience();
 
     const appViews = [...document.querySelectorAll('.app-view')];
     const viewButtons = document.querySelectorAll('[data-open-view]');
@@ -79,6 +610,349 @@ document.addEventListener('DOMContentLoaded', () => {
     viewButtons.forEach(button => {
         button.addEventListener('click', () => openBirdflashView(button.dataset.openView));
     });
+
+        // =========================================================
+    // HOME - MONTHLY MILESTONE ACTIONS V2
+    // =========================================================
+
+    const homeDiaryCard =
+        document.getElementById(
+            'home-diary-card'
+        );
+
+    const homeGothamMoment =
+        document.getElementById(
+            'home-gotham-moment'
+        );
+
+    const homeGothamButton =
+        document.getElementById(
+            'home-gotham-celebrate'
+        );
+
+    const homeGothamResult =
+        document.getElementById(
+            'home-gotham-result'
+        );
+
+
+    // Abre diretamente a entry especial no dia 05.
+
+    homeDiaryCard
+        ?.addEventListener(
+            'click',
+            () => {
+                const state =
+                    getRelationshipState();
+
+
+                if (
+                    !state
+                        .isMonthlyAnniversary
+                ) {
+                    return;
+                }
+
+
+                const event =
+                    monthlyAnniversaryEvents[
+                        state.completedMonths
+                    ];
+
+
+                if (!event?.targetMonth) {
+                    return;
+                }
+
+
+                window.setTimeout(
+                    () => {
+                        const targetMonth =
+                            document.querySelector(
+                                `.month-section[data-month="${event.targetMonth}"]`
+                            );
+
+
+                        if (!targetMonth) {
+                            return;
+                        }
+
+
+                        document
+                            .querySelectorAll(
+                                '.month-section'
+                            )
+                            .forEach(section => {
+                                const opening =
+                                    section ===
+                                    targetMonth;
+
+
+                                section
+                                    .classList
+                                    .toggle(
+                                        'active',
+                                        opening
+                                    );
+
+
+                                const header =
+                                    section
+                                        .querySelector(
+                                            '.month-header'
+                                        );
+
+
+                                header
+                                    ?.setAttribute(
+                                        'aria-expanded',
+                                        opening
+                                            ? 'true'
+                                            : 'false'
+                                    );
+                            });
+
+
+                        const targetEntry =
+                            targetMonth
+                                .querySelector(
+                                    event.targetEntrySelector ||
+                                    '.diary-entry:first-child'
+                                );
+
+
+                        if (targetEntry) {
+                            targetEntry
+                                .classList
+                                .add(
+                                    'active'
+                                );
+
+
+                            targetEntry
+                                .querySelector(
+                                    '.accordion-header'
+                                )
+                                ?.setAttribute(
+                                    'aria-expanded',
+                                    'true'
+                                );
+                        }
+
+
+                        window.setTimeout(
+                            () => {
+                                targetEntry
+                                    ?.scrollIntoView({
+                                        behavior:
+                                            'smooth',
+
+                                        block:
+                                            'start'
+                                    });
+                            },
+                            80
+                        );
+                    },
+                    90
+                );
+            }
+        );
+
+
+    // =========================================================
+    // GOTHAM CELEBRATION
+    // =========================================================
+
+    function releaseMonthOneGotham(
+        trigger
+    ) {
+        if (!trigger) return;
+
+
+        /*
+         * Usuários que preferem menos
+         * movimento continuam recebendo
+         * a mensagem, só não recebem
+         * a explosão de morcegos.
+         */
+
+        if (
+            window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches
+        ) {
+            return;
+        }
+
+
+        const rect =
+            trigger.getBoundingClientRect();
+
+
+        const originX =
+            rect.left +
+            rect.width / 2;
+
+
+        const originY =
+            rect.top +
+            rect.height / 2;
+
+
+        const symbols = [
+            '🦇',
+            '🦇',
+            '🦇',
+            '♡',
+            '♡'
+        ];
+
+
+        for (
+            let i = 0;
+            i < 28;
+            i++
+        ) {
+            const particle =
+                document.createElement(
+                    'span'
+                );
+
+
+            particle.className =
+                'month-one-gotham-particle';
+
+
+            particle.textContent =
+                symbols[
+                    Math.floor(
+                        Math.random() *
+                        symbols.length
+                    )
+                ];
+
+
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
+
+
+            const distance =
+                95 +
+                Math.random() *
+                210;
+
+
+            const tx =
+                Math.cos(angle) *
+                distance;
+
+
+            const ty =
+                Math.sin(angle) *
+                distance;
+
+
+            const rotation =
+                (
+                    Math.random() -
+                    .5
+                ) * 160;
+
+
+            const size =
+                .7 +
+                Math.random() *
+                .85;
+
+
+            const duration =
+                1150 +
+                Math.random() *
+                650;
+
+
+            particle.style.left =
+                `${originX}px`;
+
+
+            particle.style.top =
+                `${originY}px`;
+
+
+            particle.style.setProperty(
+                '--tx',
+                `${tx}px`
+            );
+
+
+            particle.style.setProperty(
+                '--ty',
+                `${ty}px`
+            );
+
+
+            particle.style.setProperty(
+                '--rot',
+                `${rotation}deg`
+            );
+
+
+            particle.style.setProperty(
+                '--particle-size',
+                `${size}rem`
+            );
+
+
+            particle.style.setProperty(
+                '--particle-duration',
+                `${duration}ms`
+            );
+
+
+            document.body.appendChild(
+                particle
+            );
+
+
+            window.setTimeout(
+                () => {
+                    particle.remove();
+                },
+                duration + 120
+            );
+        }
+    }
+
+
+    homeGothamButton
+        ?.addEventListener(
+            'click',
+            () => {
+                releaseMonthOneGotham(
+                    homeGothamButton
+                );
+
+
+                homeGothamMoment
+                    ?.classList
+                    .add(
+                        'is-celebrated'
+                    );
+
+
+                if (homeGothamResult) {
+                    homeGothamResult.hidden =
+                        false;
+                }
+
+
+                homeGothamButton.textContent =
+                    'comemorar de novo ♡';
+            }
+        );
 
     // =========================================================
     // CARTEIRINHA DA MINHA SHAW

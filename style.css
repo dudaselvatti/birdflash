@@ -8419,3 +8419,413 @@ body.modal-open { overflow: hidden; }
     }
 }
 
+/* =========================================================
+   HOME - MONTHLY MILESTONES V2
+   ========================================================= */
+
+#home-relationship-normal[hidden],
+#home-milestone-state[hidden],
+#home-latest-line[hidden],
+#home-gotham-moment[hidden],
+#home-gotham-result[hidden],
+#home-diary-feature-badge[hidden],
+#home-diary-feature-date[hidden] {
+    display: none !important;
+}
+
+
+/* HERO */
+
+.home-relationship-state {
+    width: 100%;
+}
+
+.home-milestone-state {
+    margin-top: 12px;
+    text-align: center;
+
+    animation:
+        homeMilestoneAppear .65s ease both;
+}
+
+.home-milestone-title {
+    display: block;
+
+    color: #f0e4e9;
+
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+
+    letter-spacing: .55px;
+}
+
+.home-milestone-days {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #a59a9f;
+
+    font-family: Georgia, serif;
+    font-size: .88rem;
+    font-style: italic;
+}
+
+.home-milestone-dates {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #71686c;
+
+    font-size: .64rem;
+    letter-spacing: 1.45px;
+}
+
+
+/*
+ * Não vira card.
+ * Só muda levemente a atmosfera da hero.
+ */
+
+.home-view.is-anniversary-day .home-hero {
+    background:
+        radial-gradient(
+            circle at 50% 55%,
+            rgba(211, 151, 175, .075),
+            transparent 67%
+        );
+}
+
+.home-view.is-anniversary-day .home-hero h2 {
+    text-shadow:
+        0 0 24px rgba(211, 151, 175, .09);
+}
+
+
+/* MILESTONE NOS DIAS NORMAIS */
+
+.home-latest-line {
+    margin-top: 8px;
+
+    color: #626064;
+
+    font-size: .64rem;
+    line-height: 1.4;
+
+    letter-spacing: .3px;
+}
+
+.home-latest-line strong {
+    color: #a28792;
+    font-weight: 500;
+}
+
+.home-latest-line span {
+    color: #4f4d50;
+    margin-left: 3px;
+}
+
+
+/* =========================================================
+   GOTHAM
+   ========================================================= */
+
+.home-gotham-moment {
+    width: 100%;
+    max-width: 900px;
+
+    margin: -18px auto 34px;
+    padding: 13px 5px;
+
+    border-top:
+        1px solid rgba(240, 213, 92, .07);
+
+    border-bottom:
+        1px solid rgba(240, 213, 92, .07);
+
+    text-align: center;
+
+    animation:
+        homeGothamAppear .65s ease both;
+}
+
+.home-gotham-copy {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+}
+
+.home-gotham-copy > span {
+    color: #9f9160;
+    font-size: .82rem;
+}
+
+.home-gotham-copy p {
+    margin: 0;
+
+    color: #79767a;
+
+    font-family: Georgia, serif;
+    font-size: .78rem;
+    font-style: italic;
+
+    line-height: 1.45;
+}
+
+.home-gotham-celebrate {
+    min-height: 42px;
+
+    margin-top: 10px;
+    padding: 0 17px;
+
+    border:
+        1px solid rgba(240, 213, 92, .12);
+
+    border-radius: 999px;
+
+    background:
+        rgba(240, 213, 92, .025);
+
+    color: #a99a68;
+
+    font-size: .7rem;
+    letter-spacing: .3px;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        transform .16s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.home-gotham-celebrate:active {
+    transform: scale(.97);
+}
+
+.home-gotham-moment.is-celebrated
+.home-gotham-celebrate {
+    background:
+        rgba(240, 213, 92, .055);
+
+    border-color:
+        rgba(240, 213, 92, .19);
+}
+
+.home-gotham-result {
+    margin-top: 10px;
+
+    color: #998b5c;
+
+    font-size: .58rem;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+
+    text-transform: uppercase;
+
+    animation:
+        homeGothamResult .4s ease both;
+}
+
+
+/* =========================================================
+   DIARY EM DESTAQUE NO DIA 05
+   ========================================================= */
+
+.home-menu-card.is-month-featured {
+    border-color:
+        rgba(211, 151, 175, .15);
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(211, 151, 175, .06),
+            transparent 43%
+        ),
+        rgba(255, 255, 255, .025);
+}
+
+.home-menu-card.is-month-featured
+.home-menu-icon {
+    color: #c79aaa;
+}
+
+.home-menu-feature-badge {
+    width: fit-content;
+
+    margin-bottom: 5px;
+
+    color: #bd8fa0;
+
+    font-size: .56rem;
+    font-weight: 600;
+
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+}
+
+.home-menu-feature-date {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #806b73;
+
+    font-family: Georgia, serif;
+    font-size: .7rem;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   GOTHAM PARTICLES
+   ========================================================= */
+
+.month-one-gotham-particle {
+    position: fixed;
+
+    z-index: 9998;
+
+    left: 0;
+    top: 0;
+
+    pointer-events: none;
+
+    font-size:
+        var(--particle-size, 1rem);
+
+    animation:
+        monthOneGothamFly
+        var(--particle-duration, 1500ms)
+        cubic-bezier(.2, .8, .3, 1)
+        forwards;
+}
+
+@keyframes monthOneGothamFly {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.4)
+            rotate(0deg);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                calc(-50% + var(--tx)),
+                calc(-50% + var(--ty))
+            )
+            scale(1.2)
+            rotate(var(--rot));
+    }
+}
+
+
+@keyframes homeMilestoneAppear {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes homeGothamAppear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes homeGothamResult {
+    from {
+        opacity: 0;
+        transform: translateY(3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+    .home-milestone-state {
+        margin-top: 10px;
+    }
+
+    .home-milestone-title {
+        font-size: 1.23rem;
+    }
+
+    .home-milestone-days {
+        font-size: .82rem;
+    }
+
+    .home-milestone-dates {
+        font-size: .6rem;
+    }
+
+    .home-latest-line {
+        max-width: 270px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home-gotham-moment {
+        margin-top: -14px;
+        margin-bottom: 28px;
+
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .home-gotham-copy {
+        gap: 7px;
+    }
+
+    .home-gotham-copy p {
+        font-size: .75rem;
+    }
+
+    .home-gotham-celebrate {
+        min-height: 44px;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .home-milestone-state,
+    .home-gotham-moment,
+    .home-gotham-result,
+    .month-one-gotham-particle {
+        animation: none;
+    }
+}

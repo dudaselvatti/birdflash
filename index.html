@@ -555,11 +555,46 @@
     </div>
     <main id="main-content">
         <section class="app-view home-view active" id="home-view" data-view="home">
-            <div class="home-hero">
+            <div class="home-hero" id="home-hero">
                 <span class="home-kicker">birdflash</span>
+
                 <h2>duda + júlia</h2>
-                <p class="officially-yours">being officially yours há <strong data-relationship-days>0 dias</strong> ♡
-                </p>
+
+                <div class="home-relationship-state">
+                    <!-- estado normal -->
+                    <p class="officially-yours" id="home-relationship-normal">
+                        being officially yours há
+                        <strong data-relationship-days>0 dias</strong> ♡
+                    </p>
+
+                    <!-- estado do dia 05 -->
+                    <div class="home-milestone-state" id="home-milestone-state" hidden>
+                        <strong class="home-milestone-title" id="home-milestone-title">
+                            MONTH 01 COMPLETE ♡
+                        </strong>
+
+                        <span class="home-milestone-days" id="home-milestone-days">
+                            31 days of being officially yours
+                        </span>
+
+                        <small class="home-milestone-dates" id="home-milestone-dates">
+                            05.08.2026 · 05.09.2026
+                        </small>
+                    </div>
+
+                    <!-- aparece nos dias normais depois de um milestone -->
+                    <p class="home-latest-line" id="home-latest-line" hidden>
+                        latest milestone:
+                        <strong id="home-latest-title">
+                            month 01 ✓
+                        </strong>
+                        <span aria-hidden="true">·</span>
+                        <span id="home-latest-date">
+                            05.09.2026
+                        </span>
+                    </p>
+                </div>
+
                 <button class="girlfriend-card-trigger" id="girlfriend-card-trigger" type="button">
                     ver carteirinha da minha shaw
                 </button>
@@ -582,14 +617,52 @@
                 <p class="weather-caption" id="weather-caption">ainda estamos sob o mesmo sol.</p>
             </div>
 
+            <section class="home-gotham-moment" id="home-gotham-moment" aria-label="comemoração de um mês com gotham"
+                hidden>
+                <div class="home-gotham-copy">
+                    <span aria-hidden="true">🦇</span>
+
+                    <p id="home-gotham-copy">
+                        parece que gotham ficou sabendo do nosso primeiro mês...
+                    </p>
+
+                    <span aria-hidden="true">♡</span>
+                </div>
+
+                <button class="home-gotham-celebrate" id="home-gotham-celebrate" type="button">
+                    comemorar com gotham
+                </button>
+
+                <p class="home-gotham-result" id="home-gotham-result" aria-live="polite" hidden>
+                    gotham relationship status: verified ♡
+                </p>
+            </section>
+
             <nav class="home-menu" aria-label="seções do birdflash">
-                <button class="home-menu-card" data-open-view="diary" type="button">
-                    <span class="home-menu-icon" aria-hidden="true">♫</span>
-                    <span class="home-menu-copy">
-                        <strong>diary entries</strong>
-                        <small>músicas, textinhos e pedacinhos dos nossos dias</small>
+                <button class="home-menu-card" id="home-diary-card" data-open-view="diary" type="button">
+                    <span class="home-menu-icon" aria-hidden="true">
+                        ♫
                     </span>
-                    <span class="home-menu-arrow" aria-hidden="true">→</span>
+
+                    <span class="home-menu-copy">
+                        <span class="home-menu-feature-badge" id="home-diary-feature-badge" hidden>
+                            new ♡
+                        </span>
+
+                        <strong>diary entries</strong>
+
+                        <small id="home-diary-description">
+                            músicas, textinhos e pedacinhos dos nossos dias
+                        </small>
+
+                        <span class="home-menu-feature-date" id="home-diary-feature-date" hidden>
+                            05.09 · one month of us
+                        </span>
+                    </span>
+
+                    <span class="home-menu-arrow" aria-hidden="true">
+                        →
+                    </span>
                 </button>
                 <button class="home-menu-card" data-open-view="coded" type="button">
                     <span class="home-menu-icon" aria-hidden="true">♡</span>
@@ -2822,7 +2895,7 @@
                                                 <h2>one month of us.</h2>
 
                                                 <p class="personal-message compact-text">
-                                                    boa noite, minha linda &lt;3. oficialmente faz um mês que eu posso
+                                                    bom dia, minha linda &lt;3. oficialmente faz um mês que eu posso
                                                     te chamar de minha namorada!!! é até meio estranho escrever “um mês”
                                                     porque ao mesmo tempo parece que foi ontem que você me pediu em
                                                     namoro e parece que já aconteceu tanta coisa desde então..<br />
