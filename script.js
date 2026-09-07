@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * const BIRDFLASH_PREVIEW_DATE = null;
      */
 
-    const BIRDFLASH_PREVIEW_DATE = new Date(2026, 8, 5);
+    const BIRDFLASH_PREVIEW_DATE = null;
 
 
     /*
