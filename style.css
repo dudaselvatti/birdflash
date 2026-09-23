@@ -8829,3 +8829,661 @@ body.modal-open { overflow: hidden; }
         animation: none;
     }
 }
+
+/* =========================================================
+   BAT DELIVERY — 23.09
+   ========================================================= */
+.bat-delivery-intro-2309 {
+    margin-bottom: 26px;
+}
+
+.bat-delivery-2309 {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.bat-delivery-2309 [hidden] {
+    display: none !important;
+}
+
+.bat-delivery-console-2309 {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(241, 211, 81, .22);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top right, rgba(237, 206, 75, .1), transparent 31%),
+        #07090e;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, .32);
+    overflow: hidden;
+}
+
+.bat-delivery-console-head-2309 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 5px 3px 12px;
+}
+
+.bat-delivery-console-head-2309 > div:first-child {
+    min-width: 0;
+}
+
+.bat-delivery-console-head-2309 span,
+.bat-delivery-console-status-2309 small,
+.bat-delivery-console-foot-2309,
+.bat-delivery-route-2309 {
+    color: #777b84;
+    font-size: .59rem;
+    font-weight: 700;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+}
+
+.bat-delivery-console-head-2309 strong {
+    display: block;
+    margin-top: 4px;
+    color: #f0d45b;
+    font-size: .82rem;
+    letter-spacing: 1.15px;
+}
+
+.bat-delivery-console-status-2309 {
+    flex: 0 0 auto;
+    min-width: 82px;
+    padding: 7px 9px;
+    border: 1px solid rgba(241, 211, 81, .14);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, .025);
+    text-align: right;
+}
+
+.bat-delivery-console-status-2309 small,
+.bat-delivery-console-status-2309 b {
+    display: block;
+}
+
+.bat-delivery-console-status-2309 b {
+    margin-top: 2px;
+    color: #e7cf66;
+    font-size: .56rem;
+    letter-spacing: .7px;
+}
+
+.bat-delivery-route-2309 {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 0 3px 11px;
+}
+
+.bat-delivery-route-line-2309 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.bat-delivery-route-line-2309 i {
+    flex: 1;
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(240, 211, 86, .28) 0 5px,
+        transparent 5px 10px
+    );
+}
+
+.bat-delivery-route-line-2309 b {
+    flex: 0 0 auto;
+    font-size: .9rem;
+    filter: grayscale(1) brightness(.85) sepia(.8);
+}
+
+.bat-delivery-game-shell-2309 {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 360 / 520;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 17px;
+    background: #07090d;
+    isolation: isolate;
+}
+
+#bat-delivery-canvas-2309 {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bat-delivery-hud-2309 {
+    position: absolute;
+    z-index: 3;
+    top: 11px;
+    left: 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid rgba(244, 216, 91, .19);
+    border-radius: 8px;
+    background: rgba(4, 5, 9, .64);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.bat-delivery-hud-2309 span {
+    color: #9a9a9c;
+    font-size: .55rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.bat-delivery-hud-2309 strong {
+    color: #f1d65c;
+    font-size: .66rem;
+    letter-spacing: .5px;
+}
+
+.bat-delivery-overlay-2309 {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 22px;
+    background:
+        radial-gradient(circle at 50% 38%, rgba(238, 207, 77, .12), transparent 28%),
+        rgba(3, 4, 8, .79);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    text-align: center;
+}
+
+.bat-delivery-overlay-kicker-2309 {
+    margin-bottom: 8px;
+    color: #d8c15d;
+    font-size: .59rem;
+    font-weight: 800;
+    letter-spacing: 1.65px;
+    text-transform: uppercase;
+}
+
+.bat-delivery-overlay-2309 strong {
+    max-width: 300px;
+    color: #f5f5f2;
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.bat-delivery-overlay-2309 p {
+    max-width: 285px;
+    margin: 10px 0 17px;
+    color: #a3a3a6;
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.bat-delivery-overlay-2309 button,
+.bat-delivery-arrival-2309 button,
+.bat-delivery-replay-2309 {
+    min-height: 46px;
+    border: 1px solid rgba(242, 213, 87, .48);
+    border-radius: 999px;
+    padding: 10px 17px;
+    background: #e8cb52;
+    color: #090a0d;
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .7px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .16s ease, background .2s ease;
+}
+
+.bat-delivery-overlay-2309 button:active,
+.bat-delivery-arrival-2309 button:active,
+.bat-delivery-replay-2309:active {
+    transform: scale(.97);
+}
+
+.bat-delivery-fail-actions-2309 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: min(100%, 310px);
+}
+
+.bat-delivery-fail-actions-2309 button {
+    width: 100%;
+}
+
+.bat-delivery-mercy-2309 {
+    border-color: rgba(255, 255, 255, .13) !important;
+    background: rgba(255, 255, 255, .075) !important;
+    color: #e5e5e5 !important;
+    font-weight: 600 !important;
+}
+
+.bat-delivery-console-foot-2309 {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 3px 1px;
+}
+
+.bat-delivery-arrival-2309 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, 440px);
+    margin: 25px auto 0;
+    padding: 23px 18px;
+    border: 1px solid rgba(238, 209, 84, .2);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at top, rgba(239, 209, 84, .11), transparent 45%),
+        rgba(255, 255, 255, .025);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.bat-delivery-arrival-2309.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bat-delivery-arrival-check-2309 {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(239, 210, 86, .35);
+    border-radius: 50%;
+    color: #e6ca54;
+    font-size: 1rem;
+}
+
+.bat-delivery-arrival-2309 small,
+.bat-delivery-arrival-2309 strong,
+.bat-delivery-arrival-2309 p {
+    display: block;
+}
+
+.bat-delivery-arrival-2309 small {
+    color: #7d7d80;
+    font-size: .6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.bat-delivery-arrival-2309 strong {
+    margin: 5px 0 4px;
+    color: #ededeb;
+    font-size: 1.05rem;
+}
+
+.bat-delivery-arrival-2309 p {
+    margin-bottom: 15px;
+    color: #99999d;
+    font-size: .81rem;
+}
+
+.bat-delivery-letter-2309 {
+    width: 100%;
+    margin: 30px auto 0;
+    overflow: hidden;
+    border: 1px solid #d7cbb8;
+    border-radius: 20px;
+    background: #f5efe3;
+    color: #292722;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, .2);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .9s ease, transform .9s ease;
+}
+
+.bat-delivery-letter-2309.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bat-delivery-letter-meta-2309 {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 18px;
+    border-bottom: 1px dashed #cfc2ad;
+    background: #eee5d5;
+    color: #6d665c;
+    font-size: .61rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.bat-delivery-letter-body-2309 {
+    padding: 28px 26px 26px;
+}
+
+.bat-delivery-letter-body-2309 h3 {
+    margin: 0 0 22px;
+    color: #292722;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.bat-delivery-letter-body-2309 p {
+    margin: 0 0 17px;
+    color: #3f3a34;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: .96rem;
+    line-height: 1.75;
+    text-align: left;
+}
+
+.bat-delivery-letter-body-2309 p:last-child {
+    margin-bottom: 0;
+}
+
+.bat-delivery-letter-signature-2309 {
+    padding-top: 5px;
+    color: #5d4549 !important;
+    font-weight: 650;
+}
+
+.bat-delivery-now-playing-2309 {
+    margin: 0 26px;
+    padding: 16px 0 13px;
+    border-top: 1px solid #ddd1bf;
+}
+
+.bat-delivery-now-playing-2309 span,
+.bat-delivery-now-playing-2309 strong {
+    display: block;
+}
+
+.bat-delivery-now-playing-2309 span {
+    margin-bottom: 4px;
+    color: #9a8e7d;
+    font-size: .59rem;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.bat-delivery-now-playing-2309 strong {
+    color: #4b463f;
+    font-size: .86rem;
+    font-weight: 650;
+}
+
+.bat-delivery-song-2309 {
+    padding: 0 26px 24px;
+}
+
+.bat-delivery-replay-2309 {
+    display: block;
+    margin: 0 auto 26px;
+    border-color: #bbb09f;
+    background: transparent;
+    color: #625a50;
+}
+
+@media (max-width: 560px) {
+    .bat-delivery-console-2309 {
+        padding: 10px;
+        border-radius: 18px;
+    }
+
+    .bat-delivery-console-head-2309 {
+        gap: 8px;
+        padding: 4px 1px 10px;
+    }
+
+    .bat-delivery-console-head-2309 span {
+        font-size: .49rem;
+        letter-spacing: .85px;
+    }
+
+    .bat-delivery-console-head-2309 strong {
+        font-size: .7rem;
+        letter-spacing: .7px;
+    }
+
+    .bat-delivery-console-status-2309 {
+        min-width: 72px;
+        padding: 6px 7px;
+    }
+
+    .bat-delivery-console-status-2309 small {
+        font-size: .48rem;
+    }
+
+    .bat-delivery-console-status-2309 b {
+        font-size: .48rem;
+    }
+
+    .bat-delivery-game-shell-2309 {
+        border-radius: 14px;
+    }
+
+    .bat-delivery-overlay-2309 {
+        padding: 24px 18px;
+    }
+
+    .bat-delivery-overlay-2309 strong {
+        font-size: .94rem;
+    }
+
+    .bat-delivery-overlay-2309 p {
+        font-size: .79rem;
+    }
+
+    .bat-delivery-console-foot-2309 {
+        font-size: .5rem;
+        letter-spacing: .8px;
+    }
+
+    .bat-delivery-letter-meta-2309 {
+        padding: 11px 14px;
+        font-size: .53rem;
+        letter-spacing: .65px;
+    }
+
+    .bat-delivery-letter-body-2309 {
+        padding: 24px 20px 21px;
+    }
+
+    .bat-delivery-letter-body-2309 h3 {
+        font-size: 1.08rem;
+        margin-bottom: 19px;
+    }
+
+    .bat-delivery-letter-body-2309 p {
+        font-size: .94rem;
+        line-height: 1.72;
+        margin-bottom: 16px;
+    }
+
+    .bat-delivery-now-playing-2309 {
+        margin: 0 20px;
+    }
+
+    .bat-delivery-song-2309 {
+        padding: 0 20px 22px;
+    }
+}
+
+@media (max-width: 360px) {
+    .bat-delivery-console-head-2309 span {
+        font-size: .45rem;
+    }
+
+    .bat-delivery-console-head-2309 strong {
+        font-size: .64rem;
+    }
+
+    .bat-delivery-console-status-2309 {
+        min-width: 64px;
+    }
+
+    .bat-delivery-route-2309 {
+        gap: 7px;
+    }
+
+    .bat-delivery-letter-meta-2309 {
+        flex-direction: column;
+        gap: 3px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bat-delivery-arrival-2309,
+    .bat-delivery-letter-2309,
+    .bat-delivery-overlay-2309 button,
+    .bat-delivery-arrival-2309 button,
+    .bat-delivery-replay-2309 {
+        transition: none;
+    }
+}
+
+
+/* =========================================================
+   BAT DELIVERY — TELA DE VITÓRIA
+   ========================================================= */
+
+.bat-delivery-victory-2309[hidden] {
+    display: none;
+}
+
+.bat-delivery-victory-2309 {
+    position: absolute;
+    z-index: 8;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 28px 22px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(239, 210, 86, .16),
+            transparent 34%
+        ),
+        rgba(3, 4, 8, .88);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    text-align: center;
+
+    opacity: 0;
+    transform: scale(1.03);
+
+    transition:
+        opacity .45s ease,
+        transform .45s ease;
+}
+
+.bat-delivery-victory-2309.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.bat-delivery-victory-check-2309 {
+    display: grid;
+    place-items: center;
+
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 17px;
+
+    border: 1px solid rgba(239, 210, 86, .5);
+    border-radius: 50%;
+
+    color: #efd256;
+    font-size: 1.35rem;
+
+    box-shadow:
+        0 0 0 7px rgba(239, 210, 86, .035),
+        0 0 32px rgba(239, 210, 86, .13);
+
+    animation: batDeliveryVictoryPop2309 .55s
+        cubic-bezier(.2, .8, .25, 1.2);
+}
+
+.bat-delivery-victory-kicker-2309 {
+    margin-bottom: 7px;
+
+    color: #e5cd65;
+
+    font-size: .62rem;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.bat-delivery-victory-2309 strong {
+    color: #f5f5f2;
+
+    font-size: 1.25rem;
+    letter-spacing: .6px;
+}
+
+.bat-delivery-victory-2309 p {
+    margin: 7px 0 13px;
+
+    color: #b3b3b5;
+
+    font-size: .85rem;
+}
+
+.bat-delivery-victory-2309 small {
+    color: #79797d;
+
+    font-size: .57rem;
+    font-weight: 800;
+
+    letter-spacing: 1.45px;
+}
+
+@keyframes batDeliveryVictoryPop2309 {
+    0% {
+        opacity: 0;
+        transform: scale(.55);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
