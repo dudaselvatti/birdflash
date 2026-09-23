@@ -4948,4 +4948,638 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         );
 
+
+    // =========================================================
+    // BAT DELIVERY — 23.09
+    // =========================================================
+    const batDelivery2309 = document.getElementById('bat-delivery-2309');
+    const batCanvas2309 = document.getElementById('bat-delivery-canvas-2309');
+
+    if (batDelivery2309 && batCanvas2309) {
+        const ctx = batCanvas2309.getContext('2d');
+        const startOverlay = document.getElementById('bat-delivery-start-2309');
+        const failOverlay = document.getElementById('bat-delivery-fail-2309');
+        const failTitle = document.getElementById('bat-delivery-fail-title-2309');
+        const failCopy = document.getElementById('bat-delivery-fail-copy-2309');
+        const retryButton = document.getElementById('bat-delivery-retry-2309');
+        const mercyButton = document.getElementById('bat-delivery-mercy-2309');
+        const progressText = document.getElementById('bat-delivery-progress-2309');
+        const statusText = document.getElementById('bat-delivery-status-2309');
+        const arrival = document.getElementById('bat-delivery-arrival-2309');
+        const victoryOverlay = document.getElementById('bat-delivery-victory-2309');
+        const openLetterButton = document.getElementById('bat-delivery-open-letter-2309');
+        const letter = document.getElementById('bat-delivery-letter-2309');
+        const replayButton = document.getElementById('bat-delivery-replay-2309');
+        const liveRegion = document.getElementById('bat-delivery-live-2309');
+
+        const WORLD_W = 360;
+        const WORLD_H = 520;
+        const BAT_X = 76;
+        const BAT_RADIUS = 12;
+        const GRAVITY = 650;
+        const FLAP_VELOCITY = -275;
+        const OBSTACLE_SPEED = 80;
+        const OBSTACLE_WIDTH = 48;
+        const GAP_HEIGHT = 194;
+        const GAP_CENTERS = [198, 315, 218, 304, 184, 326, 244];
+
+        const failureMessages = [
+            ['LOVE LETTER INTEGRITY: 96%', 'o morcego é péssimo motorista. a carta tá bem.'],
+            ['LOVE LETTER INTEGRITY: 91%', 'gotham continua dificultando o serviço postal.'],
+            ['LOVE LETTER INTEGRITY: 87%', 'ele tentou. juro. podemos autorizar uma rota de emergência.']
+        ];
+
+        let state = 'ready';
+        let failures = 0;
+        let batY = WORLD_H / 2;
+        let batVelocity = 0;
+        let obstacles = [];
+        let passed = 0;
+        let lastTime = 0;
+        let worldTime = 0;
+        let arrivalStartedAt = 0;
+        let skylineOffset = 0;
+        let animationFrame = null;
+
+        const stars = Array.from({ length: 38 }, (_, index) => ({
+            x: (index * 83 + 19) % WORLD_W,
+            y: 22 + ((index * 47 + 13) % 245),
+            r: index % 5 === 0 ? 1.25 : .7,
+            a: .18 + ((index * 17) % 45) / 100
+        }));
+
+        function announce(text) {
+            if (liveRegion) liveRegion.textContent = text;
+        }
+
+        function resizeCanvas() {
+            const rect = batCanvas2309.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            batCanvas2309.width = Math.max(1, Math.round(rect.width * dpr));
+            batCanvas2309.height = Math.max(1, Math.round(rect.height * dpr));
+        }
+
+        function setWorldTransform() {
+            ctx.setTransform(
+                batCanvas2309.width / WORLD_W,
+                0,
+                0,
+                batCanvas2309.height / WORLD_H,
+                0,
+                0
+            );
+        }
+
+        function buildObstacles() {
+            obstacles = GAP_CENTERS.map((center, index) => ({
+                x: 430 + index * 202,
+                width: OBSTACLE_WIDTH,
+                gapTop: center - GAP_HEIGHT / 2,
+                gapBottom: center + GAP_HEIGHT / 2,
+                passed: false,
+                billboard: index === 3
+            }));
+        }
+
+        function resetRun() {
+            batY = WORLD_H / 2;
+            batVelocity = 0;
+            passed = 0;
+            skylineOffset = 0;
+            buildObstacles();
+            updateHud();
+        }
+
+        function updateHud() {
+            const percent = Math.round((passed / GAP_CENTERS.length) * 100);
+            if (progressText) progressText.textContent = `${percent}%`;
+        }
+
+        function hideOverlays() {
+            if (startOverlay) startOverlay.hidden = true;
+            if (failOverlay) failOverlay.hidden = true;
+        }
+
+        function startGame() {
+            if (state === 'running' || state === 'arriving') return;
+
+            if (letter && !letter.hidden) {
+                letter.classList.remove('show');
+                letter.hidden = true;
+            }
+
+            if (arrival) arrival.hidden = true;
+            resetRun();
+            hideOverlays();
+            state = 'running';
+            batVelocity = FLAP_VELOCITY * .72;
+            if (statusText) statusText.textContent = 'IN TRANSIT';
+            announce('entrega em andamento. toque na tela para manter o morceguinho voando.');
+        }
+
+        function flap() {
+            if (state === 'ready' || state === 'failed') {
+                startGame();
+                return;
+            }
+
+            if (state === 'running') {
+                batVelocity = FLAP_VELOCITY;
+            }
+        }
+
+        function failRun() {
+            if (state !== 'running') return;
+
+            state = 'failed';
+            failures += 1;
+
+            const message = failureMessages[Math.min(failures - 1, failureMessages.length - 1)];
+            if (failTitle) failTitle.textContent = message[0];
+            if (failCopy) failCopy.textContent = message[1];
+            if (failOverlay) failOverlay.hidden = false;
+            if (mercyButton) mercyButton.hidden = failures < 3;
+            if (statusText) statusText.textContent = 'ROUTE INTERRUPTED';
+            announce(message[1]);
+        }
+
+        function beginArrival() {
+            if (state !== 'running') return;
+            state = 'arriving';
+            arrivalStartedAt = performance.now();
+            batVelocity = 0;
+            if (progressText) progressText.textContent = '100%';
+            if (statusText) statusText.textContent = 'DESTINATION FOUND';
+            announce('destino encontrado. finalizando entrega.');
+        }
+
+        function completeDelivery(emergency = false) {
+            state = 'delivered';
+            hideOverlays();
+
+            if (progressText) {
+                progressText.textContent = '100%';
+            }
+
+            if (statusText) {
+                statusText.textContent =
+                    emergency
+                        ? 'EMERGENCY ROUTE COMPLETE'
+                        : 'DELIVERED';
+            }
+
+
+            /*
+             * Primeiro: vitória aparece dentro
+             * da própria tela do jogo.
+             */
+
+            if (victoryOverlay) {
+                victoryOverlay.hidden = false;
+                victoryOverlay.classList.remove('show');
+
+                requestAnimationFrame(() => {
+                    victoryOverlay.classList.add('show');
+                });
+            }
+
+
+            announce(
+                'entrega concluída. uma carta de amor chegou para você.'
+            );
+
+
+            /*
+             * Depois de um tempinho, some a tela
+             * de vitória e aparece a correspondência.
+             */
+
+            window.setTimeout(() => {
+
+                if (victoryOverlay) {
+                    victoryOverlay.classList.remove('show');
+
+                    window.setTimeout(() => {
+                        victoryOverlay.hidden = true;
+                    }, 450);
+                }
+
+
+                if (arrival) {
+                    arrival.hidden = false;
+                    arrival.classList.remove('show');
+
+                    requestAnimationFrame(() => {
+                        arrival.classList.add('show');
+                        refreshAccordion(batDelivery2309);
+                    });
+                }
+
+            }, 1650);
+        }
+
+        function openLetter() {
+            if (!letter) return;
+
+            letter.hidden = false;
+            requestAnimationFrame(() => {
+                letter.classList.add('show');
+                refreshAccordion(letter);
+            });
+
+            window.setTimeout(() => {
+                letter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 120);
+        }
+
+        function replayGame() {
+            if (letter) {
+                letter.classList.remove('show');
+                letter.hidden = true;
+            }
+
+            if (arrival) {
+                arrival.classList.remove('show');
+                arrival.hidden = true;
+            }
+
+            state = 'ready';
+            failures = 0;
+            resetRun();
+            if (startOverlay) startOverlay.hidden = false;
+            if (failOverlay) failOverlay.hidden = true;
+            if (mercyButton) mercyButton.hidden = true;
+            if (statusText) statusText.textContent = 'READY';
+
+            batDelivery2309.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            refreshAccordion(batDelivery2309);
+        }
+
+        function circleRectCollision(cx, cy, radius, rectX, rectY, rectW, rectH) {
+            const nearestX = Math.max(rectX, Math.min(cx, rectX + rectW));
+            const nearestY = Math.max(rectY, Math.min(cy, rectY + rectH));
+            const dx = cx - nearestX;
+            const dy = cy - nearestY;
+            return dx * dx + dy * dy < radius * radius;
+        }
+
+        function checkCollisions() {
+            if (batY - BAT_RADIUS < 4 || batY + BAT_RADIUS > WORLD_H - 7) {
+                failRun();
+                return;
+            }
+
+            for (const obstacle of obstacles) {
+                const hitsTop = circleRectCollision(
+                    BAT_X,
+                    batY,
+                    BAT_RADIUS,
+                    obstacle.x,
+                    0,
+                    obstacle.width,
+                    obstacle.gapTop
+                );
+
+                const hitsBottom = circleRectCollision(
+                    BAT_X,
+                    batY,
+                    BAT_RADIUS,
+                    obstacle.x,
+                    obstacle.gapBottom,
+                    obstacle.width,
+                    WORLD_H - obstacle.gapBottom
+                );
+
+                if (hitsTop || hitsBottom) {
+                    failRun();
+                    return;
+                }
+            }
+        }
+
+        function update(dt, timestamp) {
+            worldTime = timestamp;
+
+            if (state === 'running') {
+                batVelocity += GRAVITY * dt;
+                batY += batVelocity * dt;
+                skylineOffset += OBSTACLE_SPEED * .17 * dt;
+
+                obstacles.forEach(obstacle => {
+                    obstacle.x -= OBSTACLE_SPEED * dt;
+
+                    if (!obstacle.passed && obstacle.x + obstacle.width < BAT_X - BAT_RADIUS) {
+                        obstacle.passed = true;
+                        passed += 1;
+                        updateHud();
+
+                        if (passed === obstacles.length) {
+                            beginArrival();
+                        }
+                    }
+                });
+
+                checkCollisions();
+            } else if (state === 'arriving') {
+                const elapsed = (timestamp - arrivalStartedAt) / 1000;
+                const targetY = WORLD_H * .49;
+                batY += (targetY - batY) * Math.min(1, dt * 4.4);
+
+                if (elapsed > 1.15) {
+                    completeDelivery(false);
+                }
+            }
+        }
+
+        function drawBackground() {
+            const gradient = ctx.createLinearGradient(0, 0, 0, WORLD_H);
+            gradient.addColorStop(0, '#05070d');
+            gradient.addColorStop(.58, '#111523');
+            gradient.addColorStop(1, '#090a0f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+
+            stars.forEach(star => {
+                ctx.globalAlpha = star.a;
+                ctx.fillStyle = '#f7efb1';
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+
+            const signal = ctx.createRadialGradient(302, 84, 5, 302, 84, 64);
+            signal.addColorStop(0, 'rgba(255, 224, 82, .2)');
+            signal.addColorStop(1, 'rgba(255, 224, 82, 0)');
+            ctx.fillStyle = signal;
+            ctx.beginPath();
+            ctx.arc(302, 84, 64, 0, Math.PI * 2);
+            ctx.fill();
+
+            drawDistantSkyline();
+        }
+
+        function drawDistantSkyline() {
+            ctx.save();
+            ctx.globalAlpha = .7;
+            ctx.fillStyle = '#121722';
+
+            const widths = [36, 24, 42, 30, 26, 46, 32, 40, 25, 44, 34, 27];
+            let x = -(skylineOffset % 120);
+            let index = 0;
+
+            while (x < WORLD_W + 60) {
+                const width = widths[index % widths.length];
+                const height = 58 + ((index * 31) % 85);
+                ctx.fillRect(x, WORLD_H - height, width, height);
+
+                ctx.fillStyle = 'rgba(247, 218, 94, .12)';
+                for (let wy = WORLD_H - height + 12; wy < WORLD_H - 12; wy += 18) {
+                    for (let wx = x + 8; wx < x + width - 5; wx += 14) {
+                        if (((Math.round(wx) + Math.round(wy) + index) % 3) === 0) {
+                            ctx.fillRect(wx, wy, 3, 5);
+                        }
+                    }
+                }
+                ctx.fillStyle = '#121722';
+
+                x += width + 9;
+                index += 1;
+            }
+
+            ctx.restore();
+        }
+
+        function drawBuildingBlock(x, y, width, height, isTop, billboard = false) {
+            if (height <= 0) return;
+
+            const buildingGradient = ctx.createLinearGradient(x, y, x + width, y + height);
+            buildingGradient.addColorStop(0, '#171b24');
+            buildingGradient.addColorStop(1, '#080a0f');
+            ctx.fillStyle = buildingGradient;
+            ctx.fillRect(x, y, width, height);
+
+            ctx.strokeStyle = 'rgba(245, 211, 69, .2)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x + .5, y + .5, width - 1, height - 1);
+
+            ctx.fillStyle = 'rgba(246, 217, 91, .18)';
+            const startY = isTop ? Math.max(12, y + 15) : y + 16;
+            const endY = isTop ? y + height - 13 : Math.min(WORLD_H - 12, y + height - 12);
+
+            for (let wy = startY; wy < endY; wy += 24) {
+                for (let wx = x + 9; wx < x + width - 8; wx += 16) {
+                    if (((Math.round(wy) + Math.round(wx)) % 4) !== 0) {
+                        ctx.fillRect(wx, wy, 4, 6);
+                    }
+                }
+            }
+
+            if (billboard && height > 100) {
+                const signY = y + 23;
+                ctx.fillStyle = '#090a0e';
+                ctx.strokeStyle = '#e5c84e';
+                ctx.lineWidth = 1;
+                ctx.fillRect(x - 13, signY, width + 26, 39);
+                ctx.strokeRect(x - 13, signY, width + 26, 39);
+
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#f4dc69';
+                ctx.font = '700 7px Arial';
+                ctx.fillText('BATMAN BEYOND', x + width / 2, signY + 15);
+                ctx.font = '700 8px Arial';
+                ctx.fillText('OUT OF STOCK', x + width / 2, signY + 28);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                drawBuildingBlock(
+                    obstacle.x,
+                    0,
+                    obstacle.width,
+                    obstacle.gapTop,
+                    true,
+                    false
+                );
+
+                drawBuildingBlock(
+                    obstacle.x,
+                    obstacle.gapBottom,
+                    obstacle.width,
+                    WORLD_H - obstacle.gapBottom,
+                    false,
+                    obstacle.billboard
+                );
+
+                ctx.fillStyle = '#d9bc43';
+                ctx.globalAlpha = .42;
+                ctx.fillRect(obstacle.x - 3, obstacle.gapTop - 5, obstacle.width + 6, 5);
+                ctx.fillRect(obstacle.x - 3, obstacle.gapBottom, obstacle.width + 6, 5);
+                ctx.globalAlpha = 1;
+            });
+        }
+
+        function drawBat(timestamp) {
+            let displayY = batY;
+            if (state === 'ready') {
+                displayY += Math.sin(timestamp / 340) * 5;
+            }
+
+            const tilt = state === 'running'
+                ? Math.max(-.35, Math.min(.42, batVelocity / 620))
+                : 0;
+            const wing = Math.sin(timestamp / 85) * 4;
+
+            ctx.save();
+            ctx.translate(BAT_X, displayY);
+            ctx.rotate(tilt);
+
+            ctx.shadowColor = 'rgba(246, 213, 74, .33)';
+            ctx.shadowBlur = 14;
+
+            ctx.fillStyle = '#0a0a0c';
+            ctx.strokeStyle = '#f0d253';
+            ctx.lineWidth = 1.4;
+
+            ctx.beginPath();
+            ctx.moveTo(-4, -3);
+            ctx.quadraticCurveTo(-22, -17 - wing, -30, 0);
+            ctx.quadraticCurveTo(-22, -2, -15, 11 + wing * .35);
+            ctx.quadraticCurveTo(-8, 6, -4, 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(4, -3);
+            ctx.quadraticCurveTo(22, -17 + wing, 30, 0);
+            ctx.quadraticCurveTo(22, -2, 15, 11 - wing * .35);
+            ctx.quadraticCurveTo(8, 6, 4, 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 8, 11, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-6, -8);
+            ctx.lineTo(-4, -17);
+            ctx.lineTo(0, -10);
+            ctx.lineTo(4, -17);
+            ctx.lineTo(6, -8);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#f4d85b';
+            ctx.beginPath();
+            ctx.arc(-3, -4, 1.15, 0, Math.PI * 2);
+            ctx.arc(3, -4, 1.15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#e7dbc1';
+            ctx.fillStyle = '#f5ead3';
+            ctx.lineWidth = .9;
+            ctx.fillRect(-7, 13, 14, 9);
+            ctx.strokeRect(-7, 13, 14, 9);
+            ctx.beginPath();
+            ctx.moveTo(-7, 13);
+            ctx.lineTo(0, 18);
+            ctx.lineTo(7, 13);
+            ctx.stroke();
+
+            ctx.fillStyle = '#b44a55';
+            ctx.font = '700 6px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('♡', 0, 21);
+
+            ctx.restore();
+        }
+
+        function drawArrivalMarker() {
+            if (state !== 'arriving' && state !== 'delivered') return;
+
+            ctx.save();
+            ctx.globalAlpha = .75;
+            ctx.strokeStyle = '#e6ca55';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 5]);
+            ctx.beginPath();
+            ctx.moveTo(292, 190);
+            ctx.lineTo(292, 337);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#f4d962';
+            ctx.font = '700 9px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('MOSSORÓ, RN', 292, 177);
+            ctx.fillText('♡', 292, 352);
+            ctx.restore();
+        }
+
+        function draw(timestamp) {
+            setWorldTransform();
+            ctx.clearRect(0, 0, WORLD_W, WORLD_H);
+            drawBackground();
+            drawObstacles();
+            drawArrivalMarker();
+            drawBat(timestamp);
+        }
+
+        function frame(timestamp) {
+            const dt = lastTime ? Math.min((timestamp - lastTime) / 1000, .032) : 0;
+            lastTime = timestamp;
+            update(dt, timestamp);
+            draw(timestamp);
+            animationFrame = requestAnimationFrame(frame);
+        }
+
+        batCanvas2309.addEventListener('pointerdown', event => {
+            event.preventDefault();
+            flap();
+        });
+
+        startOverlay?.addEventListener('pointerdown', event => {
+            if (event.target.closest('button')) return;
+            event.preventDefault();
+            startGame();
+        });
+
+        document.getElementById('bat-delivery-start-button-2309')
+            ?.addEventListener('click', startGame);
+
+        retryButton?.addEventListener('click', startGame);
+        mercyButton?.addEventListener('click', () => completeDelivery(true));
+        openLetterButton?.addEventListener('click', openLetter);
+        replayButton?.addEventListener('click', replayGame);
+
+        document.addEventListener('keydown', event => {
+            if (!batDelivery2309.closest('.diary-entry')?.classList.contains('active')) return;
+            if (event.code !== 'Space' && event.code !== 'ArrowUp') return;
+            if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(document.activeElement?.tagName)) return;
+
+            event.preventDefault();
+            flap();
+        });
+
+        const resizeObserver = new ResizeObserver(() => resizeCanvas());
+        resizeObserver.observe(batCanvas2309);
+        resizeCanvas();
+        resetRun();
+        animationFrame = requestAnimationFrame(frame);
+
+        window.addEventListener('beforeunload', () => {
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+            resizeObserver.disconnect();
+        }, { once: true });
+    }
+
+
 });
