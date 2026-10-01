@@ -5581,5 +5581,911 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 
+        // =========================================================
+    // 30.09 — BATCOMPUTER CASE
+    // =========================================================
+
+    const sept30Experience =
+        document.getElementById('sept30-experience');
+
+    const sept30Investigation =
+        document.getElementById('sept30-investigation');
+
+    const sept30CaseReady =
+        document.getElementById('sept30-case-ready');
+
+    const sept30FinalLetter =
+        document.getElementById('sept30-final-letter');
+
+    const sept30Completed =
+        new Set();
+
+
+    function refreshSept30(target) {
+        if (!target) return;
+
+        refreshAccordion(target);
+    }
+
+
+    function completeSept30Module(moduleName) {
+        if (sept30Completed.has(moduleName)) {
+            return;
+        }
+
+        sept30Completed.add(moduleName);
+
+        document
+            .querySelector(
+                `[data-sept30-node="${moduleName}"]`
+            )
+            ?.classList
+            .add('is-complete');
+
+
+        if (
+            sept30Completed.size === 5 &&
+            sept30CaseReady
+        ) {
+            sept30CaseReady.hidden = false;
+
+            refreshSept30(
+                sept30CaseReady
+            );
+
+            setTimeout(
+                () => {
+                    sept30CaseReady
+                        .scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                },
+                420
+            );
+        }
+    }
+
+
+    // =========================================================
+    // 01 — PCB SCANNER
+    // =========================================================
+
+    const sept30Scanner =
+        document.getElementById(
+            'sept30-scanner'
+        );
+
+    const sept30ScanBtn =
+        document.getElementById(
+            'sept30-scan-btn'
+        );
+
+    const sept30ScanCopy =
+        document.getElementById(
+            'sept30-scan-copy'
+        );
+
+
+    sept30ScanBtn
+        ?.addEventListener(
+            'click',
+            () => {
+
+                if (
+                    sept30Scanner
+                        ?.classList
+                        .contains('is-scanned')
+                ) {
+                    return;
+                }
+
+
+                sept30ScanBtn.disabled = true;
+
+                sept30ScanBtn.innerHTML =
+                    '<span>⌁</span> scanning...';
+
+
+                sept30Scanner
+                    ?.classList
+                    .add('is-scanning');
+
+
+                setTimeout(
+                    () => {
+                        sept30Scanner
+                            ?.classList
+                            .remove('is-scanning');
+
+                        sept30Scanner
+                            ?.classList
+                            .add('is-scanned');
+
+                        sept30ScanBtn.innerHTML =
+                            '<span>✓</span> match confirmed';
+                    },
+                    1450
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        if (sept30ScanCopy) {
+                            sept30ScanCopy.hidden =
+                                false;
+                        }
+
+                        completeSept30Module(
+                            'pcb'
+                        );
+
+                        refreshSept30(
+                            sept30ScanCopy
+                        );
+
+                    },
+                    1850
+                );
+            }
+        );
+
+
+    // =========================================================
+    // 02 — PAIRING
+    // =========================================================
+
+    const sept30PairSystem =
+        document.getElementById(
+            'sept30-pair-system'
+        );
+
+    const sept30PairButtons =
+        [
+            ...document.querySelectorAll(
+                '[data-sept30-pair]'
+            )
+        ];
+
+    const sept30PairComplete =
+        document.getElementById(
+            'sept30-pair-complete'
+        );
+
+    const sept30PairCopy =
+        document.getElementById(
+            'sept30-pair-copy'
+        );
+
+    const sept30Paired =
+        new Set();
+
+
+    sept30PairButtons
+        .forEach(button => {
+
+            button.addEventListener(
+                'click',
+                () => {
+
+                    const person =
+                        button.dataset
+                            .sept30Pair;
+
+
+                    if (
+                        sept30Paired
+                            .has(person)
+                    ) {
+                        return;
+                    }
+
+
+                    sept30Paired
+                        .add(person);
+
+
+                    button
+                        .classList
+                        .add(
+                            'is-selected'
+                        );
+
+
+                    button
+                        .setAttribute(
+                            'aria-pressed',
+                            'true'
+                        );
+
+
+                    if (
+                        sept30Paired.size !==
+                        sept30PairButtons.length
+                    ) {
+                        return;
+                    }
+
+
+                    sept30PairSystem
+                        ?.classList
+                        .add('is-paired');
+
+
+                    setTimeout(
+                        () => {
+
+                            if (
+                                sept30PairComplete
+                            ) {
+                                sept30PairComplete.hidden =
+                                    false;
+                            }
+
+                            if (
+                                sept30PairCopy
+                            ) {
+                                sept30PairCopy.hidden =
+                                    false;
+                            }
+
+
+                            completeSept30Module(
+                                'pair'
+                            );
+
+
+                            refreshSept30(
+                                sept30PairSystem
+                            );
+
+                        },
+                        450
+                    );
+                }
+            );
+        });
+
+
+    // =========================================================
+    // 03 — ROUTE RECALCULATION
+    // =========================================================
+
+    const sept30RouteMap =
+        document.getElementById(
+            'sept30-route-map'
+        );
+
+    const sept30RouteBtn =
+        document.getElementById(
+            'sept30-route-btn'
+        );
+
+    const sept30RouteResult =
+        document.getElementById(
+            'sept30-route-result'
+        );
+
+    const sept30RouteCopy =
+        document.getElementById(
+            'sept30-route-copy'
+        );
+
+    const sept30RouteObstacles =
+        [
+            ...document.querySelectorAll(
+                '[data-route-obstacle]'
+            )
+        ];
+
+
+    sept30RouteBtn
+        ?.addEventListener(
+            'click',
+            () => {
+
+                if (
+                    sept30RouteMap
+                        ?.classList
+                        .contains(
+                            'is-complete'
+                        )
+                ) {
+                    return;
+                }
+
+
+                sept30RouteBtn.disabled =
+                    true;
+
+                sept30RouteBtn.textContent =
+                    'recalculating...';
+
+
+                sept30RouteMap
+                    ?.classList
+                    .add(
+                        'is-running'
+                    );
+
+
+                sept30RouteObstacles
+                    .forEach(
+                        (
+                            obstacle,
+                            index
+                        ) => {
+
+                            setTimeout(
+                                () => {
+                                    obstacle
+                                        .classList
+                                        .add(
+                                            'is-visible'
+                                        );
+                                },
+                                450 +
+                                index * 390
+                            );
+                        }
+                    );
+
+
+                setTimeout(
+                    () => {
+
+                        sept30RouteMap
+                            ?.classList
+                            .remove(
+                                'is-running'
+                            );
+
+                        sept30RouteMap
+                            ?.classList
+                            .add(
+                                'is-complete'
+                            );
+
+
+                        sept30RouteBtn
+                            .textContent =
+                            'route maintained ✓';
+
+
+                        if (
+                            sept30RouteResult
+                        ) {
+                            sept30RouteResult.hidden =
+                                false;
+                        }
+
+
+                        if (
+                            sept30RouteCopy
+                        ) {
+                            sept30RouteCopy.hidden =
+                                false;
+                        }
+
+
+                        completeSept30Module(
+                            'route'
+                        );
+
+
+                        refreshSept30(
+                            sept30RouteMap
+                        );
+
+                    },
+                    2600
+                );
+            }
+        );
+
+
+    // =========================================================
+    // 04 — PRIORITIES
+    // =========================================================
+
+    const sept30PriorityButtons =
+        [
+            ...document.querySelectorAll(
+                '[data-sept30-priority]'
+            )
+        ];
+
+    const sept30PriorityRestored =
+        document.getElementById(
+            'sept30-priority-restored'
+        );
+
+    const sept30ChoiceCopy =
+        document.getElementById(
+            'sept30-choice-copy'
+        );
+
+
+    sept30PriorityButtons
+        .forEach(button => {
+
+            button.addEventListener(
+                'click',
+                () => {
+
+                    if (
+                        button
+                            .classList
+                            .contains('is-on')
+                    ) {
+                        return;
+                    }
+
+
+                    button
+                        .classList
+                        .add('is-on');
+
+
+                    button
+                        .setAttribute(
+                            'aria-pressed',
+                            'true'
+                        );
+
+
+                    const allOn =
+                        sept30PriorityButtons
+                            .every(
+                                item =>
+                                    item
+                                        .classList
+                                        .contains(
+                                            'is-on'
+                                        )
+                            );
+
+
+                    if (!allOn) {
+                        return;
+                    }
+
+
+                    setTimeout(
+                        () => {
+
+                            if (
+                                sept30PriorityRestored
+                            ) {
+                                sept30PriorityRestored.hidden =
+                                    false;
+                            }
+
+
+                            if (
+                                sept30ChoiceCopy
+                            ) {
+                                sept30ChoiceCopy.hidden =
+                                    false;
+                            }
+
+
+                            completeSept30Module(
+                                'choice'
+                            );
+
+
+                            refreshSept30(
+                                sept30ChoiceCopy
+                            );
+
+                        },
+                        350
+                    );
+                }
+            );
+        });
+
+
+    // =========================================================
+    // 05 — JOB OUTCOMES
+    // =========================================================
+
+    const sept30OutcomeButtons =
+        [
+            ...document.querySelectorAll(
+                '[data-sept30-outcome]'
+            )
+        ];
+
+    const sept30OutcomeScreen =
+        document.getElementById(
+            'sept30-outcome-screen'
+        );
+
+    const sept30AllOutcomes =
+        document.getElementById(
+            'sept30-all-outcomes'
+        );
+
+    const sept30WorkCopy =
+        document.getElementById(
+            'sept30-work-copy'
+        );
+
+    const sept30VisitedOutcomes =
+        new Set();
+
+
+    const sept30OutcomeMessages = {
+
+        like: {
+            title:
+                'OUTCOME 01 // I LIKE IT',
+
+            text:
+                'então eu vou ficar feliz contigo. quero ouvir sobre as coisinhas que deram certo, as pessoas legais, aquilo que você aprendeu e cada pequena vitória que fizer esse começo parecer menos assustador.'
+        },
+
+        dislike: {
+            title:
+                'OUTCOME 02 // NOT FOR ME',
+
+            text:
+                'então tudo bem. você pode descobrir que não quer isso, sair depois e continuar procurando outra coisa. tentar alguma coisa e perceber que ela não combina contigo continua sendo uma descoberta válida.'
+        },
+
+        unsure: {
+            title:
+                'OUTCOME 03 // STILL PROCESSING',
+
+            text:
+                'então você simplesmente não precisa decidir ainda. pode viver um dia de cada vez até conseguir entender como se sente. não existe prazo pra transformar uma experiência nova numa resposta definitiva.'
+        }
+    };
+
+
+    sept30OutcomeButtons
+        .forEach(button => {
+
+            button.addEventListener(
+                'click',
+                () => {
+
+                    const outcome =
+                        button.dataset
+                            .sept30Outcome;
+
+                    const message =
+                        sept30OutcomeMessages[
+                            outcome
+                        ];
+
+
+                    if (!message) {
+                        return;
+                    }
+
+
+                    sept30VisitedOutcomes
+                        .add(outcome);
+
+
+                    button
+                        .classList
+                        .add(
+                            'is-visited'
+                        );
+
+
+                    if (
+                        sept30OutcomeScreen
+                    ) {
+                        sept30OutcomeScreen
+                            .innerHTML =
+                            `
+                                <span>
+                                    ${message.title}
+                                </span>
+
+                                <p>
+                                    ${message.text}
+                                </p>
+                            `;
+                    }
+
+
+                    if (
+                        sept30VisitedOutcomes
+                            .size !==
+                        sept30OutcomeButtons
+                            .length
+                    ) {
+                        refreshSept30(
+                            sept30OutcomeScreen
+                        );
+
+                        return;
+                    }
+
+
+                    if (
+                        sept30Completed
+                            .has('work')
+                    ) {
+                        return;
+                    }
+
+
+                    setTimeout(
+                        () => {
+
+                            if (
+                                sept30AllOutcomes
+                            ) {
+                                sept30AllOutcomes.hidden =
+                                    false;
+                            }
+
+
+                            if (
+                                sept30WorkCopy
+                            ) {
+                                sept30WorkCopy.hidden =
+                                    false;
+                            }
+
+
+                            completeSept30Module(
+                                'work'
+                            );
+
+
+                            refreshSept30(
+                                sept30WorkCopy
+                            );
+
+                        },
+                        350
+                    );
+                }
+            );
+        });
+
+
+    // =========================================================
+    // FINAL BAT SIGNAL
+    // =========================================================
+
+    const sept30BatSignal =
+        document.getElementById(
+            'sept30-batsignal'
+        );
+
+
+    function releaseSept30Bats(
+        trigger
+    ) {
+
+        if (!trigger) return;
+
+
+        if (
+            window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches
+        ) {
+            return;
+        }
+
+
+        const rect =
+            trigger.getBoundingClientRect();
+
+
+        const originX =
+            rect.left +
+            rect.width / 2;
+
+
+        const originY =
+            rect.top +
+            rect.height / 2;
+
+
+        for (
+            let i = 0;
+            i < 24;
+            i++
+        ) {
+
+            const bat =
+                document.createElement(
+                    'span'
+                );
+
+
+            bat.className =
+                'sept30-final-bat';
+
+
+            bat.textContent =
+                i % 6 === 0
+                    ? '♡'
+                    : '🦇';
+
+
+            const angle =
+                Math.random() *
+                Math.PI *
+                2;
+
+
+            const distance =
+                90 +
+                Math.random() *
+                230;
+
+
+            const x =
+                Math.cos(angle) *
+                distance;
+
+
+            const y =
+                Math.sin(angle) *
+                distance;
+
+
+            const duration =
+                900 +
+                Math.random() *
+                850;
+
+
+            bat.style.left =
+                `${originX}px`;
+
+
+            bat.style.top =
+                `${originY}px`;
+
+
+            bat.style.setProperty(
+                '--bat-x',
+                `${x}px`
+            );
+
+
+            bat.style.setProperty(
+                '--bat-y',
+                `${y}px`
+            );
+
+
+            bat.style.setProperty(
+                '--bat-rot',
+                `${
+                    (
+                        Math.random() -
+                        .5
+                    ) * 170
+                }deg`
+            );
+
+
+            bat.style.setProperty(
+                '--bat-size',
+                `${
+                    .7 +
+                    Math.random() *
+                    .8
+                }rem`
+            );
+
+
+            bat.style.setProperty(
+                '--bat-duration',
+                `${duration}ms`
+            );
+
+
+            document.body
+                .appendChild(
+                    bat
+                );
+
+
+            setTimeout(
+                () =>
+                    bat.remove(),
+                duration + 100
+            );
+        }
+    }
+
+
+    sept30BatSignal
+        ?.addEventListener(
+            'click',
+            () => {
+
+                if (
+                    sept30BatSignal
+                        .classList
+                        .contains('is-lit')
+                ) {
+                    return;
+                }
+
+
+                sept30BatSignal
+                    .classList
+                    .add('is-lit');
+
+
+                releaseSept30Bats(
+                    sept30BatSignal
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        sept30Investigation
+                            ?.classList
+                            .add(
+                                'is-closing'
+                            );
+
+                    },
+                    300
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        if (
+                            sept30Investigation
+                        ) {
+                            sept30Investigation.hidden =
+                                true;
+                        }
+
+
+                        if (
+                            sept30FinalLetter
+                        ) {
+                            sept30FinalLetter.hidden =
+                                false;
+                        }
+
+
+                        refreshSept30(
+                            sept30Experience
+                        );
+
+
+                        setTimeout(
+                            () => {
+                                sept30FinalLetter
+                                    ?.scrollIntoView({
+                                        behavior:
+                                            'smooth',
+
+                                        block:
+                                            'start'
+                                    });
+                            },
+                            100
+                        );
+
+                    },
+                    900
+                );
+            }
+        );
 
 });
